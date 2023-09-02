@@ -6,7 +6,7 @@ def home_page(request):
     
 
 def create_product(request):
-    return HttpResponse("Create Product")
+    return render(request, 'create_product.html')
 
 
 

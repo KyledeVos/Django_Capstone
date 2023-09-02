@@ -1,0 +1,49 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+       <h1>Create New Product</h1>
+
+       <form action= "{% url 'crafts_by_micks:add_product' %}" method="post">
+            {% csrf_token %}
+
+            <ul>
+                <li>
+                    <label>Product Name</label>
+                    <input type="text" name='title' required>
+                    <br>
+                </li>
+
+                <li>
+                    <label>Description</label>
+                    <input type="text" name='description' required>
+                    <br>
+                </li>
+
+                <li>
+                    <label>Price: </label>
+                    <input type="number" name='base_price' required>
+                    <br>
+                </li>
+
+                <li>
+                    <label>Quantity</label>
+                    <input type="number" name='quantity' required>
+                    <br>
+                </li>
+
+                <li>
+                    <label>Review Rating</label>
+                    <input type="number" name='review_value' required>
+                    <br>
+                </li>
+            </ul>
+
+       </form>
+    </body>
+</html>

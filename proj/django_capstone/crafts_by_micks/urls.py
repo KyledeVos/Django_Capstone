@@ -4,5 +4,6 @@ from . import views
 app_name = "crafts_by_micks"
 urlpatterns = [
     path('', views.home_page, name = "home_page"),
-    path('create_product/', views.create_product, name="create_product")
+    path('create_product/', views.create_product, name="create_product"),
+    path('add_product/', views.add_product, name="add_product")
 ]
