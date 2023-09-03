@@ -7,80 +7,88 @@
     </head>
 
     <body>
-       <h1>Create New Product</h1>
+        {% if categories %}
+            <h1>Create New Product</h1>
 
+            <form action= "{% url 'crafts_by_micks:add_product' %}" method="post">
+                    {% csrf_token %}
+
+                    <h2>Categories</h2>
+                    {% for category in categories%}
+                        <input type="radio" name="category" id="category{{
+                            {{category.title}}
+                        }}" value="{{category.id}}" required />
+                        <label for="category {{category.title}}">
+                            {{category.title }}
+                        </label>
+            
+                    {% endfor %}
+                    <br>
+
+                    <a href = "{% url 'crafts_by_micks:create_category' %}">New Product Category</a>
+
+                    <ul>
+                        <li>
+                            <label>Product Name</label>
+                            <input type="text" name='title' required>
+                            <br>
+                        </li>
+
+                        <li>
+                            <label>Description</label>
+                            <input type="text" name='description' required>
+                            <br>
+                        </li>
+
+                        <li>
+                            <label>Price: </label>
+                            <input type="number" min="0" name='base_price' required>
+                            <br>
+                        </li>
+
+                        <li>
+                            <label>Quantity</label>
+                            <input type="number" min="0" name='quantity' required>
+                            <br>
+                        </li>
+
+                        <li>
+                        
+                        <br>
+                        <h1>Size Pricing</h1>
+                        {% for size in size_choices %}
+                            <li>
+                            
+                                <label>{{size}}</label>
+                                <input type="number" min="0" name='{{size}}' placeholder="0.00">
+                                <br>
+                            </li>
+                        {% endfor %}
+                        <br>
+
+                        <h1>Product Options</h1>
+                        {% for option_num in options_list %}
+                            <li>
+                                <label>Option {{option_num}}</label>
+                                <input type="text" name="Option{{option_num}} title" placeholder="Name">
+                                <input type="text" name="Option{{option_num}} desc" placeholder="Description">
+                                <br>
+                            </li>
+
+                        {%endfor %}
+                    </ul>
+                    <br>
+
+                    <input
+                    type="submit"
+                    value="Create Product" />
+
+            </form>
+
+        {% else %}
+        <h1>A Category is needed before a product can be added</h1>
         <a href = "{% url 'crafts_by_micks:create_category' %}">New Product Category</a>
 
-       <form action= "{% url 'crafts_by_micks:add_product' %}" method="post">
-            {% csrf_token %}
-
-            <h2>Categories</h2>
-            {% for category in categories%}
-                 <input type="radio" name="category" id="category{{
-                    {{category.title}}
-                }}" value="{{category.id}}" required />
-                <label for="category {{category.title}}">
-                    {{category.title }}
-                </label>
-     
-            {% endfor %}
-
-            <ul>
-                <li>
-                    <label>Product Name</label>
-                    <input type="text" name='title' required>
-                    <br>
-                </li>
-
-                <li>
-                    <label>Description</label>
-                    <input type="text" name='description' required>
-                    <br>
-                </li>
-
-                <li>
-                    <label>Price: </label>
-                    <input type="number" min="0" name='base_price' required>
-                    <br>
-                </li>
-
-                <li>
-                    <label>Quantity</label>
-                    <input type="number" min="0" name='quantity' required>
-                    <br>
-                </li>
-
-                <li>
-                
-                <br>
-                <h1>Size Pricing</h1>
-                {% for size in size_choices %}
-                    <li>
-                    
-                        <label>{{size}}</label>
-                        <input type="number" min="0" name='{{size}}' placeholder="0.00">
-                        <br>
-                    </li>
-                {% endfor %}
-                <br>
-
-                <h1>Product Options</h1>
-                {% for option_num in options_list %}
-                    <li>
-                        <label>Option {{option_num}}</label>
-                        <input type="text" name="Option{{option_num}} title" placeholder="Name">
-                        <input type="text" name="Option{{option_num}} desc" placeholder="Description">
-                        <br>
-                    </li>
-
-                {%endfor %}
-            </ul>
-            <br>
-
-            <input
-            type="submit"
-            value="Create Product" />
-
-       </form>
+        {% endif%}
     </body>
 </html>
