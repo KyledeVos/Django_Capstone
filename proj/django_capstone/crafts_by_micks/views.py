@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from . import models
 
 
@@ -21,8 +21,12 @@ def create_product(request):
     for tup in models.Product_Sizes.size_options:
         size_choices.append(tup[1])
 
+    categories = models.Category.objects.all()
 
-    context = {"size_choices": size_choices, "options_list": options_list}
+
+    context = {"size_choices": size_choices,
+               "options_list": options_list,
+               "categories": categories}
     return render(request, 'create_product.html', context)
 
 # Helper Method
@@ -51,6 +55,7 @@ def retrieve_product_options(request):
     
 
 def add_product(request):
+    category = get_object_or_404(models.Category, pk= request.POST['category'])
     title = request.POST['title']
     description = request.POST['description']
     base_price = request.POST['base_price']
@@ -59,8 +64,10 @@ def add_product(request):
     size_price_list = retrieve_size_pricing(request)
     product_options_list = retrieve_product_options(request)
 
-    return HttpResponse(f"{title}, {description}, {base_price}, {quantity}, Pricing: {size_price_list}"
-                        f"Options: {product_options_list}")
+
+
+    return HttpResponse(f"{title}, {description}, {base_price}, {quantity}, Pricing: {size_price_list} "
+                        f"Options: {product_options_list}, Category: {category}")
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------

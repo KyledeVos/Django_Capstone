@@ -9,8 +9,21 @@
     <body>
        <h1>Create New Product</h1>
 
+
+
        <form action= "{% url 'crafts_by_micks:add_product' %}" method="post">
             {% csrf_token %}
+
+            <h2>Categories</h2>
+            {% for category in categories%}
+                 <input type="radio" name="category" id="category{{
+                    {{category.title}}
+                }}" value="{{category.id}}" required />
+                <label for="category {{category.title}}">
+                    {{category.title }}
+                </label>
+     
+            {% endfor %}
 
             <ul>
                 <li>
