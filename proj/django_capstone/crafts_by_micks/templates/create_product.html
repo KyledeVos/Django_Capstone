@@ -27,22 +27,46 @@
 
                 <li>
                     <label>Price: </label>
-                    <input type="number" name='base_price' required>
+                    <input type="number" min="0" name='base_price' required>
                     <br>
                 </li>
 
                 <li>
                     <label>Quantity</label>
-                    <input type="number" name='quantity' required>
+                    <input type="number" min="0" name='quantity' required>
                     <br>
                 </li>
 
                 <li>
-                    <label>Review Rating</label>
-                    <input type="number" name='review_value' required>
-                    <br>
-                </li>
+                
+                <br>
+                <h1>Size Pricing</h1>
+                {% for size in size_choices %}
+                    <li>
+                    
+                        <label>{{size}}</label>
+                        <input type="number" min="0" name='{{size}}' placeholder="0.00">
+                        <br>
+                    </li>
+                {% endfor %}
+                <br>
+
+                <h1>Product Options</h1>
+                {% for option_num in options_list %}
+                    <li>
+                        <label>Option {{option_num}}</label>
+                        <input type="text" name="Option{{option_num}} title" placeholder="Name">
+                        <input type="text" name="Option{{option_num}} desc" placeholder="Description">
+                        <br>
+                    </li>
+
+                {%endfor %}
             </ul>
+            <br>
+
+            <input
+            type="submit"
+            value="Create Product" />
 
        </form>
     </body>

@@ -32,7 +32,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
-        
+
 
 class Product(models.Model):
     title = models.CharField(max_length=200)
@@ -62,7 +62,6 @@ class Option(models.Model):
 class Product_Sizes(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     size_options = (
-        ("n", "none"),
         ("xs", "extra-small"),
         ("sm", "small"),
         ("m", "medium"),
@@ -72,7 +71,7 @@ class Product_Sizes(models.Model):
     )
 
     size = models.CharField(max_length=15, choices=size_options)
-    price = models.FloatField()
+    price = models.FloatField(default=0)
 
     def __str__(self):
         return f"Product: {self.product.id} {self.size}"
