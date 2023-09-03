@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <form action= "{% url 'crafts_by_micks:add_category' %}" method="post">
+            {% csrf_token %}
+            <label>Category Title</label>
+            <input type="text" name='title' required>
+            <br>
+        
+            <input type="submit" value="Add Product Category" />
+
+        </form>
+
+    </body>
+</html>

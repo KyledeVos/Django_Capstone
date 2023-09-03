@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
+from django.urls import reverse
 from . import models
 
 
@@ -11,6 +12,15 @@ def home_page(request):
 
 # max allowed desired options for a product
 MAX_OPTIONS = 5
+
+def create_category(request):
+    return render(request, 'create_category.html')
+
+def add_category(request):
+    title = request.POST['title']
+    category = models.Category.objects.create(title=title)
+    category.save()
+    return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
 
 def create_product(request):
     options_list = []

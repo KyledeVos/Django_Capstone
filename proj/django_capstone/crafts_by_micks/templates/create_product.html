@@ -9,7 +9,7 @@
     <body>
        <h1>Create New Product</h1>
 
-
+        <a href = "{% url 'crafts_by_micks:create_category' %}">New Product Category</a>
 
        <form action= "{% url 'crafts_by_micks:add_product' %}" method="post">
             {% csrf_token %}
