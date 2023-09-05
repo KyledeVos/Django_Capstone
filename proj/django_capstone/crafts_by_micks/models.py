@@ -23,8 +23,6 @@ class Product(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     base_price = models.FloatField()
-
-    quantity = models.IntegerField()
     review_value = 0.0
     # field for main image
     # field for other product images
@@ -47,6 +45,7 @@ class Option(models.Model):
 class Product_Sizes(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     size_options = (
+        ('n', 'none'),
         ("xs", "extra-small"),
         ("sm", "small"),
         ("m", "medium"),
@@ -57,6 +56,7 @@ class Product_Sizes(models.Model):
 
     size = models.CharField(max_length=15, choices=size_options)
     price = models.FloatField(default=0)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Product: {self.product.id} {self.size}"
