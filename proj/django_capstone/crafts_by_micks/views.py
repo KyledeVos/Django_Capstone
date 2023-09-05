@@ -104,10 +104,7 @@ def add_product(request):
     product_options_list = retrieve_product_options(request)
     labels_list = [ models.Label.objects.get(id = label_id) for label_id in request.POST.getlist('labels')]
 
-    print('labels')
-    for label in labels_list:
-        print(label)
-
+    # create basic product with compulsory fields
     product = models.Product.objects.create(
                             category = category,
                             title = title,
@@ -116,12 +113,23 @@ def add_product(request):
                             quantity = quantity,
         )
     
-    # add Each Label to the Product
+    # add Each Label (if present) to the Product
     for label in labels_list:
         product.labels.add(label)
     product.save()
 
-    
+    # retrieve newly created product id
+    product_id = product.id
+
+    # add (optional) unique size prices
+    for product_size in size_price_list:
+        if product_size[1] != '':
+            product_size = models.Product_Sizes.objects.create(
+                                product=product,
+                                size = product_size[0],
+                                price = product_size[1])
+            product_size.save()
+
 
     return HttpResponse(f"{title}, {description}, {base_price}, {quantity}, Pricing: {size_price_list} "
                         f"Options: {product_options_list}, Category: {category}")
