@@ -70,15 +70,18 @@ def create_product(request):
 
 # Helper Method
 def retrieve_size_pricing(request):
-        size_price_list = []
+        size_info = []
         for tup in models.Product_Sizes.size_options:
             current_size = tup[1]
             #attempt to retrieve a possible user input price for current size but set to
             # None if user did not input an associated price
-            size_price = request.POST.get(current_size,None)
-            size_price_list.append((current_size, size_price ))
+            size_info.append(
+                (current_size,
+                 request.POST.get(f"{current_size} price" ,None),
+                 request.POST.get(f"{current_size} quantity" ,None))
+            )
 
-        return size_price_list
+        return size_info
 
 # Helper Method
 def retrieve_product_options(request):
@@ -98,9 +101,8 @@ def add_product(request):
     title = request.POST['title']
     description = request.POST['description']
     base_price = request.POST['base_price']
-    quantity = request.POST['quantity']
 
-    size_price_list = retrieve_size_pricing(request)
+    size_info_list = retrieve_size_pricing(request)
     product_options_list = retrieve_product_options(request)
     labels_list = [ models.Label.objects.get(id = label_id) for label_id in request.POST.getlist('labels')]
 
@@ -110,7 +112,6 @@ def add_product(request):
                             title = title,
                             description = description,
                             base_price = base_price,
-                            quantity = quantity,
         )
     
     # add Each Label (if present) to the Product
@@ -122,16 +123,17 @@ def add_product(request):
     product_id = product.id
 
     # add (optional) unique size prices
-    for product_size in size_price_list:
-        if product_size[1] != '':
-            product_size = models.Product_Sizes.objects.create(
+    for product_info in size_info_list:
+        if product_info[1] != '':
+            product_info = models.Product_Sizes.objects.create(
                                 product=product,
-                                size = product_size[0],
-                                price = product_size[1])
-            product_size.save()
+                                size = product_info[0],
+                                price = product_info[1],
+                                quantity = product_info[2])
+            product_info.save()
 
 
-    return HttpResponse(f"{title}, {description}, {base_price}, {quantity}, Pricing: {size_price_list} "
+    return HttpResponse(f"{title}, {description}, {base_price},  Pricing: {size_info_list} "
                         f"Options: {product_options_list}, Category: {category}")
 
 # --------------------------------------------------------------------------------------------------

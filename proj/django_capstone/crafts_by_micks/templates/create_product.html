@@ -53,22 +53,18 @@
                             <input type="number" min="0" name='base_price' required>
                             <br>
                         </li>
-
-                        <li>
-                            <label>Quantity</label>
-                            <input type="number" min="0" name='quantity' required>
-                            <br>
-                        </li>
-
-                        <li>
                         
                         <br>
                         <h1>Size Pricing</h1>
                         {% for size in size_choices %}
                             <li>
                             
-                                <label>{{size}}</label>
-                                <input type="number" min="0" name='{{size}}' placeholder="0.00">
+                                <label><h4>{{size}}</h4></label>
+                                <label>Price:</label>
+                                <input type="number" min="0" name='{{size}} price' placeholder="0.00">
+                                <br>
+                                <label>Quantity:</label>
+                                <input type = "number" min = "0" name="{{size}} quantity" value = 0>
                                 <br>
                             </li>
                         {% endfor %}
