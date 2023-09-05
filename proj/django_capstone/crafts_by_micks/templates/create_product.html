@@ -15,17 +15,25 @@
 
                     <h2>Categories</h2>
                     {% for category in categories%}
-                        <input type="radio" name="category" id="category{{
-                            {{category.title}}
-                        }}" value="{{category.id}}" required />
+                        <input type="radio" name="category" id="category{{category.title}}" value="{{category.id}}" required />
                         <label for="category {{category.title}}">
                             {{category.title }}
                         </label>
-            
                     {% endfor %}
                     <br>
 
                     <a href = "{% url 'crafts_by_micks:create_category' %}">New Product Category</a>
+                    <br>
+
+                    <h1>Labels</h1>
+                    {% for label in labels%}
+                    <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}" required />
+                    <label for="label {{label.title}}">
+                        {{label.title }}
+                    </label>
+                    <br>
+                    {% endfor %}
+                    <a href = "{% url 'crafts_by_micks:create_label' %}">New Product Label</a>
 
                     <ul>
                         <li>

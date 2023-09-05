@@ -4,25 +4,10 @@ from django.db import models
 
 class Label(models.Model):
     title = models.CharField(max_length=20)
-    discount = models.BooleanField()
     discount_percentage = models.IntegerField(null=True)
     creation_date = models.DateField()
     removal_days = models.IntegerField(null=True)
-
-    colour_choices = (
-        ("Red", "red"),
-        ("Blue", "blue"),
-        ("Black", "black"),
-        ("Green", "lime"),
-        ("Yellow", "yellow"),
-        ("Gold", "gold"),
-        ("Aqua", "aqua"),
-        ("Purple", "purple"),
-        ("Salmon", "salmon"),
-        ("Clear", "clear")
-    )
-
-    colour = models.CharField(max_length=15, choices=colour_choices)
+    custom_colour = models.CharField(max_length=10, null = True, default="#89CFF0") # default light blue
 
     def __str__(self):
         return self.title

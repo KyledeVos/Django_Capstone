@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
 from . import models
+from datetime import date
 
 
 def home_page(request):
@@ -16,12 +17,39 @@ MAX_OPTIONS = 5
 def create_category(request):
     return render(request, 'create_category.html')
 
+
 def add_category(request):
     title = request.POST['title']
     category = models.Category.objects.create(title=title)
     category.save()
     return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
 
+def create_label(request):
+    return render(request, 'create_label.html')
+        
+
+def add_label(request):
+    title = request.POST['title']
+
+    discount_percentage = request.POST.get('discount_percentage', 0)
+    if discount_percentage=="":
+        discount_percentage = 0
+
+    creation_date = date.today()
+    removal_days = request.POST.get('removal_days', '-1')
+    if removal_days=="":
+        removal_days = -1
+    colour = request.POST.get('custom_colour', '')
+
+    label = models.Label.objects.create(title=title,
+                                        discount_percentage=discount_percentage,
+                                        creation_date=creation_date,
+                                        removal_days=removal_days,
+                                        custom_colour=colour)
+    label.save()
+    return HttpResponse('display label preview')
+
+    
 def create_product(request):
     options_list = []
     for i in range(1, MAX_OPTIONS+1):
@@ -32,11 +60,12 @@ def create_product(request):
         size_choices.append(tup[1])
 
     categories = models.Category.objects.all()
-
+    labels = models.Label.objects.all()
 
     context = {"size_choices": size_choices,
                "options_list": options_list,
-               "categories": categories}
+               "categories": categories,
+               "labels":labels}
     return render(request, 'create_product.html', context)
 
 # Helper Method
@@ -73,6 +102,11 @@ def add_product(request):
 
     size_price_list = retrieve_size_pricing(request)
     product_options_list = retrieve_product_options(request)
+    labels_list = [ models.Label.objects.get(id = label_id) for label_id in request.POST.getlist('labels')]
+    print(labels_list)
+
+    
+
 
 
 
