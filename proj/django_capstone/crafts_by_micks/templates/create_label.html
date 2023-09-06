@@ -7,7 +7,7 @@
     <body>
         <h1>Create New Label</h1>
 
-        <form action= "{% url 'crafts_by_micks:add_label' %}" method="post">
+        <form action= "{% url 'crafts_by_micks:add_label' source=source %}" method="post">
             {% csrf_token %}
             <label>Label Title</label>
             <input type="text" name='title' required>

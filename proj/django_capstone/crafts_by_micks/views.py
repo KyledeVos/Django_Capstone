@@ -29,11 +29,11 @@ def add_category(request, source):
     else:
         return HttpResponse('admin page for New Category under construction')
 
-def create_label(request):
-    return render(request, 'create_label.html')
+def create_label(request, source):
+    return render(request, 'create_label.html', {'source': source})
         
 
-def add_label(request):
+def add_label(request, source):
     title = request.POST['title']
 
     discount_percentage = request.POST.get('discount_percentage', 0)
@@ -52,7 +52,10 @@ def add_label(request):
                                         removal_days=removal_days,
                                         custom_colour=colour)
     label.save()
-    return HttpResponse('display label preview')
+    if source == 'new_product':
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+    else:
+        return HttpResponse('admin page for New Category under construction')
 
     
 def create_product(request):

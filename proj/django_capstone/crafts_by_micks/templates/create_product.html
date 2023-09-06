@@ -22,7 +22,7 @@
                     {% endfor %}
                     <br>
 
-                    <a href = "{% url 'crafts_by_micks:create_category' source='new_produc' %}">New Product Category</a>
+                    <a href = "{% url 'crafts_by_micks:create_category' source='new_product' %}">New Product Category</a>
                     <br>
 
                     <h1>Labels</h1>
@@ -33,7 +33,7 @@
                     </label>
                     <br>
                     {% endfor %}
-                    <a href = "{% url 'crafts_by_micks:create_label' %}">New Product Label</a>
+                    <a href = "{% url 'crafts_by_micks:create_label' source='new_product' %}">New Product Label</a>
 
                     <ul>
                         <li>
