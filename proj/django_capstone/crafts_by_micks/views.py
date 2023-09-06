@@ -89,7 +89,8 @@ def retrieve_product_options(request):
     for i in range(1, MAX_OPTIONS + 1):
         # attempt to retrieve an option's title and description (optional)
         title = request.POST.get(f"Option{i} title", None)
-        if title != None:
+        description = request.POST.get(f"Option{i} desc", None)
+        if title != None :
             description = request.POST.get(f"Option{i} desc")
             product_options_list.append((title, description))
 
@@ -130,6 +131,15 @@ def add_product(request):
                                 quantity = product_info[2])
             product_info.save()
 
+    # add (optional) product options
+    for option in product_options_list:
+        if option[0] != '' and option[1] !='':
+            prod_option = models.Option.objects.create(
+                product = product,
+                title = option[0],
+                description = option[1]
+            )
+            prod_option.save()
 
     return HttpResponse(f"{title}, {description}, Pricing: {size_info_list} "
                         f"Options: {product_options_list}, Category: {category}")
