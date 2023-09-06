@@ -166,7 +166,6 @@ class Product_Sizes(models.Model):
 
     size = models.CharField(max_length=15, choices=size_options)
     price = models.FloatField(default=0)
-    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         """return Product id and size"""

@@ -86,8 +86,7 @@ def retrieve_size_pricing(request):
             # None if user did not input an associated price
             size_info.append(
                 (current_size,
-                 request.POST.get(f"{current_size} price" ,None),
-                 request.POST.get(f"{current_size} quantity" ,None))
+                 request.POST.get(f"{current_size} price" ,None),)
             )
 
         return size_info
@@ -136,8 +135,7 @@ def add_product(request):
             product_info = models.Product_Sizes.objects.create(
                                 product=product,
                                 size = product_info[0],
-                                price = product_info[1],
-                                quantity = product_info[2])
+                                price = product_info[1])
             product_info.save()
 
     # add (optional) product options
