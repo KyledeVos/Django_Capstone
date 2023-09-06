@@ -100,7 +100,6 @@ def add_product(request):
     category = get_object_or_404(models.Category, pk= request.POST['category'])
     title = request.POST['title']
     description = request.POST['description']
-    base_price = request.POST['base_price']
 
     size_info_list = retrieve_size_pricing(request)
     product_options_list = retrieve_product_options(request)
@@ -111,7 +110,6 @@ def add_product(request):
                             category = category,
                             title = title,
                             description = description,
-                            base_price = base_price,
         )
     
     # add Each Label (if present) to the Product
@@ -133,7 +131,7 @@ def add_product(request):
             product_info.save()
 
 
-    return HttpResponse(f"{title}, {description}, {base_price},  Pricing: {size_info_list} "
+    return HttpResponse(f"{title}, {description}, Pricing: {size_info_list} "
                         f"Options: {product_options_list}, Category: {category}")
 
 # --------------------------------------------------------------------------------------------------

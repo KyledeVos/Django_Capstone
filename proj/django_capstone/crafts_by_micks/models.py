@@ -22,7 +22,6 @@ class Category(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    base_price = models.FloatField()
     review_value = 0.0
     # field for main image
     # field for other product images
