@@ -14,15 +14,20 @@ def home_page(request):
 # max allowed desired options for a product
 MAX_OPTIONS = 5
 
-def create_category(request):
-    return render(request, 'create_category.html')
+def create_category(request, source):
+    
+    return render(request, 'create_category.html', {'source':source})
 
 
-def add_category(request):
+def add_category(request, source):
+
     title = request.POST['title']
     category = models.Category.objects.create(title=title)
     category.save()
-    return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+    if source == "new_product":
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+    else:
+        return HttpResponse('admin page for New Category under construction')
 
 def create_label(request):
     return render(request, 'create_label.html')
@@ -65,7 +70,8 @@ def create_product(request):
     context = {"size_choices": size_choices,
                "options_list": options_list,
                "categories": categories,
-               "labels":labels}
+               "labels":labels,
+               "source": 'new_product'}
     return render(request, 'create_product.html', context)
 
 # Helper Method

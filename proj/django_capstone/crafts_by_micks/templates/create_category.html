@@ -5,7 +5,7 @@
     </head>
 
     <body>
-        <form action= "{% url 'crafts_by_micks:add_category' %}" method="post">
+        <form action= "{% url 'crafts_by_micks:add_category' source=source %}" method="post">
             {% csrf_token %}
             <label>Category Title</label>
             <input type="text" name='title' required>
