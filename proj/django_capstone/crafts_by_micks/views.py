@@ -316,11 +316,30 @@ def view_all_products(request):
             "price_options": prod_price_options,
             "extra_options": prod_extra_options
         }
-
         # add each product dictionary
         products.append(prod_dict)
 
-    
-    # for element in prods:
-    #     print(f'category: {element[0]}, title: {element[1]}, descrip: {element[2]}')
+    # TESTING - DELETE ME
+    for item in products:
+        print("\nPRODUCT")
+        print(f"Title: {item['product'].title}, Description: {item['product'].description}, "
+              f"Review: {item['product'].review_value}, Category: {item['product'].category}")
+        
+        print("\nPRICING")
+        if item['price_options'] == 'none':
+            print("No Prices")
+        else:
+            for size in item['price_options']:
+                print(f"Size: {size.size}, Price: {size.price}")
+
+        print("\OPTIONS")
+        if item['extra_options'] == 'none':
+            print("No Exra Options")
+        else:
+            for option in item['extra_options']:
+                print(f"Title: {option.title}, Description: {option.description}")
+        # --------
+
+
+    # call html page to display all products to admin
     return render(request, 'display/view_all_products.html', {"products": products})
