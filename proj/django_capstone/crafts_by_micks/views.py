@@ -3,7 +3,7 @@
 Methods:
 --------
 home_page(request):
-    render home app of app with SignUp, Login and Product Catalog
+    render admin home app of app with SignUp, Login and Product Catalog
 
 create_category(request, source):
     render html page allowing admin user to create a Category for Products to belong to.
@@ -44,7 +44,7 @@ from datetime import date
 
 
 def home_page(request):
-    """render home app of app with SignUp, Login and Product Catalog"""
+    """render admin home app of app with SignUp, Login and Product Catalog"""
     return render(request, 'home_page.html')
 
 # --------------------------------------------------------------------------------------------------
@@ -289,4 +289,10 @@ def add_product(request):
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
-     
+
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+# Views for Data Display
+
+def view_all_products(request):
+    return HttpResponse("Viewing All Products")

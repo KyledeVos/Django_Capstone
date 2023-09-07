@@ -4,20 +4,36 @@
 from django.urls import path
 from . import views
 
-app_name = "crafts_by_micks"
+app_name = "crafts_by_micks_admin"
 urlpatterns = [
-    # Home Page of App showing user signup, login, product catalog and orders
+    # Admin Home Page of App showing user signup, login, product catalog and orders
     path('', views.home_page, name = "home_page"),
-    # admin control - create a new Product Category
+
+    #----------------------------- Admin Control -------------------------------------------------
+    # 1) Creation
+    # Create a new Product Category
     path('<source>/create_category/', views.create_category, name = "create_category"),
-    # admin control - add newly created Product Category to Database
+    # Add newly created Product Category to Database
     path('<source>/add_category/', views.add_category, name = 'add_category'),
-    # admin control - create a new Product Label
+    # New Product Label
     path('<source>/create_label/', views.create_label, name='create_label'),
-    # admin control - add newly created label to database
+    # Add newly created label to database
     path('<source>/add_label', views.add_label, name="add_label"),
-    # admin control - Create a New Product
+    # Create a New Product
     path('create_product/', views.create_product, name="create_product"),
-    # admin control - add newly created product to database
-    path('add_product/', views.add_product, name="add_product")
+    # Add newly created product to database
+    path('add_product/', views.add_product, name="add_product"),
+
+    # 2) Read
+    # Return All Products in Database to Admin
+    path('view_all_products/', views.view_all_products, name = "view_all_products")
+
+    # 3) Update
+
+    # 4) Deletion
+
+    # Delete Category
+
+
+    #----------------------------- Client Usage -------------------------------------------------
 ]
