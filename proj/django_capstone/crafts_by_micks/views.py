@@ -65,7 +65,7 @@ def create_category(request, source):
         Specify name of original view call determing page to return to after new category is added
         to database.
     """
-    return render(request, 'create_category.html', {'source':source})
+    return render(request, 'creation/create_category.html', {'source':source})
 
 
 def add_category(request, source):
@@ -100,7 +100,7 @@ def create_label(request, source):
         Specify name of original view call determing page to return to after new label is added
         to database
     """
-    return render(request, 'create_label.html', {'source': source})
+    return render(request, 'creation/create_label.html', {'source': source})
         
 
 def add_label(request, source):
@@ -174,7 +174,7 @@ def create_product(request):
                "categories": categories,
                "labels":labels,
                "source": 'new_product'}
-    return render(request, 'create_product.html', context)
+    return render(request, 'creation/create_product.html', context)
 
 
 # Helper Method
@@ -284,14 +284,11 @@ def add_product(request):
             )
             prod_option.save()
 
-    return HttpResponse(f"{title}, {description}, Pricing: {size_info_list} "
-                        f"Options: {product_options_list}, Category: {category}")   
+    return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))   
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
 
-# --------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------
 # Views for Data Display
 
 def view_all_products(request):
