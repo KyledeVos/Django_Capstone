@@ -63,7 +63,7 @@ def create_category(request, source):
         contains metadata about the request needed for html page render
     source: str
         Specify name of original view call determing page to return to after new category is added
-        to database
+        to database.
     """
     return render(request, 'create_category.html', {'source':source})
 
@@ -87,7 +87,7 @@ def add_category(request, source):
         return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
     # new category was created seperately, return admin user to main admin page
     else:
-        return HttpResponse('admin page for New Category under construction')
+        return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
 def create_label(request, source):
     """render html page allowing admin user to create a new Label for Products.

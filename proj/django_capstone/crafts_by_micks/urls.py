@@ -4,7 +4,7 @@
 from django.urls import path
 from . import views
 
-app_name = "crafts_by_micks_admin"
+app_name = "crafts_by_micks"
 urlpatterns = [
     # Admin Home Page of App showing user signup, login, product catalog and orders
     path('', views.home_page, name = "home_page"),
