@@ -284,6 +284,7 @@ def add_product(request):
             )
             prod_option.save()
 
+    # return to admin home page
     return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))   
 
 # --------------------------------------------------------------------------------------------------
@@ -292,4 +293,34 @@ def add_product(request):
 # Views for Data Display
 
 def view_all_products(request):
-    return HttpResponse("Viewing All Products")
+
+    # list containing attributes of each product in a dictionary
+    products = []
+    for product in models.Product.objects.all():
+        # retrieve all price options for product
+        prod_price_options = models.Product_Sizes.objects.all().filter(product = product)
+        # retrieve all possible product additional options
+        prod_extra_options = models.Option.objects.all().filter(product=product)
+
+        # check if product has any associated prices
+        if not prod_price_options.exists():
+            prod_price_options = "none"
+
+        # check if product has any extra options
+        if not prod_extra_options.exists():
+            prod_extra_options = "none"
+
+        # add product, pricing and extra options to a dictionary
+        prod_dict = {
+            "product": product,
+            "price_options": prod_price_options,
+            "extra_options": prod_extra_options
+        }
+
+        # add each product dictionary
+        products.append(prod_dict)
+
+    
+    # for element in prods:
+    #     print(f'category: {element[0]}, title: {element[1]}, descrip: {element[2]}')
+    return render(request, 'display/view_all_products.html', {"products": products})
