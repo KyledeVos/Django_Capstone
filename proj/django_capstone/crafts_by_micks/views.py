@@ -142,7 +142,7 @@ def add_label(request, source):
         return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
     # new category was created seperately, return admin user to main admin page
     else:
-        return HttpResponse('admin page for New Category under construction')
+        return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
     
 def create_product(request):
