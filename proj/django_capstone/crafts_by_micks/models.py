@@ -34,7 +34,7 @@ class Label(models.Model):
     __str__(self): str
         return title of label
     """
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=20, unique=True)
     discount_percentage = models.IntegerField(null=True)
     creation_date = models.DateField()
     removal_days = models.IntegerField(null=True)
@@ -61,7 +61,7 @@ class Category(models.Model):
     __str__(self): str
         return title of Category
     """
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         "Return Title of Category"
@@ -91,7 +91,7 @@ class Product(models.Model):
     __str__(self): str
         return title of Product
     """
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique = True)
     description = models.TextField()
     review_value = 0.0
     # field for main image
