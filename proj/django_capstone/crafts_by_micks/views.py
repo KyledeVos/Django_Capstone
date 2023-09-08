@@ -297,43 +297,34 @@ def view_all_products(request):
     
     # retrieve all products, ordering alphabetically by category title and then by product title
     products = models.Product.objects.order_by('category__title', 'title')
-    # list to hold category name [0] and associated products as remaining elements
+    # list to hold lists category name [0] and associated products as remaining elements
     prod_categories = []
 
     # check if there are any saved products
     if not products.exists():
             prod_categories['empty'] = 'empty'
     else:
-        # List to hold products belonging to a category
-        category_products = []
 
         # first iteration will have no tracking title
         current_title = 'none'
-        # move through each product ordered by category
+        # track current category to which products are being added
+        category_count = 0
         for product in products:
-            # first product, add title and product instance to list
-            if current_title == 'none':
-                category_products.append(product.category.title)
-                category_products.append(product)
-                current_title = product.category.title
 
-            # product is from the same category currently being tracked, add to list
+            # first iteration with no category title tracking. Add first category name and product
+            if current_title == "none":
+                prod_categories.append([product.category.title, product])
+                current_title = product.category.title
+            # add current product that belongs to current category
             elif current_title == product.category.title:
-                category_products.append(product)
-
-            # product from new category has been found, copy old category list to 
-            # prod_categories and clear category list to accept new products. Change
-            # current title to product category title and add both to new category list
+                prod_categories[category_count].append(product)
+                print(f"current {prod_categories}")
+            # new category - increment category count and create new list with new category
+            # name and product
             else:
-                prod_categories.append(copy.deepcopy(category_products))
-                category_products.clear()
+                category_count+=1
+                prod_categories.append([product.category.title, product])
                 current_title = product.category.title
-                category_products.append(product.category.title)
-                category_products.append(product)
-
-        # add final category list
-        prod_categories.append(category_products)
-        print(prod_categories)
 
     # pass lists of ordered and seperated categories and products to html page
     context = {'prod_categories': prod_categories}
