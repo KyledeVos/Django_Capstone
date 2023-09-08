@@ -43,6 +43,7 @@ view_all_products(request):
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
+from django.db import IntegrityError
 from . import models
 from datetime import date
 import copy
@@ -59,7 +60,7 @@ def home_page(request):
 # max allowed desired options for a product
 MAX_OPTIONS = 5
 
-def create_category(request, source):
+def create_category(request, source, error):
     """render html page allowing admin user to create a Category for Products to belong to.
 
     Parameters:
@@ -70,7 +71,7 @@ def create_category(request, source):
         Specify name of original view call determing page to return to after new category is added
         to database.
     """
-    return render(request, 'creation/create_category.html', {'source':source})
+    return render(request, 'creation/create_category.html', {'source':source, 'error':error})
 
 
 def add_category(request, source):
@@ -84,15 +85,20 @@ def add_category(request, source):
         Specify name of original view call determing page to return to after new category is added
         to database
     """
-    title = request.POST['title']
-    category = models.Category.objects.create(title=title)
-    category.save()
-    # new category was created during product creation, return admin user to 'create_product' page
-    if source == "new_product":
-        return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
-    # new category was created seperately, return admin user to main admin page
-    else:
-        return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
+    
+    try:
+        title = request.POST['title']
+        category = models.Category.objects.create(title=title)
+        category.save()
+        # new category was created during product creation, return admin user to 'create_product' page
+        if source == "new_product":
+            return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+        # new category was created seperately, return admin user to main admin page
+        else:
+            return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
+
+    except IntegrityError:
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_category', args=(source, "Duplicate Name",)))
 
 def create_label(request, source):
     """render html page allowing admin user to create a new Label for Products.
@@ -315,7 +321,6 @@ def view_all_products(request):
     if not products.exists():
             prod_categories['empty'] = 'empty'
     else:
-
         # first iteration will have no tracking title
         current_title = 'none'
         # track current category to which products are being added

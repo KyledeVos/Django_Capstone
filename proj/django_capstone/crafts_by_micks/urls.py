@@ -12,7 +12,7 @@ urlpatterns = [
     #----------------------------- Admin Control -------------------------------------------------
     # 1) Creation
     # Create a new Product Category
-    path('<source>/create_category/', views.create_category, name = "create_category"),
+    path('<source>/<error>/create_category/', views.create_category, name = "create_category"),
     # Add newly created Product Category to Database
     path('<source>/add_category/', views.add_category, name = 'add_category'),
     # New Product Label
