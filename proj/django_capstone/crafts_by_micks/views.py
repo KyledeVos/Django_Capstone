@@ -326,8 +326,5 @@ def view_all_products(request):
                 prod_categories.append([product.category.title, product])
                 current_title = product.category.title
 
-    # pass lists of ordered and seperated categories and products to html page
-    context = {'prod_categories': prod_categories}
-
     # call html page to display all products to admin
-    return render(request, 'display/view_all_products.html')
+    return render(request, 'display/view_all_products.html', {'prod_categories': prod_categories})

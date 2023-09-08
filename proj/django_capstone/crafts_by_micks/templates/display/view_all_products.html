@@ -8,11 +8,16 @@
         <h1>View All Products</h1>
 
         {% for category in prod_categories %}
-            {{category.0}}
-            {% for product in category.0%}
-                {{product.title}}
+
+            <h1>{{category.0}}</h1>
+            {% for product in category %}
+            {% if forloop.counter > 1 %}
+                <h3>{{product.title}} {{product.description}}</h3>
+            {% endif %}
 
             {% endfor %}
+
+
         {% endfor %}
     </body>
 </html>
