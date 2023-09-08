@@ -36,6 +36,10 @@ retrieve_product_options(request):
 add_product(request):
     Retrieve user-defined attributes from html from from 'create-product', create new
     product and save to database.
+
+view_all_products(request):
+    retrieve and sort all products alphabetically in order of category and then product title
+    passing list to html page for rendering
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
@@ -294,7 +298,14 @@ def add_product(request):
 # Views for Data Display
 
 def view_all_products(request):
+    """retrieve and sort all products alphabetically in order of category and then product title
+    passing list to html page for rendering
     
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for html page render
+    """
     # retrieve all products, ordering alphabetically by category title and then by product title
     products = models.Product.objects.order_by('category__title', 'title')
     # list to hold lists category name [0] and associated products as remaining elements
