@@ -41,6 +41,7 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_obj
 from django.urls import reverse
 from . import models
 from datetime import date
+import copy
 
 
 def home_page(request):
@@ -293,53 +294,49 @@ def add_product(request):
 # Views for Data Display
 
 def view_all_products(request):
+    
+    # retrieve all products, ordering alphabetically by category title and then by product title
+    products = models.Product.objects.order_by('category__title', 'title')
+    # list to hold category name [0] and associated products as remaining elements
+    prod_categories = []
 
-    # list containing attributes of each product in a dictionary
-    products = []
-    for product in models.Product.objects.all():
-        # retrieve all price options for product
-        prod_price_options = models.Product_Sizes.objects.all().filter(product = product)
-        # retrieve all possible product additional options
-        prod_extra_options = models.Option.objects.all().filter(product=product)
+    # check if there are any saved products
+    if not products.exists():
+            prod_categories['empty'] = 'empty'
+    else:
+        # List to hold products belonging to a category
+        category_products = []
 
-        # check if product has any associated prices
-        if not prod_price_options.exists():
-            prod_price_options = "none"
+        # first iteration will have no tracking title
+        current_title = 'none'
+        # move through each product ordered by category
+        for product in products:
+            # first product, add title and product instance to list
+            if current_title == 'none':
+                category_products.append(product.category.title)
+                category_products.append(product)
+                current_title = product.category.title
 
-        # check if product has any extra options
-        if not prod_extra_options.exists():
-            prod_extra_options = "none"
+            # product is from the same category currently being tracked, add to list
+            elif current_title == product.category.title:
+                category_products.append(product)
 
-        # add product, pricing and extra options to a dictionary
-        prod_dict = {
-            "product": product,
-            "price_options": prod_price_options,
-            "extra_options": prod_extra_options
-        }
-        # add each product dictionary
-        products.append(prod_dict)
+            # product from new category has been found, copy old category list to 
+            # prod_categories and clear category list to accept new products. Change
+            # current title to product category title and add both to new category list
+            else:
+                prod_categories.append(copy.deepcopy(category_products))
+                category_products.clear()
+                current_title = product.category.title
+                category_products.append(product.category.title)
+                category_products.append(product)
 
-    # TESTING - DELETE ME
-    for item in products:
-        print("\nPRODUCT")
-        print(f"Title: {item['product'].title}, Description: {item['product'].description}, "
-              f"Review: {item['product'].review_value}, Category: {item['product'].category}")
-        
-        print("\nPRICING")
-        if item['price_options'] == 'none':
-            print("No Prices")
-        else:
-            for size in item['price_options']:
-                print(f"Size: {size.size}, Price: {size.price}")
+        # add final category list
+        prod_categories.append(category_products)
+        print(prod_categories)
 
-        print("\OPTIONS")
-        if item['extra_options'] == 'none':
-            print("No Exra Options")
-        else:
-            for option in item['extra_options']:
-                print(f"Title: {option.title}, Description: {option.description}")
-        # --------
-
+    # pass lists of ordered and seperated categories and products to html page
+    context = {'prod_categories': prod_categories}
 
     # call html page to display all products to admin
-    return render(request, 'display/view_all_products.html', {"products": products})
+    return render(request, 'display/view_all_products.html')

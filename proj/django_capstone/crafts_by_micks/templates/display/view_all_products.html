@@ -6,5 +6,13 @@
 
     <body>
         <h1>View All Products</h1>
+
+        {% for category in prod_categories %}
+            {{category.0}}
+            {% for product in category.0%}
+                {{product.title}}
+
+            {% endfor %}
+        {% endfor %}
     </body>
 </html>
