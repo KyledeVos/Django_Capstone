@@ -362,3 +362,11 @@ def view_all_products(request):
 
     # call html page to display all products to admin
     return render(request, 'display/view_all_products.html', {'prod_categories': prod_categories})
+
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+
+# Views for Data Display
+
+def update_product(request):
+    return render(request, 'Update/view_product.html')

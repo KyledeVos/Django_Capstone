@@ -26,9 +26,11 @@ urlpatterns = [
 
     # 2) Read
     # Return All Products in Database to Admin
-    path('view_all_products/', views.view_all_products, name = "view_all_products")
+    path('view_all_products/', views.view_all_products, name = "view_all_products"),
 
     # 3) Update
+    # Return Single Product info using Primary Key ID
+    path('update_product/', views.update_product, name='update_product')
 
     # 4) Deletion
 
