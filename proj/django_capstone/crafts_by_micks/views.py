@@ -5,7 +5,7 @@ Methods:
 home_page(request):
     render admin home app of app with SignUp, Login and Product Catalog
 
-create_category(request, source):
+create_category(request, source, error):
     render html page allowing admin user to create a Category for Products to belong to.
     Pass in source argument determining page to return to after Category addition to database.
 
@@ -13,7 +13,7 @@ add_category(request, source):
     Retrieve Category Attributes from html form, create new Category instance and save to
     database. Use 'source' determining page to return to after new category is added.
 
-create_label(request, source):
+create_label(request, source, error):
     render html page allowing admin user to create a new Label for Products.
     Pass in source argument determining page to return to after Label addition to database.
 
@@ -70,6 +70,8 @@ def create_category(request, source, error):
     source: str
         Specify name of original view call determing page to return to after new category is added
         to database.
+    error: str
+        message to display to user if duplicated category title is received
     """
     return render(request, 'creation/create_category.html', {'source':source, 'error':error})
 
@@ -85,7 +87,7 @@ def add_category(request, source):
         Specify name of original view call determing page to return to after new category is added
         to database
     """
-    
+    # attempt to create and save new title unless duplicate title was supplied
     try:
         title = request.POST['title']
         category = models.Category.objects.create(title=title)
@@ -97,10 +99,11 @@ def add_category(request, source):
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
+    # duplicate category title 
     except IntegrityError:
         return HttpResponseRedirect(reverse('crafts_by_micks:create_category', args=(source, "Duplicate Name",)))
 
-def create_label(request, source):
+def create_label(request, source, error):
     """render html page allowing admin user to create a new Label for Products.
 
     Parameters:
@@ -110,8 +113,10 @@ def create_label(request, source):
     source: str
         Specify name of original view call determing page to return to after new label is added
         to database
+    error: str
+        message to display to user if duplicated label title is received
     """
-    return render(request, 'creation/create_label.html', {'source': source})
+    return render(request, 'creation/create_label.html',  {'source':source, 'error':error})
         
 
 def add_label(request, source):
@@ -126,34 +131,39 @@ def add_label(request, source):
         Specify name of original view call determing page to return to after new label is added
         to database
     """
-    title = request.POST['title']
+    try:
+        title = request.POST['title']
 
-    # if a discount was not set for this label, set to 0
-    discount_percentage = request.POST.get('discount_percentage', 0)
-    if discount_percentage=="":
-        discount_percentage = 0
+        # if a discount was not set for this label, set to 0
+        discount_percentage = request.POST.get('discount_percentage', 0)
+        if discount_percentage=="":
+            discount_percentage = 0
 
-    creation_date = date.today()
-    removal_days = request.POST.get('removal_days', '-1')
-    if removal_days=="":
-        removal_days = -1
+        creation_date = date.today()
+        removal_days = request.POST.get('removal_days', '-1')
+        if removal_days=="":
+            removal_days = -1
 
-    # colour retrieved from html 'color' input in hexadecimal format
-    colour = request.POST.get('custom_colour', '')
+        # colour retrieved from html 'color' input in hexadecimal format
+        colour = request.POST.get('custom_colour', '')
 
-    # create and save new label to database
-    label = models.Label.objects.create(title=title,
-                                        discount_percentage=discount_percentage,
-                                        creation_date=creation_date,
-                                        removal_days=removal_days,
-                                        custom_colour=colour)
-    label.save()
-    # new label was created during product creation, return admin user to 'create_product' page
-    if source == 'new_product':
-        return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
-    # new category was created seperately, return admin user to main admin page
-    else:
-        return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
+        # create and save new label to database
+        label = models.Label.objects.create(title=title,
+                                            discount_percentage=discount_percentage,
+                                            creation_date=creation_date,
+                                            removal_days=removal_days,
+                                            custom_colour=colour)
+        label.save()
+        # new label was created during product creation, return admin user to 'create_product' page
+        if source == 'new_product':
+            return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+        # new category was created seperately, return admin user to main admin page
+        else:
+            return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
+    
+    # duplicate category title
+    except IntegrityError:
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_label', args=(source, "Duplicate Name",)))
 
     
 def create_product(request):

@@ -8,6 +8,12 @@
         <h1>Create New Label</h1>
 
         <form action= "{% url 'crafts_by_micks:add_label' source=source %}" method="post">
+                        
+            {% if error == "Duplicate Name" %}
+               Error Creating Category: {{error}}
+                <br>
+            {%endif%}
+            
             {% csrf_token %}
             <label>Label Title</label>
             <input type="text" name='title' required>

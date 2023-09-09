@@ -16,7 +16,7 @@ urlpatterns = [
     # Add newly created Product Category to Database
     path('<source>/add_category/', views.add_category, name = 'add_category'),
     # New Product Label
-    path('<source>/create_label/', views.create_label, name='create_label'),
+    path('<source>/<error>create_label/', views.create_label, name='create_label'),
     # Add newly created label to database
     path('<source>/add_label', views.add_label, name="add_label"),
     # Create a New Product
