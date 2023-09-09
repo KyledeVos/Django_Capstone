@@ -329,6 +329,10 @@ def view_all_products(request):
     ----------
     request: HTTPRequest object
         contains metadata from a request needed for html page render
+
+    NOTE:
+    -----
+    current implementation will sort categories and products into alphabetical order
     """
     # retrieve all products, ordering alphabetically by category title and then by product title
     products = models.Product.objects.order_by('category__title', 'title')
@@ -352,7 +356,6 @@ def view_all_products(request):
             # add current product that belongs to current category
             elif current_title == product.category.title:
                 prod_categories[category_count].append(product)
-                print(f"current {prod_categories}")
             # new category - increment category count and create new list with new category
             # name and product
             else:
