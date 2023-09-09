@@ -166,7 +166,7 @@ def add_label(request, source):
         return HttpResponseRedirect(reverse('crafts_by_micks:create_label', args=(source, "Duplicate Name",)))
 
     
-def create_product(request):
+def create_product(request, error):
     """Render html page allowing admin user to create a new product seeing number of allowed
     product options and passing allowed size options, current product Categories and Labels
 
@@ -174,6 +174,8 @@ def create_product(request):
     ----------
     request: HTTPRequest object
         contains metadata about the request needed for html page render
+    error: str
+        message to display to user if duplicated Product title is received
     """
     # create list of option numbers (as strings) used by 'create_product.html' for
     # Product Options creation
@@ -194,7 +196,8 @@ def create_product(request):
                "options_list": options_list,
                "categories": categories,
                "labels":labels,
-               "source": 'new_product'}
+               "source": 'new_product',
+               'error': error}
     return render(request, 'creation/create_product.html', context)
 
 
@@ -260,50 +263,55 @@ def add_product(request):
     request: HTTPRequest object
         contains metadata from a request needed for retrieval of attributes for a new product
     """
-    # retrieve Product Category, title and description from request
-    category = get_object_or_404(models.Category, pk= request.POST['category'])
-    title = request.POST['title']
-    description = request.POST['description']
+    try:
+        # retrieve Product Category, title and description from request
+        category = get_object_or_404(models.Category, pk= request.POST['category'])
+        title = request.POST['title']
+        description = request.POST['description']
 
-    # using helper methods above, retrieve product size and associated prices and possible
-    # additional product options as desired by admin user
-    size_info_list = retrieve_size_pricing(request)
-    product_options_list = retrieve_product_options(request)
+        # using helper methods above, retrieve product size and associated prices and possible
+        # additional product options as desired by admin user
+        size_info_list = retrieve_size_pricing(request)
+        product_options_list = retrieve_product_options(request)
 
-    # retrieve unique id for each label that may have been added to a product in htmlm form
-    labels_list = [ models.Label.objects.get(id = label_id) 
-                    for label_id in request.POST.getlist('labels')]
+        # retrieve unique id for each label that may have been added to a product in htmlm form
+        labels_list = [ models.Label.objects.get(id = label_id) 
+                        for label_id in request.POST.getlist('labels')]
 
-    # create basic product with compulsory fields
-    product = models.Product.objects.create(
-                            category = category,
-                            title = title,
-                            description = description,
-        )
-    
-    # add Each Label (if present) to the Product
-    for label in labels_list:
-        product.labels.add(label)
-    product.save()
-
-    # add (optional) unique size prices
-    for product_info in size_info_list:
-        if product_info[1] != '':
-            product_info = models.Product_Sizes.objects.create(
-                                product=product,
-                                size = product_info[0],
-                                price = product_info[1])
-            product_info.save()
-
-    # add (optional) product options
-    for option in product_options_list:
-        if option[0] != '' and option[1] !='':
-            prod_option = models.Option.objects.create(
-                product = product,
-                title = option[0],
-                description = option[1]
+        # create basic product with compulsory fields
+        product = models.Product.objects.create(
+                                category = category,
+                                title = title,
+                                description = description,
             )
-            prod_option.save()
+        
+        # add Each Label (if present) to the Product
+        for label in labels_list:
+            product.labels.add(label)
+        product.save()
+
+        # add (optional) unique size prices
+        for product_info in size_info_list:
+            if product_info[1] != '':
+                product_info = models.Product_Sizes.objects.create(
+                                    product=product,
+                                    size = product_info[0],
+                                    price = product_info[1])
+                product_info.save()
+
+        # add (optional) product options
+        for option in product_options_list:
+            if option[0] != '' and option[1] !='':
+                prod_option = models.Option.objects.create(
+                    product = product,
+                    title = option[0],
+                    description = option[1]
+                )
+                prod_option.save()
+
+    # duplicate Product title - Return User to Create Product
+    except IntegrityError:
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("Duplicate Name",)))
 
     # return to admin home page
     return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))   

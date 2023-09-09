@@ -20,7 +20,7 @@ urlpatterns = [
     # Add newly created label to database
     path('<source>/add_label', views.add_label, name="add_label"),
     # Create a New Product
-    path('create_product/', views.create_product, name="create_product"),
+    path('<error>/create_product/', views.create_product, name="create_product"),
     # Add newly created product to database
     path('add_product/', views.add_product, name="add_product"),
 

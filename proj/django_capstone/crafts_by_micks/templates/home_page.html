@@ -10,7 +10,7 @@
 <body>
     <h1>Admin Home Page</h1>
     <h2>Creation</h2>
-    <a href = "{% url 'crafts_by_micks:create_product' %}">Create Product</a>
+    <a href = "{% url 'crafts_by_micks:create_product' error='none' %}">Create Product</a>
     <br>
     <a href = "{% url 'crafts_by_micks:create_category' source='home_page' error='none' %}"> Create New Category</a>
     <br>

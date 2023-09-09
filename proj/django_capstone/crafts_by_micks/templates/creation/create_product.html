@@ -17,6 +17,7 @@
                     {% for category in categories%}
                         <input type="radio" name="category" id="category{{category.title}}" value="{{category.id}}" required />
                         <label for="category {{category.title}}">
+
                             {{category.title }}
                         </label>
                     {% endfor %}
@@ -37,6 +38,10 @@
 
                     <ul>
                         <li>
+                            {% if error == "Duplicate Name" %}
+                            Error Creating Product: {{error}}
+                                <br>
+                            {%endif%}
                             <label>Product Name</label>
                             <input type="text" name='title' required>
                             <br>
