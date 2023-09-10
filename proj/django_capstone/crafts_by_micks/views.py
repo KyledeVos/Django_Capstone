@@ -318,7 +318,6 @@ def add_product(request):
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
-
 # Views for Data Display
 
 def view_all_products(request):
@@ -368,8 +367,41 @@ def view_all_products(request):
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
+# Views for Data Update
 
-# Views for Data Display
+def update_product(request, product_id):
+    # retrieve current product for update
+    product = get_object_or_404(models.Product, pk = product_id)
+    # retrieve currently set sizes and associated prices for object
+    sizes_prices = models.Product_Sizes.objects.filter(product=product)
+    # retrieve names all allowed size options
+    all_sizes = [size[1] for size in models.Product_Sizes.size_options]
 
-def update_product(request):
-    return render(request, 'Update/view_product.html')
+    # create a new prices_sizes list
+    new_size_list = []
+    # variable to track for populated size price for Product
+    match = False
+
+    # loop through all sizes checking for a populated size for the product, if
+    # one is match - add its price. If not, set price to 0
+    for size in all_sizes:
+        match = False
+        for current in sizes_prices:
+            if size == current.size:
+                new_size_list.append([size, current.price])
+                match = True
+                break
+        if not match:
+            new_size_list.append([size, 0])
+
+    context = {
+        'product': product,
+        'sizes_prices': sizes_prices,
+        'all_sizes' : new_size_list
+    }
+
+    return render(request, 'Update/update_product.html', context)
+
+
+def save_update(request):
+    return HttpResponse("Save Update")

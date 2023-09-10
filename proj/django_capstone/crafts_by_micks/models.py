@@ -169,7 +169,7 @@ class Product_Sizes(models.Model):
 
     def __str__(self):
         """return Product id and size"""
-        return f"Product: {self.product.id} {self.size}"
+        return f"Product: {self.product.id} {self.size} {self.price}"
 
 
 class Review(models.Model):

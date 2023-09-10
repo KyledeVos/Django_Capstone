@@ -29,8 +29,10 @@ urlpatterns = [
     path('view_all_products/', views.view_all_products, name = "view_all_products"),
 
     # 3) Update
-    # Return Single Product info using Primary Key ID
-    path('update_product/', views.update_product, name='update_product')
+    # Return Single Product info using Primary Key ID for update
+    path('<int:product_id>/update_product/', views.update_product, name='update_product'),
+    # Perform Update of a Product
+    path('save_update', views.save_update, name = 'save_update')
 
     # 4) Deletion
 
