@@ -274,7 +274,7 @@ def add_product(request):
         size_info_list = retrieve_size_pricing(request)
         product_options_list = retrieve_product_options(request)
 
-        # retrieve unique id for each label that may have been added to a product in htmlm form
+        # retrieve unique id for each label that may have been added to a product in html form
         labels_list = [ models.Label.objects.get(id = label_id) 
                         for label_id in request.POST.getlist('labels')]
 
@@ -440,7 +440,23 @@ def update_product(request, product_id):
 
 def save_update(request, product_id):
     product = get_object_or_404(models.Product, pk = product_id)
+    category = get_object_or_404(models.Category, pk= request.POST['category'])
+    product.category = category
+
+    # retrieve unique id for each label that may have been added to a product in html form
+    labels_list = [ models.Label.objects.get(id = label_id) 
+                    for label_id in request.POST.getlist('labels')]
+    
+    # clear all labels assigned to product
+    product.labels.clear()
+
+    # add Each Label (if present) to the Product
+    for label in labels_list:
+        product.labels.add(label)
+
     title = request.POST['title']
     product.title = title
+    description = request.POST['description']
+    product.description = description
     product.save()
     return HttpResponse(f"Save Update: {product_id}")
