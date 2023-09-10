@@ -32,7 +32,7 @@ urlpatterns = [
     # Return Single Product info using Primary Key ID for update
     path('<int:product_id>/update_product/', views.update_product, name='update_product'),
     # Perform Update of a Product
-    path('save_update', views.save_update, name = 'save_update')
+    path('<int:product_id>/save_update', views.save_update, name = 'save_update')
 
     # 4) Deletion
 

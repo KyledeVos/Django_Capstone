@@ -438,5 +438,9 @@ def update_product(request, product_id):
     return render(request, 'Update/update_product.html', context)
 
 
-def save_update(request):
-    return HttpResponse("Save Update")
+def save_update(request, product_id):
+    product = get_object_or_404(models.Product, pk = product_id)
+    title = request.POST['title']
+    product.title = title
+    product.save()
+    return HttpResponse(f"Save Update: {product_id}")
