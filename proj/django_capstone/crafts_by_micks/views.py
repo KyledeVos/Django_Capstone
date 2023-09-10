@@ -372,10 +372,13 @@ def view_all_products(request):
 def update_product(request, product_id):
     # retrieve current product for update
     product = get_object_or_404(models.Product, pk = product_id)
+    print(product.category)
     # retrieve currently set sizes and associated prices for object
     sizes_prices = models.Product_Sizes.objects.filter(product=product)
     # retrieve names all allowed size options
     all_sizes = [size[1] for size in models.Product_Sizes.size_options]
+    # retrieve all product options
+    options = models.Option.objects.filter(product=product)
 
     # create a new prices_sizes list
     new_size_list = []
@@ -394,10 +397,36 @@ def update_product(request, product_id):
         if not match:
             new_size_list.append([size, 0])
 
+    # retrieve product currrent category name
+    current_category = product.category.title
+    # rerieve all categories
+    all_categories = models.Category.objects.all()
+
+    # retrieve labels associated with product
+    current_labels = product.labels.all()
+   
+    all_labels = models.Label.objects.all()
+    not_assigned = []
+    
+    for label in all_labels:
+        match = False
+        for assigned in current_labels:
+            if label.title == assigned.title:
+                match = True
+                break
+        if not match:
+            not_assigned.append(label)
+        match = False
+
     context = {
         'product': product,
         'sizes_prices': sizes_prices,
-        'all_sizes' : new_size_list
+        'all_sizes' : new_size_list,
+        'options':options,
+        'current_category': current_category,
+        'all_categories': all_categories,
+        'current_labels': current_labels,
+        'not_assigned': not_assigned
     }
 
     return render(request, 'Update/update_product.html', context)

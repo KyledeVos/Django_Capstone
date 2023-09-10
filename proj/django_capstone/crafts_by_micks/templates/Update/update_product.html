@@ -9,8 +9,40 @@
         {% csrf_token %}
 
         <ul>
+            <h2>Category</h2>
+            {% for category in all_categories %}
+                {% if category.title == current_category %}
+                    <input type="radio" name="category" id="category{{category.title}}" value="{{category.id}}" checked required />
+                    <label for="category {{category.title}}">
+
+                        {{category.title }}
+                    </label>
+                {% else %}
+                    <input type="radio" name="category" id="category{{category.title}}" value="{{category.id}}" required />
+                    <label for="category {{category.title}}">
+
+                        {{category.title }}
+                    </label>
+                {% endif %}
+            {% endfor %}
+            
+            <h2>Labels</h2>
+            {% for label in current_labels%}
+                <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}" checked />
+                <label for="label {{label.title}}">
+                    {{label.title }}
+                </label>
+            {% endfor %}
+
+            {% for label in not_assigned%}
+            <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}" />
+            <label for="label {{label.title}}">
+                {{label.title }}
+            </label>
+        {% endfor %}
 
             <li>
+                
                 <label>Product Name</label>
                 <input type="text" name='title' required value={{product.title}}>
                 <br>
@@ -22,13 +54,26 @@
                 <br>
             </li>
 
+            <h3>sizes</h3>
             {% for size in all_sizes %}
 
                 <label>{{size.0}}</label>
-                <input type="number" name='description' required value={{size.1}}>
+                <input type="number" name='{{size}} price' required value={{size.1}}>
                 <br>
 
             {% endfor %}
+
+            <h3>Options</h3>
+            {% for option in options %}
+
+            <label>Name</label>
+            <input type="text" name='Option{{forloop.counter}} title' required value={{option.title}}>
+            <label>Description</label>
+            <input type="text" name='Option{{forloop.counter}} desc' required value={{option.description}}>
+            <br>
+
+            {% endfor %}
+
             <input
             type="submit"
             value="Update" />
