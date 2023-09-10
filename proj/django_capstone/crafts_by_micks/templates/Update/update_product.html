@@ -74,6 +74,16 @@
 
             {% endfor %}
 
+            {% for extra_option in more_options %}
+
+            <label>Name</label>
+            <input type="text" name='Option{{forloop.counter}} title' required value={{option.title}}>
+            <label>Description</label>
+            <input type="text" name='Option{{forloop.counter}} desc' required value={{option.description}}>
+            <br>
+
+            {% endfor %}
+
             <input
             type="submit"
             value="Update" />

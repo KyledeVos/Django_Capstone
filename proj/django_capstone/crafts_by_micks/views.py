@@ -379,6 +379,11 @@ def update_product(request, product_id):
     all_sizes = [size[1] for size in models.Product_Sizes.size_options]
     # retrieve all product options
     options = models.Option.objects.filter(product=product)
+    
+    if len(options) < MAX_OPTIONS:
+        more_options = []
+        for new_option in range(MAX_OPTIONS - len(options) ):
+            more_options.append(['title', 'description'])
 
     # create a new prices_sizes list
     new_size_list = []
@@ -423,6 +428,7 @@ def update_product(request, product_id):
         'sizes_prices': sizes_prices,
         'all_sizes' : new_size_list,
         'options':options,
+        'more_options': more_options,
         'current_category': current_category,
         'all_categories': all_categories,
         'current_labels': current_labels,
