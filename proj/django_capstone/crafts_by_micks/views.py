@@ -40,6 +40,14 @@ add_product(request):
 view_all_products(request):
     retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
+
+update_product(request, product_id, error):
+    Retrieve current attributes for a Product and Display to new page allowing
+    user to perform updates to these attributes to update product information
+
+save_update(request, product_id):
+    Retrieve old/new attributes for a current product from html form for product update
+        and perform applicable updates to Product and associated model instances.
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
@@ -370,6 +378,20 @@ def view_all_products(request):
 # Views for Data Update
 
 def update_product(request, product_id, error):
+    """Retrieve current attributes for a Product and Display to new page allowing
+    user to perform updates to these attributes to update product information
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for html page render with
+        current product attributes
+    product_id: int
+        primary key id for current product select by user for update
+    error: string
+        Description of error message to display for user
+        Current Implementation is only for updated Product title that is not unique
+    """
     # retrieve current product for update
     product = get_object_or_404(models.Product, pk = product_id)
     # retrieve currently set sizes and associated prices for object
@@ -411,18 +433,24 @@ def update_product(request, product_id, error):
 
     # retrieve labels associated with product
     current_labels = product.labels.all()
-   
+    # retrieve all labels stored in database
     all_labels = models.Label.objects.all()
+    # list to store labels not assigned to the current product
     not_assigned = []
     
+    # iterate through all labels in database, checking and adding those not assigned
+    # to the current product to 'not_assigned' list
     for label in all_labels:
         match = False
         for assigned in current_labels:
+            # label match found, do not add to list
             if label.title == assigned.title:
                 match = True
                 break
         if not match:
+            # label has not been assigned to product
             not_assigned.append(label)
+        # reset match for next iteration
         match = False
 
     context = {
@@ -442,6 +470,18 @@ def update_product(request, product_id, error):
 
 
 def save_update(request, product_id):
+    """Retrieve old/new attributes for a current product from html form for product update
+        and perform applicable updates to Product and associated model instances.
+
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for retrieval of product attributes from
+        html form
+    product_id: int
+        primary key id for current product select by user for update
+    """
+    # retrieve current product to be updated
     product = get_object_or_404(models.Product, pk = product_id)
 
     # ---- Category Update ----
@@ -550,11 +590,14 @@ def save_update(request, product_id):
             current_option = models.Option.objects.filter(title = deletion_option)
             current_option.delete()
 
-    # attempt to save product with possible newly updated title, description, category and/or title
+    # attempt to save product with possible newly updated title, description, category and/or labels
     try:
         product.save()
     except IntegrityError:
+        # duplicated product name was given for update, return user to update page and pass error message
+        # for display
         print("Duplicate Name")
         return HttpResponseRedirect(reverse('crafts_by_micks:update_product', args=(product.id, "Duplicate Name",))) 
     
+    # no errors occured in updating product, return user to display of all products
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
