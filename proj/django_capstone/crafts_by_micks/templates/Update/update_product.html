@@ -65,22 +65,20 @@
             <h3>Options</h3>
             {% for option in options %}
 
-            <label>Name</label>
-            <input type="text" name='Option{{forloop.counter}} title' value={{option.title}}>
-            <label>Description</label>
-            <input type="text" name='Option{{forloop.counter}} desc' value={{option.description}}>
-            <br>
+                <label>Name</label>
+                <input type="text" name='Option{{forloop.counter}} title' value={{option.title}}>
+                <label>Description</label>
+                <input type="text" name='Option{{forloop.counter}} desc' value={{option.description}}>
+                <br>
 
             {% endfor %}
 
             {% for extra_option in more_options %}
-
-            <label>Name</label>
-            <input type="text" name='Option{{forloop.counter}} title'value={{option.title}}>
-            <label>Description</label>
-            <input type="text" name='Option{{forloop.counter}} desc' value={{option.description}}>
-            <br>
-
+                <label>Name</label>
+                <input type="text" name='Option{{extra_option}} title'>
+                <label>Description</label>
+                <input type="text" name='Option{{extra_option}} desc'>
+                <br>
             {% endfor %}
 
             <input
