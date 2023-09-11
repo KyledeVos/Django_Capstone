@@ -50,14 +50,14 @@
                 <label>Description</label>
                 <input type="text" name='description' required value={{product.description}}>
                 <br>
-                <br>
+                <br>    
             </li>
 
             <h3>sizes</h3>
             {% for size in all_sizes %}
 
                 <label>{{size.0}}</label>
-                <input type="number" name='{{size}} price' required value={{size.1}}>
+                <input type="number" min="0" name='{{size.0}} price'  value={{size.1}} required>
                 <br>
 
             {% endfor %}

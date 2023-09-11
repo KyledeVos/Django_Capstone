@@ -372,7 +372,6 @@ def view_all_products(request):
 def update_product(request, product_id):
     # retrieve current product for update
     product = get_object_or_404(models.Product, pk = product_id)
-    print(product.category)
     # retrieve currently set sizes and associated prices for object
     sizes_prices = models.Product_Sizes.objects.filter(product=product)
     # retrieve names all allowed size options
@@ -440,23 +439,61 @@ def update_product(request, product_id):
 
 def save_update(request, product_id):
     product = get_object_or_404(models.Product, pk = product_id)
+
+    # ---- Category Update ----
     category = get_object_or_404(models.Category, pk= request.POST['category'])
     product.category = category
 
+    # ---- Labels Update ----
     # retrieve unique id for each label that may have been added to a product in html form
     labels_list = [ models.Label.objects.get(id = label_id) 
                     for label_id in request.POST.getlist('labels')]
     
     # clear all labels assigned to product
     product.labels.clear()
-
     # add Each Label (if present) to the Product
     for label in labels_list:
         product.labels.add(label)
 
+    # ---- Title and Description Update ----
     title = request.POST['title']
     product.title = title
     description = request.POST['description']
     product.description = description
+
+    # ---- Size Pricing ----
+    price_list = retrieve_size_pricing(request)
+    print(f"Price List: {price_list}")
+    
+    # retrieve all prices currently assigned to product
+    product_pricing = models.Product_Sizes.objects.filter(product = product)
+    print(f'product_pricing: {product_pricing}')
+
+    match = False
+    for new_price in price_list:
+        for current_price in product_pricing:
+            if current_price.size == new_price[0]:
+                match = True
+                # check if price was set to 0, delete product_price:
+                if int(float(new_price[1])) == 0:
+                    print("Deketing")
+                    current_price.delete()
+                    break
+                elif current_price.price != new_price[1]:
+                    current_price.price = new_price [1]
+                    current_price.save()
+                    break
+        # at this point, no match for a set price was found indicating it is a new price for 
+        # the product
+        if not match and int(float(new_price[1])) != 0:
+            product_size = models.Product_Sizes.objects.create(
+                                    product=product,
+                                    size = new_price[0],
+                                    price = new_price[1])
+            product_size.save()
+        # reset match for next iteration
+        match = False
+
+
     product.save()
     return HttpResponse(f"Save Update: {product_id}")
