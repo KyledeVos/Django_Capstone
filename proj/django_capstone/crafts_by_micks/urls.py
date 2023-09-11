@@ -27,6 +27,9 @@ urlpatterns = [
     # 2) Read
     # Return All Products in Database to Admin
     path('view_all_products/', views.view_all_products, name = "view_all_products"),
+    # Return Categories for Title Update
+    path('view_all_categories/', views.view_all_categories, name = 'view_all_categories'),
+
 
     # 3) Update
     # Return Single Product info using Primary Key ID for update

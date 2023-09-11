@@ -328,6 +328,9 @@ def add_product(request):
 # --------------------------------------------------------------------------------------------------
 # Views for Data Display
 
+def view_all_categories(request):
+    return HttpResponse('All Categories')
+
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
@@ -601,3 +604,5 @@ def save_update(request, product_id):
     
     # no errors occured in updating product, return user to display of all products
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
+
+
