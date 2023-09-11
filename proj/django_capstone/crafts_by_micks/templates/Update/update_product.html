@@ -41,7 +41,10 @@
         {% endfor %}
 
             <li>
-                
+                {% if error == 'Duplicate Name' %}
+                    Error Updating Product: {{error}}
+                        <br>
+                {%endif%}
                 <label>Product Name</label>
                 <input type="text" name='title' required value={{product.title}}>
                 <br>

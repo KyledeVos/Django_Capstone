@@ -369,7 +369,7 @@ def view_all_products(request):
 # --------------------------------------------------------------------------------------------------
 # Views for Data Update
 
-def update_product(request, product_id):
+def update_product(request, product_id, error):
     # retrieve current product for update
     product = get_object_or_404(models.Product, pk = product_id)
     # retrieve currently set sizes and associated prices for object
@@ -434,7 +434,8 @@ def update_product(request, product_id):
         'current_category': current_category,
         'all_categories': all_categories,
         'current_labels': current_labels,
-        'not_assigned': not_assigned
+        'not_assigned': not_assigned,
+        'error': error
     }
 
     return render(request, 'Update/update_product.html', context)
@@ -510,9 +511,7 @@ def save_update(request, product_id):
     # options that need to be deleted
     options_delete = [option.title for option in assigned_options]
     
-    print(f"request options {request_options}")
-    print(f"assigned options {assigned_options}")
-
+    # track if an object exists in database matching those recieved from html form
     match = False
     for request_option in request_options:
         for assigned_option in assigned_options:
@@ -551,6 +550,11 @@ def save_update(request, product_id):
             current_option = models.Option.objects.filter(title = deletion_option)
             current_option.delete()
 
-    # save product with possible newly updated title, description, category and/or title
-    product.save()
-    return HttpResponse(f"Save Update: {product_id}")
+    # attempt to save product with possible newly updated title, description, category and/or title
+    try:
+        product.save()
+    except IntegrityError:
+        print("Duplicate Name")
+        return HttpResponseRedirect(reverse('crafts_by_micks:update_product', args=(product.id, "Duplicate Name",))) 
+    
+    return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
