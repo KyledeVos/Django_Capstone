@@ -328,13 +328,9 @@ def add_product(request):
 # --------------------------------------------------------------------------------------------------
 # Views for Data Display
 
-def view_all_categories(request):
-    return HttpResponse('All Categories')
-
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
-    
     Parameter:
     ----------
     request: HTTPRequest object
@@ -379,6 +375,36 @@ def view_all_products(request):
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
 # Views for Data Update
+
+def view_all_categories(request, error):
+    
+    # retrieve all product categories
+    categories = models.Category.objects.all()
+    return render(request, 'Update/view_all_categories.html', {'categories': categories, 'error':error})
+
+def update_delete_category(request, category_id):
+
+    # retrieve the current category
+    category = get_object_or_404(models.Category, pk = category_id)
+
+    # if user has selected to update the category title
+    try:
+        if 'Update' in request.POST:
+            new_title = request.POST['title']
+            # if a new title was given, change category title to new title and save
+            if new_title != '':
+                category.title = new_title
+                category.save()
+                return HttpResponse(f"Category Update for {new_title}")
+    except IntegrityError:
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Duplicate Name",)))
+            
+            
+    
+    # if user has selected to delete the category
+    if 'Delete' in request.POST:
+        return HttpResponse(f"Category Delete for {category_id}")
+
 
 def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
