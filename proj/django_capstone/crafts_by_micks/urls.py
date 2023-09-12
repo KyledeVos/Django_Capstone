@@ -25,6 +25,8 @@ urlpatterns = [
     path('add_product/', views.add_product, name="add_product"),
 
     # 2) Read
+    # Return All Labels
+    path('view_all_labels', views.view_all_labels, name='view_all_labels'),
     # Return All Products in Database to Admin
     path('view_all_products/', views.view_all_products, name = "view_all_products"),
 

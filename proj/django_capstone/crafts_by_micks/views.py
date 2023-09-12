@@ -336,6 +336,9 @@ def add_product(request):
 # --------------------------------------------------------------------------------------------------
 # Views for Data Display
 
+def view_all_labels(request):
+    return HttpResponse("Label Update")
+
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
