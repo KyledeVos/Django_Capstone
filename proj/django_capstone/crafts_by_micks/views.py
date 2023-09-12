@@ -387,7 +387,7 @@ def update_delete_category(request, category_id):
     # retrieve the current category
     category = get_object_or_404(models.Category, pk = category_id)
 
-    # if user has selected to update the category title
+    # 1) if user has selected to update the category title
     try:
         if 'Update' in request.POST:
             new_title = request.POST['title']
@@ -395,15 +395,34 @@ def update_delete_category(request, category_id):
             if new_title != '':
                 category.title = new_title
                 category.save()
-                return HttpResponse(f"Category Update for {new_title}")
+                return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
     except IntegrityError:
-            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Duplicate Name",)))
+            # user has entered a title that is not unique
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Update Error",)))
             
-            
-    
-    # if user has selected to delete the category
+    # 2) if user has selected to delete the category
+    # NOTE - Deletion of a Category cannot be done if any products have been assigned to it
     if 'Delete' in request.POST:
+        # retrieve count of all possible products that may assigned to current category
+        product_count = len(models.Product.objects.filter(category = category))
+        print(f"Products:  {product_count}")
+        
+        
+        if product_count == 0:
+            # if there are no products assigned to the category, deletion may be performed
+            category.delete()
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
+        else:
+            # category has assigned products, display error to user that deletion may not be performed
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Delete Error",)))
+
+
+        
+        
+
         return HttpResponse(f"Category Delete for {category_id}")
+    
+
 
 
 def update_product(request, product_id, error):

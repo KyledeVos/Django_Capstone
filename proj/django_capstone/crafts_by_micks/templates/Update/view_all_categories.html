@@ -5,10 +5,18 @@
 <body>
 
     <h1>All Categories</h1>
+    <h4>Update/Deletion completed one at a time</h4>
 
-    {% if error != 'none' %}
+    {% if error == 'Update Error' %}
         <h3>An error Occured Trying to Update a Category Name - Name was not Unique</h3>
     {% endif %}
+
+    {% if error == 'Delete Error' %}
+    <h3>
+        Category still has products assigned to it and caanot be delete.<br>
+        Please re-assign or delete Product Categories
+    </h3>
+{% endif %}
 
     {% for category in categories %}
         <form action= "{% url 'crafts_by_micks:update_delete_category' category.id %}" method="post">
