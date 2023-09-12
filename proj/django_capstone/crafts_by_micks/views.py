@@ -41,6 +41,14 @@ view_all_products(request):
     retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
 
+view_all_categories(request, error):
+    Provide all categories for html page render and pass on possible error message to display during
+    category update or deletion
+
+update_delete_category(request, category_id):
+    Use 'request' to determine action (update or delete) to perform on category specified by
+    category_id. Handle possible errors and return error message when reloading update/deletion page
+
 update_product(request, product_id, error):
     Retrieve current attributes for a Product and Display to new page allowing
     user to perform updates to these attributes to update product information
@@ -331,6 +339,7 @@ def add_product(request):
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
+
     Parameter:
     ----------
     request: HTTPRequest object
@@ -377,13 +386,31 @@ def view_all_products(request):
 # Views for Data Update
 
 def view_all_categories(request, error):
-    
-    # retrieve all product categories
+    """Provide all categories for html page render and pass on possible error message to display during
+    category update or deletion
+
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for html page render
+    error: string
+        description of possible error that may occur that during category update or deletion
+    """
     categories = models.Category.objects.all()
     return render(request, 'Update/view_all_categories.html', {'categories': categories, 'error':error})
 
 def update_delete_category(request, category_id):
+    """Use 'request' to determine action (update or delete) to perform on category specified by
+    category_id. Handle possible errors and return error message when reloading update/deletion page
 
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed to determine action to undertake (update or delete) and
+        retrieve attributes from html form to perform action
+    category_id: int
+        primary key id of category to be updated or deleted
+    """
     # retrieve the current category
     category = get_object_or_404(models.Category, pk = category_id)
 
@@ -406,8 +433,7 @@ def update_delete_category(request, category_id):
         # retrieve count of all possible products that may assigned to current category
         product_count = len(models.Product.objects.filter(category = category))
         print(f"Products:  {product_count}")
-        
-        
+    
         if product_count == 0:
             # if there are no products assigned to the category, deletion may be performed
             category.delete()
@@ -415,15 +441,6 @@ def update_delete_category(request, category_id):
         else:
             # category has assigned products, display error to user that deletion may not be performed
             return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Delete Error",)))
-
-
-        
-        
-
-        return HttpResponse(f"Category Delete for {category_id}")
-    
-
-
 
 def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
