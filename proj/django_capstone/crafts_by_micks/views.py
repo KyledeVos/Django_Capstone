@@ -298,6 +298,9 @@ def add_product(request):
         title = request.POST['title']
         description = request.POST['description']
 
+        # retrieve product main image
+        product_image = request.POST['main_image']
+
         # using helper methods above, retrieve product size and associated prices and possible
         # additional product options as desired by admin user
         size_info_list = retrieve_size_pricing(request)
@@ -312,6 +315,7 @@ def add_product(request):
                                 category = category,
                                 title = title,
                                 description = description,
+                                product_image = product_image
             )
         
         # add possible labels to product
