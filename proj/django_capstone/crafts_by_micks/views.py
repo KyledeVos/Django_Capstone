@@ -37,6 +37,9 @@ add_product(request):
     Retrieve user-defined attributes from html from from 'create-product', create new
     product and save to database.
 
+view_all_labels(request):
+    Retrieve all labels from database for render to html page
+
 view_all_products(request):
     retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
@@ -48,6 +51,10 @@ view_all_categories(request, error):
 update_delete_category(request, category_id):
     Use 'request' to determine action (update or delete) to perform on category specified by
     category_id. Handle possible errors and return error message when reloading update/deletion page
+
+update_label(request, label_id, error):
+    Retrieve current label for update and render html page showing current set label attributes.
+        Form in page allows user to change label attributes and pass on for save to database.
 
 update_product(request, product_id, error):
     Retrieve current attributes for a Product and Display to new page allowing
@@ -337,10 +344,14 @@ def add_product(request):
 # Views for Data Display
 
 def view_all_labels(request):
+    """Retrieve all labels from database for render to html page.
 
-    # retrieve all product labels
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for html page render
+    """
     labels = models.Label.objects.all()
-
     return render(request, 'display/view_all_labels.html', {'labels': labels})
 
 def view_all_products(request):
@@ -451,28 +462,68 @@ def update_delete_category(request, category_id):
         
 
 def update_label(request, label_id, error):
+    """Retrieve current label for update and render html page showing current set label attributes.
+        Form in page allows user to change label attributes and pass on for save to database.
+
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        pass current label to page to display attributes
+    label_id: int
+        primary key id for current label selected by user for update
+    error: string
+        Description of error message to display for user
+        Current Implementation is only for updated Label title that is not unique
+        
+        """
     label = get_object_or_404(models.Label, pk=label_id)
     return render(request, 'Update/update_label.html', {'label': label, 'error': error})
 
 
 def save_label_update(request, label_id):
+    """Retrieve possible new label attributes from an html form (passed through request) and attempt
+    to perform updates to current label and save to database
 
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        retrieve possible updated label attributes from html form
+    label_id: int
+        primary key id for current label selected by user for update
+    """
     # retrieve the current label
     label = get_object_or_404(models.Label, pk=label_id)
     # retrieve possible new title
     new_title = request.POST['title']
+    # if user has provided a new title, update label title (duplicate checked during attempted save)
     if new_title != '':
         label.title = new_title
+
+    # retrieve possible new discount percentage
+    new_discount = request.POST['discount_percentage']
+    if new_discount != '0':
+        label.discount_percentage = new_discount
+
+    # retrieve possible new days until label is to be removed
+    new_removal = request.POST['removal_days']
+    if new_removal != '':
+        label.removal_days = new_removal
+
+    # retrieve possible new custom_colour for label:
+    custom_colour = request.POST['custom_colour']
+    if custom_colour != label.custom_colour:
+        print("Different Colour")
+        label.custom_colour = custom_colour
     
     try:
+        # attempt to save changes to label
         label.save()
+        # return user to page of all labels
         return HttpResponseRedirect(reverse('crafts_by_micks:view_all_labels'))
     except IntegrityError:
-        return HttpResponseRedirect(reverse('crafts_by_micks:update_label', args=(label.id, "Duplicated Name",)))
-
- 
-    return HttpResponse("Saving")
-       
+        # user has attempted to save with duplicated label title, provide error and return user
+        # to update label page
+        return HttpResponseRedirect(reverse('crafts_by_micks:update_label', args=(label.id, "Duplicated Name",)))       
 
 def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
@@ -484,7 +535,7 @@ def update_product(request, product_id, error):
         contains metadata from a request needed for html page render with
         current product attributes
     product_id: int
-        primary key id for current product select by user for update
+        primary key id for current product selected by user for update
     error: string
         Description of error message to display for user
         Current Implementation is only for updated Product title that is not unique

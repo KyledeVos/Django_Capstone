@@ -23,14 +23,12 @@
 
         <!--Needs to be calculated first, ignore current value-->
         <label>Days Left for removal:</label>
-        <input type="number" name='removal_days' min="0" value="0">
+        <input type="number" name='removal_days' min="0" placeholder="none">
         <br>
 
         <label for="Custom_colour">Label Colour</label>
-        <input type="color" name="custom_colour" id="custom_colour" value={{label.custom_colour}}/>
+        <input type="color" name="custom_colour" id="custom_colour" value="{{label.custom_colour}}"/>
         <br>
-
-
 
         <input type = 'submit' value="Update">
 
