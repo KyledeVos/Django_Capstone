@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+
+</head>
+<body>
+    Are you sure you want to delete product {{product.title}}
+
+    <form action="{% url 'crafts_by_micks:confirmed_product_deletion' product.id %} " method = "post">
+        {% csrf_token %}
+
+        <input type="submit" name="Delete" value="Yes">
+        <input type="submit" name="Undo" value="No">
+
+    </form>
+
+</body>
+</html>

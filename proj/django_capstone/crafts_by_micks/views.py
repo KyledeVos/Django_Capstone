@@ -63,13 +63,19 @@ update_product(request, product_id, error):
 save_update(request, product_id):
     Retrieve old/new attributes for a current product from html form for product update
         and perform applicable updates to Product and associated model instances.
+
+delete_label(request, label_id):
+    Retrieve current label and perform deletion from database
+
+initial_product_deletion(request, product_id):
+    Retrieve current product selected by user for deletion and return confirmation
+    page to confirm if deletion is correct
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
 from django.db import IntegrityError
 from . import models
 from datetime import date
-import copy
 
 
 def home_page(request):
@@ -763,10 +769,51 @@ def delete_label(request, label_id):
     request: HTTPRequest object
         contains metadata from a request needed to render all labels page after label deletion
     label_id: int
-        primary key id for current label select by user for deletion"""
+        primary key id for current label selected by user for deletion"""
     # retrieve label for deletion
     label = get_object_or_404(models.Label, pk = label_id)
     # perform deletion
     label.delete()
     # return user to view all labels
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_labels'))
+
+
+def initial_product_deletion(request, product_id):
+    """Retrieve current product selected by user for deletion and return confirmation
+    page to confirm if deletion is correct.
+
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request to display deletion confirmation page
+    product_id: int
+        primary key id for current product selected by user for deletion
+    """
+    # retrieve current product up for deletion
+    product = get_object_or_404(models.Product, pk=product_id)
+    return render(request, 'Deletion/product_initial_deletion.html', {'product':product})
+
+
+def confirmed_product_deletion(request, product_id):
+    """Retrieve deletion confirmation from html form used to determine if application is
+    to go ahead with deletion or not. If so, retrieve product and perform deletion
+    
+    NOTE:
+    Deletion of Product will cascade to deletion of product associated Sizes_Prices and Product Options
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request to retrieve user confirmation for deletion or not
+    product_id: int
+        primary key id for current product selected by user for deletion
+    """
+    # check if deletion of product is correct
+    if 'Delete' in request.POST:
+        # retrieve current product for deletion and perform deletion
+        product = get_object_or_404(models.Product, pk = product_id)
+        product.delete()
+
+    # return user to all products page
+    return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
+
