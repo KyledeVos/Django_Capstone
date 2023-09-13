@@ -284,8 +284,8 @@ def retrieve_product_options(request):
     
 
 def add_product(request):
-    """Retrieve user-defined attributes from html from from 'create-product', create new
-    product and save to database
+    """Retrieve user-defined attributes from html from from 'create-product',
+        create new product and save to database
 
     Parameter:
     ----------
@@ -314,10 +314,10 @@ def add_product(request):
                                 description = description,
             )
         
-        # add Each Label (if present) to the Product
+        # add possible labels to product
         for label in labels_list:
             product.labels.add(label)
-        product.save()
+            product.save()
 
         # add (optional) unique size prices
         for product_info in size_info_list:
