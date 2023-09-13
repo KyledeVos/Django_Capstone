@@ -123,7 +123,7 @@ def add_category(request, source):
         category.save()
         # new category was created during product creation, return admin user to 'create_product' page
         if source == "new_product":
-            return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+            return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("None",)))
         # new category was created seperately, return admin user to main admin page
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
@@ -185,7 +185,7 @@ def add_label(request, source):
         label.save()
         # new label was created during product creation, return admin user to 'create_product' page
         if source == 'new_product':
-            return HttpResponseRedirect(reverse('crafts_by_micks:create_product'))
+            return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("None",)))
         # new category was created seperately, return admin user to main admin page
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
