@@ -30,7 +30,6 @@ urlpatterns = [
     # Return All Products in Database to Admin
     path('view_all_products/', views.view_all_products, name = "view_all_products"),
 
-
     # 3) Update (and Deletion Combined)
     # Return Categories for Title Update
     path('<error>/view_all_categories/', views.view_all_categories, name = 'view_all_categories'),
@@ -44,7 +43,6 @@ urlpatterns = [
     path('<int:product_id>/<error>/update_product/', views.update_product, name='update_product'),
     # Perform Update of a Product
     path('<int:product_id>/save_update', views.save_update, name = 'save_update'),
-
 
     # 4) Deletion - Only
     # Delete a Label
