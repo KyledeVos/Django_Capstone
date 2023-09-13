@@ -450,18 +450,28 @@ def update_delete_category(request, category_id):
             return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Delete Error",)))
         
 
-def update_label(request, label_id):
+def update_label(request, label_id, error):
     label = get_object_or_404(models.Label, pk=label_id)
-    return render(request, 'Update/update_label.html', {'label': label})
+    return render(request, 'Update/update_label.html', {'label': label, 'error': error})
 
 
 def save_label_update(request, label_id):
-    print(f"Label ID: {label_id}")
-    title = request.POST['title']
-    if title == '':
-        return HttpResponse("No New Title")
-    else: 
-        return HttpResponse(f"New Title: {title}")
+
+    # retrieve the current label
+    label = get_object_or_404(models.Label, pk=label_id)
+    # retrieve possible new title
+    new_title = request.POST['title']
+    if new_title != '':
+        label.title = new_title
+    
+    try:
+        label.save()
+        return HttpResponseRedirect(reverse('crafts_by_micks:view_all_labels'))
+    except IntegrityError:
+        return HttpResponseRedirect(reverse('crafts_by_micks:update_label', args=(label.id, "Duplicated Name",)))
+
+ 
+    return HttpResponse("Saving")
        
 
 def update_product(request, product_id, error):

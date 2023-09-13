@@ -9,11 +9,14 @@
         <h2>Label Update for: {{label.title}}</h2>
         <h4>Created on: {{label.creation_date}}</h4>
 
+        {% if error != 'none' %}
+            <h5>Title already exists. Cannot Update Label</h5>
+        {% endif %}
+
         <label>{{label.title}}</label>
         <input type="text" name='title' placeholder="New Title">
         <br>
 
-        
         <label>Current Discount:</label>
         <input type="number" name='discount_percentage' min="0" max="100" value="{{label.discount_percentage}}">
         <br>
