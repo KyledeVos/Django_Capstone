@@ -452,7 +452,16 @@ def update_delete_category(request, category_id):
 
 def update_label(request, label_id):
     label = get_object_or_404(models.Label, pk=label_id)
-    return HttpResponse(f"Label Update {label}")
+    return render(request, 'Update/update_label.html', {'label': label})
+
+
+def save_label_update(request, label_id):
+    print(f"Label ID: {label_id}")
+    title = request.POST['title']
+    if title == '':
+        return HttpResponse("No New Title")
+    else: 
+        return HttpResponse(f"New Title: {title}")
        
 
 def update_product(request, product_id, error):

@@ -36,8 +36,10 @@ urlpatterns = [
     path('<error>/view_all_categories/', views.view_all_categories, name = 'view_all_categories'),
     # Update or Delete a Category
     path('<int:category_id>/update_delete_category', views.update_delete_category, name = 'update_delete_category'),
-    # Update a Label
+    # Retrieve user inputs for label update
     path('<int:label_id>/update_label', views.update_label, name = 'update_label'),
+    # Perform Label Update
+    path('<int:label_id>/save_label_update', views.save_label_update, name = 'save_label_update' ),
     # Return Single Product info using Primary Key ID for update
     path('<int:product_id>/<error>/update_product/', views.update_product, name='update_product'),
     # Perform Update of a Product
