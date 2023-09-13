@@ -337,7 +337,11 @@ def add_product(request):
 # Views for Data Display
 
 def view_all_labels(request):
-    return HttpResponse("Label Update")
+
+    # retrieve all product labels
+    labels = models.Label.objects.all()
+
+    return render(request, 'display/view_all_labels.html', {'labels': labels})
 
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
@@ -444,6 +448,12 @@ def update_delete_category(request, category_id):
         else:
             # category has assigned products, display error to user that deletion may not be performed
             return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Delete Error",)))
+        
+
+def update_label(request, label_id):
+    label = get_object_or_404(models.Label, pk=label_id)
+    return HttpResponse(f"Label Update {label}")
+       
 
 def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
