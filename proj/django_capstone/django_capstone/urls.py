@@ -20,8 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # django admin site
     path('admin/', admin.site.urls),
+    # admin site control for admin user
     path('', include('crafts_by_micks.urls'))
 ]
 
+# url path allowing for upload and access of stored site images
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

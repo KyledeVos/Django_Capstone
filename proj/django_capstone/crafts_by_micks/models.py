@@ -81,7 +81,8 @@ class Product(models.Model):
     review_vaue: int (IntegerField)
         review rating of product - default value set to 0. Functionality allowing
         admin (not superuser) to modify review in any way has not been added.
-        percentage of discount to be applied to a product (applied to all sizes)
+    product_image: models.ImageField
+        main image for product
     labels: Label 
         Associated Label objects for Product
     category: Category
