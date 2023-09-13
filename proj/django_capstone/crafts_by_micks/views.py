@@ -401,7 +401,7 @@ def view_all_products(request):
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
-# Views for Data Update
+# Views for Data Update and Possible Deletion
 
 def view_all_categories(request, error):
     """Provide all categories for html page render and pass on possible error message to display during
@@ -751,3 +751,22 @@ def save_update(request, product_id):
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
 
 
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+# Views for Data Deletion (only)
+
+def delete_label(request, label_id):
+    """Retrieve current label and perform deletion from database.
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed to render all labels page after label deletion
+    label_id: int
+        primary key id for current label select by user for deletion"""
+    # retrieve label for deletion
+    label = get_object_or_404(models.Label, pk = label_id)
+    # perform deletion
+    label.delete()
+    # return user to view all labels
+    return HttpResponseRedirect(reverse('crafts_by_micks:view_all_labels'))

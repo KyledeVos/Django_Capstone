@@ -9,6 +9,8 @@
 
         {{label.title}}
         <a href="{% url 'crafts_by_micks:update_label' label.id 'none' %}">Update</a>
+        <a href="{% url 'crafts_by_micks:delete_label' label.id %}">Delete</a>
+
         <br>
 
     {% endfor %}

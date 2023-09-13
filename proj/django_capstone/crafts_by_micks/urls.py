@@ -46,7 +46,9 @@ urlpatterns = [
     path('<int:product_id>/save_update', views.save_update, name = 'save_update'),
 
 
-    # 4) Deletion
+    # 4) Deletion - Only
+    # Delete a Label
+    path("<int:label_id>/delete_label", views.delete_label, name='delete_label'),
 
     # Delete Category
 
