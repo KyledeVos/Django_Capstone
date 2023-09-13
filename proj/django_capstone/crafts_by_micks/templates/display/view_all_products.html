@@ -6,20 +6,24 @@
 
     <body>
         <h1>View All Products</h1>
+        {% if prod_categories %}
+            {% for category in prod_categories %}
 
-        {% for category in prod_categories %}
+                <h1>{{category.0}}</h1>
+                {% for product in category %}
+                {% if forloop.counter > 1 %}
+                    <h3>{{product.title}} {{product.description}}</h3>
+                    <a href = "{% url 'crafts_by_micks:update_product' product.id 'none' %}">Update</a>
+                    <a href="{% url 'crafts_by_micks:initial_product_deletion' product.id %}">Delete</a>
+                {% endif %}
 
-            <h1>{{category.0}}</h1>
-            {% for product in category %}
-            {% if forloop.counter > 1 %}
-                <h3>{{product.title}} {{product.description}}</h3>
-                <a href = "{% url 'crafts_by_micks:update_product' product.id 'none' %}">Update</a>
-                <a href="{% url 'crafts_by_micks:initial_product_deletion' product.id %}">Delete</a>
-            {% endif %}
+                {% endfor %}
+
 
             {% endfor %}
 
-
-        {% endfor %}
+        {% else %}
+        <h2>No Products</h2>
+        {% endif %}
     </body>
 </html>

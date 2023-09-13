@@ -379,9 +379,7 @@ def view_all_products(request):
     prod_categories = []
 
     # check if there are any saved products
-    if not products.exists():
-            prod_categories['empty'] = 'empty'
-    else:
+    if products.exists():
         # first iteration will have no tracking title
         current_title = 'none'
         # track current category to which products are being added
