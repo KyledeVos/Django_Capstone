@@ -33,6 +33,10 @@ retrieve_product_options(request):
     Retrieve user-defined options for a product from html form, adding each to a list
     of tuples
 
+retrieve_additional_images(request):
+    Retrieve possible additional product images uploaded by admin user and append
+    image title and image file to a list
+
 add_product(request):
     Retrieve user-defined attributes from html from from 'create-product', create new
     product and save to database.
@@ -306,11 +310,15 @@ def retrieve_additional_images(request):
     additional_images = []
     for i in range(1, MAX_IMAGES + 1):
         # attempt to retrieve images title
-        image_title = request.POST.get(f"Image{i} title", " ")
+        image_title = request.POST.get(f"Image{i} title", "")
         if image_title != "":
-            # attempt to retrieve image
-            new_image = request.FILES[f"Image{i} image"]
-            additional_images.append((image_title, new_image))
+            try:
+                # attempt to retrieve image
+                new_image = request.FILES[f"Image{i} image"]
+                additional_images.append((image_title, new_image))
+            except:
+                # If no image has been given, do nothing
+                pass
     return additional_images
 
 
@@ -332,15 +340,11 @@ def add_product(request):
         # retrieve product main image
         product_image = request.FILES['main_image']
 
-
         # using helper methods above, retrieve product size and associated prices, possible
         # additional product options and images as desired and provided by admin user
         size_info_list = retrieve_size_pricing(request)
         product_options_list = retrieve_product_options(request)
         additional_images = retrieve_additional_images(request)
-
-        print("TEST")
-        print(additional_images)
 
         # retrieve unique id for each label that may have been added to a product in html form
         labels_list = [ models.Label.objects.get(id = label_id) 
@@ -378,6 +382,15 @@ def add_product(request):
                 )
                 prod_option.save()
 
+        # add optional product additional images and save
+        for current_image in additional_images:
+            if current_image[0] != '' and current_image[1] != '':
+                models.Product_Images.objects.create(
+                    product = product,
+                    image_title = current_image[0],
+                    image = current_image[1]
+                ).save()
+                
     # duplicate Product title - Return User to Create Product
     except IntegrityError:
         return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("Duplicate Name",)))
