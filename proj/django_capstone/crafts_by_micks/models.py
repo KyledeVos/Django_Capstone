@@ -5,6 +5,7 @@ Classes:
 Label
 Category
 Product
+Product_Images
 Option
 ProductSizes
 Review
@@ -103,6 +104,31 @@ class Product(models.Model):
     def __str__(self):
         """Return Title of Product"""
         return self.title
+
+
+class Product_Images(models.Model):
+    """Class to hold instances containing images assigned to a Product, set to delete the
+    image upon deletion of the product
+
+    Attributes:
+    -----------
+    product: Product 
+        Associated Product Object
+    image_title: str (CharField)
+        a short title/description of the image used to display alternative text for 
+        visually impaired users using a screen reader and product_image identification
+    image: ImageField
+        admin user desired product image (formats currently set to .gif, .png and .jpg
+        in html form to create_product)
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image_title = models.CharField(max_length=30)
+    image = models.ImageField(upload_to= 'products_images/', default=None)
+
+
+    def __str__(self):
+        """return title of product image"""
+        return self.image_title
 
 
 class Option(models.Model):
