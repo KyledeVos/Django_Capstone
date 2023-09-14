@@ -113,16 +113,20 @@ class Product_Images(models.Model):
     -----------
     product: Product 
         Associated Product Object
-    image_title: str (CharField)
-        a short title/description of the image used to display alternative text for 
-        visually impaired users using a screen reader and product_image identification
     image: ImageField
         admin user desired product image (formats currently set to .gif, .png and .jpg
         in html form to create_product)
+
+    Methods:
+    --------
+    __str__(self): str
+        return primary key of image and name of product assigned to
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image_title = models.CharField(max_length=30)
     image = models.ImageField(upload_to= 'products_images/', default=None)
+
+    def __str__(self):
+        return str(f"id: {self.id}, product: {self.product.title}")
 
 
     def __str__(self):
