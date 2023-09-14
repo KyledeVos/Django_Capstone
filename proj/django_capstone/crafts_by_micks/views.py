@@ -872,6 +872,15 @@ def confirmed_product_deletion(request, product_id):
         product = get_object_or_404(models.Product, pk = product_id)
         # delete product main image seperately
         product.product_image.delete(save=False)
+
+        # retrieve each additional Product Image
+        additional_images = models.Product_Images.objects.filter(product = product)
+        for current_image in additional_images:
+            # delete image file seperately
+            current_image.image.delete(save=False)
+            # delete product_image instance
+            current_image.delete()
+
         # delete product
         product.delete()
 
