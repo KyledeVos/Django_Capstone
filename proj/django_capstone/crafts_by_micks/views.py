@@ -88,6 +88,8 @@ def home_page(request):
 
 # max allowed desired options for a product
 MAX_OPTIONS = 5
+# max allowed additional images for a product
+MAX_IMAGES = 10
 
 def create_category(request, source, error):
     """render html page allowing admin user to create a Category for Products to belong to.
@@ -209,8 +211,14 @@ def create_product(request, error):
     # create list of option numbers (as strings) used by 'create_product.html' for
     # Product Options creation
     options_list = []
-    for i in range(1, MAX_OPTIONS+1):
+    for i in range(1, MAX_OPTIONS + 1):
         options_list.append(str(i))
+
+    # create list to specify an additional image number that can be added
+    # to a product
+    images_list = []
+    for i in range(1, MAX_IMAGES + 1):
+        images_list.append(str(i))
 
     # retrieve current product size options
     size_choices = []
@@ -223,6 +231,7 @@ def create_product(request, error):
 
     context = {"size_choices": size_choices,
                "options_list": options_list,
+               "images_list": images_list,
                "categories": categories,
                "labels":labels,
                "source": 'new_product',
@@ -281,7 +290,29 @@ def retrieve_product_options(request):
             product_options_list.append((title, description))
 
     return product_options_list
-    
+
+def retrieve_additional_images(request):
+    """Retrieve possible additional product images uploaded by admin user and append
+        image title and image file to a list.
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        contains metadata from a request needed for retrieval of additional image's
+         titles and image files from an html form
+    Return:
+    -------
+    list of tuples each containing an image title and image file
+    """
+    additional_images = []
+    for i in range(1, MAX_IMAGES + 1):
+        # attempt to retrieve images title
+        image_title = request.POST.get(f"Image{i} title", " ")
+        if image_title != "":
+            # attempt to retrieve image
+            new_image = request.FILES[f"Image{i} image"]
+            additional_images.append((image_title, new_image))
+    return additional_images
+
 
 def add_product(request):
     """Retrieve user-defined attributes from html from from 'create-product',
@@ -301,10 +332,15 @@ def add_product(request):
         # retrieve product main image
         product_image = request.FILES['main_image']
 
-        # using helper methods above, retrieve product size and associated prices and possible
-        # additional product options as desired by admin user
+
+        # using helper methods above, retrieve product size and associated prices, possible
+        # additional product options and images as desired and provided by admin user
         size_info_list = retrieve_size_pricing(request)
         product_options_list = retrieve_product_options(request)
+        additional_images = retrieve_additional_images(request)
+
+        print("TEST")
+        print(additional_images)
 
         # retrieve unique id for each label that may have been added to a product in html form
         labels_list = [ models.Label.objects.get(id = label_id) 

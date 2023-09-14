@@ -97,7 +97,6 @@ class Product(models.Model):
     description = models.TextField()
     review_value = 0.0
     product_image = models.ImageField(upload_to= 'products_images/', default=None)
-    # field for other product images
     labels = models.ManyToManyField(Label)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
