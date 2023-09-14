@@ -497,7 +497,7 @@ def update_delete_category(request, category_id):
             if new_title != '':
                 category.title = new_title
                 category.save()
-                return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
     except IntegrityError:
             # user has entered a title that is not unique
             return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Update Error",)))
