@@ -128,12 +128,6 @@ class Product_Images(models.Model):
     def __str__(self):
         return str(f"id: {self.id}, product: {self.product.title}")
 
-
-    def __str__(self):
-        """return title of product image"""
-        return self.image_title
-
-
 class Option(models.Model):
     """Class modeling Options for a Product.
         An Option is consider as any design variation or detailed product execution
