@@ -299,7 +299,7 @@ def add_product(request):
         description = request.POST['description']
 
         # retrieve product main image
-        product_image = request.POST['main_image']
+        product_image = request.FILES['main_image']
 
         # using helper methods above, retrieve product size and associated prices and possible
         # additional product options as desired by admin user
@@ -661,6 +661,13 @@ def save_update(request, product_id):
     description = request.POST['description']
     product.description = description
 
+    # ---- Main Image Update ----
+    # attempt to retrieve possible new image, but set to None if image was not changed
+    new_main_image = request.FILES.get("new_main_image" , None)
+    if new_main_image != None:
+        product.product_image.delete(save=False)
+        product.product_image = new_main_image
+
     # ---- Size Pricing ----
     # retrieve all updated and possible new sizes from html form
     price_list = retrieve_size_pricing(request)
@@ -814,6 +821,9 @@ def confirmed_product_deletion(request, product_id):
     if 'Delete' in request.POST:
         # retrieve current product for deletion and perform deletion
         product = get_object_or_404(models.Product, pk = product_id)
+        # delete product main image seperately
+        product.product_image.delete(save=False)
+        # delete product
         product.delete()
 
     # return user to all products page
