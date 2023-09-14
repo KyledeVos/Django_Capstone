@@ -297,25 +297,22 @@ def retrieve_product_options(request):
 
 def retrieve_additional_images(request):
     """Retrieve possible additional product images uploaded by admin user and append
-        image title and image file to a list.
+        image file to a list.
     Parameter:
     ----------
     request: HTTPRequest object
         contains metadata from a request needed for retrieval of additional image's
-         titles and image files from an html form
+         image file from an html form
     Return:
     -------
-    list of tuples each containing an image title and image file
+    list containing image files
     """
     additional_images = []
     for i in range(1, MAX_IMAGES + 1):
-        # attempt to retrieve images title
-        image_title = request.POST.get(f"Image{i} title", "")
-        if image_title != "":
             try:
                 # attempt to retrieve image
                 new_image = request.FILES[f"Image{i} image"]
-                additional_images.append((image_title, new_image))
+                additional_images.append(new_image)
             except:
                 # If no image has been given, do nothing
                 pass
@@ -384,11 +381,10 @@ def add_product(request):
 
         # add optional product additional images and save
         for current_image in additional_images:
-            if current_image[0] != '' and current_image[1] != '':
+            if current_image != '':
                 models.Product_Images.objects.create(
                     product = product,
-                    image_title = current_image[0],
-                    image = current_image[1]
+                    image = current_image
                 ).save()
                 
     # duplicate Product title - Return User to Create Product
@@ -609,8 +605,8 @@ def update_product(request, product_id, error):
     # if the current number of options for a product is less than the max allowed,
     # determine number of options that can still be added and add each option number
     # to a list
+    more_options = []
     if len(options) < MAX_OPTIONS:
-        more_options = []
         for new_option in range(len(options) + 1, MAX_OPTIONS + 1):
             more_options.append(new_option)
 
@@ -801,6 +797,16 @@ def save_update(request, product_id):
         for deletion_option in options_delete:
             current_option = models.Option.objects.filter(title = deletion_option)
             current_option.delete()
+
+
+    # ---- Additional Product Images ----
+    # retrieve possible images from html form
+    request_options = retrieve_additional_images(request)
+    # retrieve all options currently assigned to product
+    assigned_options = models.Option.objects.filter(product = product)
+    # retrieve all current option Titles - will be used later to determine assigned
+    # options that need to be deleted
+    options_delete = [option.title for option in assigned_options]
 
     # attempt to save product with possible newly updated title, description, category and/or labels
     try:
