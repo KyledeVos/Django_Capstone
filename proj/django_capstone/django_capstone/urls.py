@@ -22,8 +22,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     # django admin site
     path('admin/', admin.site.urls),
+    # site home page
+    path('', include('product_site.urls')),
     # admin site control for admin user
-    path('', include('crafts_by_micks.urls'))
+    path('admin_control/', include('crafts_by_micks.urls'))
 ]
 
 # url path allowing for upload and access of stored site images
