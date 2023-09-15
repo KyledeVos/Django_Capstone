@@ -787,7 +787,6 @@ def save_update(request, product_id):
                     # move to new retrieved option from html form
                     break
 
-
         # existing option was not found to match any retrieved
         if not match:
             # 1) user has added a new option, ensure title and description was added
