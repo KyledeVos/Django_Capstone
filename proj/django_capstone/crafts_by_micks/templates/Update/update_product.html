@@ -84,10 +84,28 @@
             {% endfor %}
 
             {% for extra_option in more_options %}
-                <label>Name</label>
-                <input type="text" name='Option{{extra_option}} title'>
-                <label>Description</label>
-                <input type="text" name='Option{{extra_option}} desc'>
+            <label>Name</label>
+            <input type="text" name='Option{{extra_option}} title'>
+            <label>Description</label>
+            <input type="text" name='Option{{extra_option}} desc'>
+            <br>
+            {% endfor %}
+
+            <h3>Product Images</h3>
+            {% for image in current_images %}
+
+                <label>Image {{forloop.counter}}</label>
+                <img src="{{image.image.url}}" style="width: 20%;">
+                <label>Change Image</label>
+                <input type="file" name="{{image.id}} new">
+                <br>
+
+            {% endfor %} 
+
+            {% for new_image in extra_images %}
+                <label>Image {{new_image}}</label>
+                <label>Add New Image</label>
+                <input type="file" name="Image{{new_image}} new">
                 <br>
             {% endfor %}
 

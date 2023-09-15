@@ -601,6 +601,8 @@ def update_product(request, product_id, error):
     all_sizes = [size[1] for size in models.Product_Sizes.size_options]
     # retrieve all product options
     options = models.Option.objects.filter(product=product)
+    # retrieve all additional product images that may have been added
+    current_images = models.Product_Images.objects.filter(product = product)
     
     # if the current number of options for a product is less than the max allowed,
     # determine number of options that can still be added and add each option number
@@ -609,6 +611,12 @@ def update_product(request, product_id, error):
     if len(options) < MAX_OPTIONS:
         for new_option in range(len(options) + 1, MAX_OPTIONS + 1):
             more_options.append(new_option)
+
+    # determine if there are still extra images that may be added on to a product
+    extra_images = []
+    if len(current_images) < MAX_IMAGES:
+        for new_image in range(len(current_images) + 1, MAX_IMAGES + 1):
+            extra_images.append(new_image)
 
     # create a new prices_sizes list
     new_size_list = []
@@ -660,6 +668,8 @@ def update_product(request, product_id, error):
         'all_sizes' : new_size_list,
         'options':options,
         'more_options': more_options,
+        'current_images': current_images,
+        'extra_images': extra_images,
         'current_category': current_category,
         'all_categories': all_categories,
         'current_labels': current_labels,
@@ -800,14 +810,26 @@ def save_update(request, product_id):
 
 
     # ---- Additional Product Images ----
-    # retrieve possible images from html form
-    request_options = retrieve_additional_images(request)
-    # retrieve all options currently assigned to product
-    assigned_options = models.Option.objects.filter(product = product)
-    # retrieve all current option Titles - will be used later to determine assigned
-    # options that need to be deleted
-    options_delete = [option.title for option in assigned_options]
+    # retrieve all images currently assigned to product
+    assigned_images = models.Product_Images.objects.filter(product = product)
 
+    # if the product has assigned images that could have been changed
+    if len(assigned_images) > 0:
+        # check each image (id) against any possible image that may been provided
+        # as a replacement
+        for current_image in assigned_images:
+            try:
+                new_image = request.FILES.get(f"{current_image.id} new" , None)
+                if new_image != None:
+                    # a new image has been found with a match the current assigned image id
+                    # delete the current image, assign the new image and save the change
+                    current_image.image.delete(save=False)
+                    current_image.image = new_image
+                    current_image.save()
+            except:
+                # a new image was not found, do nothing - user did not want to change image
+                pass
+    
     # attempt to save product with possible newly updated title, description, category and/or labels
     try:
         product.save()
