@@ -5,6 +5,9 @@
     </head>
 
     <body>
+
+        <a href="{% url 'crafts_by_micks:home_page' %}">Return to Admin Home Page</a>
+
         <h1>Create New Label</h1>
 
         <form action= "{% url 'crafts_by_micks:add_label' source=source %}" method="post">

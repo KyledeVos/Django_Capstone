@@ -5,6 +5,9 @@
     </head>
 
     <body>
+
+        <a href="{% url 'crafts_by_micks:home_page' %}">Return to Admin Home Page</a>
+        
         <h1>View All Products</h1>
         {% if prod_categories %}
             {% for category in prod_categories %}
