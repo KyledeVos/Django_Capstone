@@ -96,8 +96,14 @@
 
                 <label>Image {{forloop.counter}}</label>
                 <img src="{{image.image.url}}" style="width: 20%;">
+                <!--Image Update-->
                 <label>Change Image</label>
                 <input type="file" name="{{image.id}} new">
+                <!--Image Deletion-->
+                <input type="checkbox" name="deletion_images" value="{{image.id}}"/>
+                <label">
+                    Delete
+                </label>
                 <br>
 
             {% endfor %} 

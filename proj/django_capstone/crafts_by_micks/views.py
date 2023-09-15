@@ -810,9 +810,18 @@ def save_update(request, product_id):
 
 
     # ---- Additional Product Images ----
-    # retrieve all images currently assigned to product
-    assigned_images = models.Product_Images.objects.filter(product = product)
+    # retrieve list of product_images that were marked for deletion
+    deletion_images_list = request.POST.getlist('deletion_images')
+    for image_delete in deletion_images_list:
+        # using id's of images recieved from form, find matching
+        # product_image, delete image file seperately and then delete the instance
+        image_object = models.Product_Images.objects.filter(pk = image_delete)
+        image_object[0].image.delete(save=False)
+        image_object.delete()
 
+    # retrieve all images currently assigned to product (after deletion above are completed)
+    assigned_images = models.Product_Images.objects.filter(product = product)
+        
     # if the product has assigned images that could have been changed
     if len(assigned_images) > 0:
         # check each image (id) against any possible image that may been provided
