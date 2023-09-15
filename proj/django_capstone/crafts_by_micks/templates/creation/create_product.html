@@ -102,7 +102,7 @@
 
         {% else %}
         <h1>A Category is needed before a product can be added</h1>
-        <a href = "{% url 'crafts_by_micks:create_category' %}">New Product Category</a>
+        <a href = "{% url 'crafts_by_micks:create_category' source='new_product' error='none' %}">New Product Category</a>
 
         {% endif%}
     </body>
