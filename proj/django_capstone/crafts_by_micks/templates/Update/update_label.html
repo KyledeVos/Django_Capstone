@@ -3,6 +3,9 @@
 
 </head>
 <body>
+
+    <a href="{% url 'crafts_by_micks:view_all_labels' %}">Back to Labels</a>
+
     <form action= "{% url 'crafts_by_micks:save_label_update' label.id %}" method="post">
         {% csrf_token %}
 
