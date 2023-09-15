@@ -822,13 +822,29 @@ def save_update(request, product_id):
                 new_image = request.FILES.get(f"{current_image.id} new" , None)
                 if new_image != None:
                     # a new image has been found with a match the current assigned image id
-                    # delete the current image, assign the new image and save the change
+                    # delete the current image, assign the new image and save the change    
                     current_image.image.delete(save=False)
                     current_image.image = new_image
                     current_image.save()
             except:
                 # a new image was not found, do nothing - user did not want to change image
                 pass
+    
+    # determine number of allowed new images starting from 1 more than those assigned
+    # attempt to retrieve any newly added images
+    for count in range(len(assigned_images)+1, MAX_IMAGES + 1):
+        try:
+            new_image = request.FILES.get(f"{count} new_image" , None)
+            if new_image != None:
+                # a new image has been found with a match the current assigned image id
+                # delete the current image, assign the new image and save the change    
+                models.Product_Images.objects.create(
+                    product = product,
+                    image = new_image
+                ).save()
+        except:
+            # new image was not added, do nothing
+            pass
     
     # attempt to save product with possible newly updated title, description, category and/or labels
     try:
