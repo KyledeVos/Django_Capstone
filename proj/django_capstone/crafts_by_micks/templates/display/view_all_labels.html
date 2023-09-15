@@ -6,7 +6,11 @@
 
     <a href="{% url 'crafts_by_micks:home_page' %}">Return to Admin Home Page</a>
 
-    <h2>All Labels</h2>
+    {% if not labels%}
+        <h2>No Labels</h2>
+    {% else %}
+        <h2>All Labels</h2>
+    {% endif %}
 
     {% for label in labels%}
 
