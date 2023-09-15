@@ -773,8 +773,9 @@ def save_update(request, product_id):
     match = False
     for request_option in request_options:
         for assigned_option in assigned_options:
-            # option with matching title found
-            if assigned_option.title == request_option[0]:
+            # option with matching title found and non-empty description
+            if assigned_option.title == request_option[0] and request_option[1] != '':
+                
                 match = True
                 # remove this option from assigned options to be deleted
                 options_delete.remove(assigned_option.title)
@@ -783,14 +784,14 @@ def save_update(request, product_id):
                     # change and save new description
                     assigned_option.description = request_option[1]
                     assigned_option.save()
-                    print(f"Deleting : {options_delete}")
                     # move to new retrieved option from html form
                     break
 
+
         # existing option was not found to match any retrieved
         if not match:
-            # 1) user has added a new option, ensure description was added for the title
-            if request_option[0] != "":
+            # 1) user has added a new option, ensure title and description was added
+            if request_option[0] != '' and request_option[1] != "":
                 # create and save new product option
                 prod_option = models.Option.objects.create(
                         product = product,
