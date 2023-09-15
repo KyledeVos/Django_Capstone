@@ -7,7 +7,12 @@
     <a href="{% url 'crafts_by_micks:home_page' %}">Return to Admin Home Page</a>
 
     <h1>All Categories</h1>
-    <h4>Update/Deletion completed one at a time</h4>
+    {% if not categories%}
+            <h2>No Categories</h2>
+    {% else %}
+        <h4>Update/Deletion completed one at a time</h4>
+    {% endif %}
+   
 
     {% if error == 'Update Error' %}
         <h3>An error Occured Trying to Update a Category Name - Name was not Unique</h3>
