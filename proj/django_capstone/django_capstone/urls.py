@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # site home page
     path('', include('product_site.urls')),
+    # user management
+    path('user_management/', include('user_managemenr.urls')),
     # admin site control for admin user
     path('admin_control/', include('crafts_by_micks.urls'))
 ]
