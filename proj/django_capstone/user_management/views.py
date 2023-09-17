@@ -4,3 +4,7 @@ from django.shortcuts import render, HttpResponse
 
 def user_login(request):
     return render(request, 'user_login.html')
+
+
+def create_user(request):
+    return render(request, 'create_user.html')

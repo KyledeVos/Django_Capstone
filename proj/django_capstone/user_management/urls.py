@@ -3,5 +3,8 @@ from . import views
 
 app_name='user_management'
 urlpatterns = [
-    path('', views.user_login, name='user_login')
+    # user login
+    path('user_login/', views.user_login, name='user_login'),
+    # user signup
+    path('create_user/', views.create_user, name='create_user')
 ]
