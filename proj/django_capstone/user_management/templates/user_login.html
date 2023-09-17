@@ -4,5 +4,23 @@
 </head>
 <body>
     <h1>User Login Page</h1>
+
+    {% if error != 'none' %}
+        <h4>{{error}}</h4>
+        <br>
+    {% endif %}
+
+    <form action="{% url 'user_management:authenticate_user' %}" method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter your username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+
+        <input type = "submit" value = "Login">
+
+    </form>
 </body>
 </html>

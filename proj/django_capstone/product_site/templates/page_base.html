@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <a href="{% url 'user_management:user_login' %}">User Login</a>
+    <a href="{% url 'user_management:user_login' error='none' %}">User Login</a>
     <a href="{% url 'user_management:create_user' %}">Create User</a>
 
     {% block content %}
