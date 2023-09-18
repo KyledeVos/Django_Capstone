@@ -4,7 +4,7 @@
 </head>
 <body>
     <h1>User Signup</h1>
-    <form action="{% url 'user_management:add_user' %}" method="post">
+    <form action="{% url 'user_management:add_user' source=source %}" method="post">
         {% csrf_token %}
 
         {% if error != 'none' %}
@@ -13,11 +13,11 @@
         {% endif %}
 
         <label> Username</label>
-        <input type="text" name='username' placeholder="Unique Username">
+        <input type="text" name='username' placeholder="Unique Username" required>
         <br>
 
         <label>Password</label>
-        <input type="password" name="password" placeholder="Enter a password">
+        <input type="password" name="password" placeholder="Enter a password" required>
         <br>
 
         <input type = "submit" value = "Create User">

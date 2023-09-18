@@ -13,7 +13,7 @@
         <a href="{% url 'user_management:user_login' error='none' source=source %}">User Login</a>
     {% endif %}
 
-    <a href="{% url 'user_management:create_user' error='none' %}">Create User</a>
+    <a href="{% url 'user_management:create_user' error='none' source=source %}">Create User</a>
 
     {% block content %}
 

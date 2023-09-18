@@ -10,7 +10,7 @@ urlpatterns = [
     # user logout
     path('user_logout', views.user_logout, name='user_logout'),
     # load html page to retrieve new use details
-    path('<error>/create_user/', views.create_user, name='create_user'),
+    path('<source>/<error>/create_user/', views.create_user, name='create_user'),
     # attempt to create and save new user
-    path('add_user/', views.add_user, name='add_user')
+    path('<source>/add_user/', views.add_user, name='add_user')
 ]

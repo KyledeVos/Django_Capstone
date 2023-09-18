@@ -42,10 +42,14 @@ def user_logout(request):
     )
 
 
-def create_user(request, error):
-    return render(request, 'create_user.html', {'error': error})
+def create_user(request, source, error):
+    context = {
+        'source': source,
+        'error': error
+    }
+    return render(request, 'create_user.html', context)
 
-def add_user(request):
+def add_user(request, source):
     # attempt to retrieve username and password
     username = request.POST['username']
     password = request.POST['password']
@@ -53,8 +57,7 @@ def add_user(request):
     # check username and password do not contain empty characters
     if username.isspace() or password.isspace():
         error_message = "Sign Up Failed - Username and\\or password did not contain any characters"
-        return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
-
+        return HttpResponseRedirect(reverse('user_management:create_user', args=(source, error_message,)))
 
     # attempt to create new user with a unique username
     try:
@@ -65,5 +68,9 @@ def add_user(request):
         # error message for display to user for non-unique username
         error_message = "Username is not unique"
         return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
+    
+    # at this point the new user was successfully created. Log user in
+    login(request, user)
 
-    return HttpResponse(f"Name: {username}, Password: {password}")
+    # returnn user to original page of call where 'sign_up' was selected
+    return HttpResponseRedirect(reverse(f'product_site:{source}'))
