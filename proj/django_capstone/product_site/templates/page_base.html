@@ -6,7 +6,13 @@
 </head>
 <body>
 
-    <a href="{% url 'user_management:user_login' error='none' %}">User Login</a>
+    {% if logged_in %}
+        {{username}}
+    {% else %}
+        <a href="{% url 'user_management:user_login' error='none' %}">User Login</a>
+        {{logged_in}}
+    {% endif %}
+
     <a href="{% url 'user_management:create_user' %}">Create User</a>
 
     {% block content %}
