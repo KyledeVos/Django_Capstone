@@ -4,9 +4,11 @@ from . import views
 app_name='user_management'
 urlpatterns = [
     # user login
-    path('<error>/user_login/', views.user_login, name='user_login'),
+    path('<source>/<error>/user_login/', views.user_login, name='user_login'),
     # authenticate user - attempt login
-    path('authenticate_user/', views.authenticate_user, name='authenticate_user'),
+    path('<source>/authenticate_user/', views.authenticate_user, name='authenticate_user'),
     # user signup
-    path('create_user/', views.create_user, name='create_user')
+    path('create_user/', views.create_user, name='create_user'),
+    # user logout
+    path('user_logout', views.user_logout, name='user_logout')
 ]

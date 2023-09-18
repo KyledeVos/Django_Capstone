@@ -10,7 +10,8 @@
         <br>
     {% endif %}
 
-    <form action="{% url 'user_management:authenticate_user' %}" method="post">
+
+    <form action="{% url 'user_management:authenticate_user' source=source %}" method="post">
         {% csrf_token %}
 
         <label>Username</label>

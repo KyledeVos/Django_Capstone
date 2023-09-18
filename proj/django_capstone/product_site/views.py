@@ -20,6 +20,7 @@ def logincheck(request):
 def site_home(request):
     context = {
         'logged_in': logincheck(request),
-        'username': request.user.username
+        'username': request.user.username,
+        'source' : 'site_home'
     }
     return render(request, 'site_home.html', context)

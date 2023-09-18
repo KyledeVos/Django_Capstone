@@ -8,13 +8,11 @@ def create_user(request):
     return render(request, 'create_user.html')
 
 
-def user_login(request, error = 'none'):
-    return render(request, 'user_login.html', {'error': error})
+def user_login(request, source, error = 'none'):
+    return render(request, 'user_login.html', {'error': error, 'source':source})
 
 
-
-def authenticate_user(request):
-
+def authenticate_user(request, source):
     # retrieve username and password from login attempt
     username= request.POST['username']
     password = request.POST['password']
@@ -33,5 +31,16 @@ def authenticate_user(request):
         # allow user to try login again
         return HttpResponseRedirect(reverse('user_management:user_login', args=(error_message,)))
     else:
-        # successful login
-        return HttpResponse(f"Name: {username}, Password: {password}")
+        # log current user in to session
+        login(request, user)
+        # successful login - use source to return user to original page of login call
+        return HttpResponseRedirect(reverse(f'product_site:{source}'))
+    
+
+def user_logout(request):
+    # perform logout
+    logout(request)
+    # return user to app homepage after logout
+    return HttpResponseRedirect(reverse('product_site:site_home')
+    )
+
