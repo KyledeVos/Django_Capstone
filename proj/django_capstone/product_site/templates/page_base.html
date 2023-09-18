@@ -9,6 +9,11 @@
     {% if logged_in %}
         {{username}}
         <a href="{% url 'user_management:user_logout' %}">Logout</a>
+
+        {% if staff %}
+            <a href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a>
+        {% endif %}
+
     {% else %}
         <a href="{% url 'user_management:user_login' error='none' source=source %}">User Login</a>
     {% endif %}

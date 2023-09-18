@@ -67,7 +67,7 @@ def add_user(request, source):
     except IntegrityError:
         # error message for display to user for non-unique username
         error_message = "Username is not unique"
-        return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
+        return HttpResponseRedirect(reverse('user_management:create_user', args=(source, error_message,)))
     
     # at this point the new user was successfully created. Log user in
     login(request, user)
