@@ -41,10 +41,17 @@ def user_logout(request):
     )
 
 
-def create_user(request):
-    return render(request, 'create_user.html')
+def create_user(request, error):
+    return render(request, 'create_user.html', {'error': error})
 
 def add_user(request):
+    # attempt to retrieve username and password
     username = request.POST['username']
     password = request.POST['password']
-    return HttpResponse(f"Name: {username}, Password: {password}")
+
+    # check username and password do not contain empty characters
+    if username.isspace() or password.isspace():
+        error_message = "Sign Up Failed - Username and\\or password did not contain any characters"
+        return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
+    else:
+        return HttpResponse(f"Name: {username}, Password: {password}")

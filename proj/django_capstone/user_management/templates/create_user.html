@@ -7,12 +7,18 @@
     <form action="{% url 'user_management:add_user' %}" method="post">
         {% csrf_token %}
 
+        {% if error != 'none' %}
+            {{error}}
+            <br>
+        {% endif %}
+
         <label> Username</label>
         <input type="text" name='username' placeholder="Unique Username">
         <br>
 
         <label>Password</label>
         <input type="password" name="password" placeholder="Enter a password">
+        <br>
 
         <input type = "submit" value = "Create User">
 
