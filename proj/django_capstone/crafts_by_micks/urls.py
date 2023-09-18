@@ -1,6 +1,5 @@
 """URL paths for app: 'crafts_by_micks' within Django project 'django_capstone.
     Includes Path for site admin control and user usage.'"""
-
 from django.urls import path
 from . import views
 

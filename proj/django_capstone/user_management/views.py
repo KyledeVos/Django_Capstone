@@ -72,5 +72,5 @@ def add_user(request, source):
     # at this point the new user was successfully created. Log user in
     login(request, user)
 
-    # returnn user to original page of call where 'sign_up' was selected
+    # return user to original page of call where 'sign_up' was selected
     return HttpResponseRedirect(reverse(f'product_site:{source}'))
