@@ -1,3 +1,24 @@
+"""Views Module for Django App 'user_management' controlling user creation, login
+    and logout functionality
+
+Methods:
+--------
+user_login(request, source, error = 'none'):
+    Render Html page to retrieve username and password for attempted login
+
+authenticate_user(request, source):
+    Retrieve username and password from html form attempting to log user in
+
+user_logout(request):
+    log current user out and return user to app homepage
+
+create_user(request, source, error):
+    render html page to retrieve username and password required for user creation
+
+add_user(request, source):
+    Retrieve username and password from html form, validate inputs and attempt to create
+    new user. Successful creation will also log new user in as the current user
+"""
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -6,10 +27,32 @@ from django.db import IntegrityError
 
 
 def user_login(request, source, error = 'none'):
+    """Render Html page to retrieve username and password for attempted login.
+    
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        required for rendering of html page
+    source: str
+        description of page source where call for user login was made allowing return
+        of user to the same page after successful login
+    error: string
+        description of error to display to user for failed login
+    """
     return render(request, 'user_login.html', {'error': error, 'source':source})
 
 
 def authenticate_user(request, source):
+    """Retrieve username and password from html form attempting to log user in.
+    
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        used to retrieve user inputs from html form and attempt to log user in
+    source: str
+        description of page source where call for user login was made allowing return
+        of user to the same page after successful login
+    """
     # retrieve username and password from login attempt
     username= request.POST['username']
     password = request.POST['password']
@@ -35,14 +78,26 @@ def authenticate_user(request, source):
     
 
 def user_logout(request):
+    """log current user out and return user to app homepage"""
     # perform logout
     logout(request)
     # return user to app homepage after logout
-    return HttpResponseRedirect(reverse('product_site:site_home')
-    )
+    return HttpResponseRedirect(reverse('product_site:site_home'))
 
 
 def create_user(request, source, error):
+    """render html page to retrieve username and password required for user creation.
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        used to retrieve user inputs from html form
+    source: str
+        description of page source where call for user creation was made allowing return
+        of user to the same page after successful new user creation
+    error: string
+        description of error to display to user for failed sign up
+    """
     context = {
         'source': source,
         'error': error
@@ -50,6 +105,17 @@ def create_user(request, source, error):
     return render(request, 'create_user.html', context)
 
 def add_user(request, source):
+    """Retrieve username and password from html form, validate inputs and attempt to create
+    new user. Successful creation will also log new user in as the current user.
+
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        used to retrieve user inputs from html form
+    source: str
+        description of page source where call for user creation was made allowing return
+        of user to the same page after successful new user creation
+    """
     # attempt to retrieve username and password
     username = request.POST['username']
     password = request.POST['password']
