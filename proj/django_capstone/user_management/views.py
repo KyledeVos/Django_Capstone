@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 
 def user_login(request, source, error = 'none'):
@@ -53,5 +54,16 @@ def add_user(request):
     if username.isspace() or password.isspace():
         error_message = "Sign Up Failed - Username and\\or password did not contain any characters"
         return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
-    else:
-        return HttpResponse(f"Name: {username}, Password: {password}")
+
+
+    # attempt to create new user with a unique username
+    try:
+        user = User.objects.create_user(
+                        username=username,
+                        password=password)
+    except IntegrityError:
+        # error message for display to user for non-unique username
+        error_message = "Username is not unique"
+        return HttpResponseRedirect(reverse('user_management:create_user', args=(error_message,)))
+
+    return HttpResponse(f"Name: {username}, Password: {password}")
