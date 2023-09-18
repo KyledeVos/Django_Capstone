@@ -4,5 +4,18 @@
 </head>
 <body>
     <h1>User Signup</h1>
+    <form action="{% url 'user_management:add_user' %}" method="post">
+        {% csrf_token %}
+
+        <label> Username</label>
+        <input type="text" name='username' placeholder="Unique Username">
+        <br>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter a password">
+
+        <input type = "submit" value = "Create User">
+
+    </form>
 </body>
 </html>

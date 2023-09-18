@@ -4,10 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 
-def create_user(request):
-    return render(request, 'create_user.html')
-
-
 def user_login(request, source, error = 'none'):
     return render(request, 'user_login.html', {'error': error, 'source':source})
 
@@ -44,3 +40,11 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('product_site:site_home')
     )
 
+
+def create_user(request):
+    return render(request, 'create_user.html')
+
+def add_user(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    return HttpResponse(f"Name: {username}, Password: {password}")
