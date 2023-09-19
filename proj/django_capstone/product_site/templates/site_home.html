@@ -4,7 +4,23 @@
 
 {% block content %}
 
+
 <h1>Product Home Page</h1>
+
+{% for product in products%}
+    {{product.id}} <br>
+    {{product.title}} <br>
+    {{product.description}} <br>
+    <img style="width: 200px;" src="{{product.main_image.url}}" alt="">
+    Price: {{product.display_price}}<br>
+
+    {% if product.multiple_sizes is True%}
+        Multiple Sizes Available <br>
+    {% endif %}
+
+    <br>
+
+{% endfor %}
 
 
 {% endblock %}
