@@ -41,7 +41,6 @@ def populate_display_products(all_products):
         current_product['id'] = product.id
         current_product['category'] = product.category.title
         current_product['title'] = product.title
-        current_product['description'] = product.description
         current_product['main_image'] = product.product_image
         current_product['review_value'] = product.review_value
 
