@@ -18,6 +18,7 @@ def logincheck(request):
     """Determine if a current user is authenticated. """
     return True if request.user.is_authenticated else False
 
+
 # Business Logic - Define and Sort Product Attributes
 def populate_display_products(all_products):
 
@@ -57,6 +58,30 @@ def populate_display_products(all_products):
     return product_list
 
 
+# Helper Function
+def create_product_list():
+    # retrieve all product categories - in alphabetical order
+    all_categories = Category.objects.order_by('title')
+    # list to hold all categories and their associated, valid products for main site display
+    category_list = []
+
+    # confirm there are categories loaded, if not there cannot be any products
+    # and product to category association is not needed
+    if len(all_categories) > 0: 
+        for category in all_categories:
+            # retrieve all products  for each category:
+            all_products = Product.objects.filter(category=category).order_by('title')    
+            # refine product list and validate products that may be put on website display
+            current_category_products = populate_display_products(all_products)
+            # check for no products - if none do not add current category
+            if len(current_category_products) == 0:
+                continue
+            # add found products to category list for display on main page
+            category_list.append([category.title, current_category_products])
+
+    return category_list
+
+
 def site_home(request):
     """Render main site home page, checking
      if currently logged-in user is a staff
@@ -75,31 +100,8 @@ def site_home(request):
     if logged_in:
         staff = True if request.user.is_staff else False
 
-    # retrieve all product categories - in alphabetical order
-    all_categories = Category.objects.order_by('title')
-    # list to hold all categories and their associated, valid products for main site display
-    category_list = []
-
-    # confirm there are categories loaded, if not there cannot be any products
-    # and product to category association is not needed
-    if len(all_categories) > 0: 
-
-        for category in all_categories:
-            # retrieve all products  for each category:
-            all_products = Product.objects.filter(category=category).order_by('title')    
-            # refine product list and validate products that may be put on website display
-            current_category_products = populate_display_products(all_products)
-            # check for no products - if none do not add current category
-            if len(current_category_products) == 0:
-                continue
-
-            # determine if there were any associated products for this category
-            if current_category_products is not None:
-                # add found products to category list for display on main page
-                # remove display of category name with no associated products
-                category_list.append([category.title, current_category_products])
-
-    print(category_list)
+    # retrieve list of product categories and associated products
+    category_list = create_product_list()
         
     context = {
         'logged_in': logged_in,
