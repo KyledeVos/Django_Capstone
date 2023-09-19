@@ -86,9 +86,12 @@ def site_home(request):
 
         for category in all_categories:
             # retrieve all products  for each category:
-            all_products = Product.objects.filter(category=category).order_by('title')
+            all_products = Product.objects.filter(category=category).order_by('title')    
             # refine product list and validate products that may be put on website display
             current_category_products = populate_display_products(all_products)
+            # check for no products - if none do not add current category
+            if len(current_category_products) == 0:
+                continue
 
             # determine if there were any associated products for this category
             if current_category_products is not None:
