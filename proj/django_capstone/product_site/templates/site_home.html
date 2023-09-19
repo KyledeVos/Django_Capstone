@@ -7,19 +7,30 @@
 
 <h1>Product Home Page</h1>
 
-{% for product in products%}
-    {{product.id}} <br>
-    {{product.title}} <br>
-    <img style="width: 200px;" src="{{product.main_image.url}}" alt="">
-    Price: {{product.display_price}}<br>
 
-    {% if product.multiple_sizes is True%}
-        Multiple Sizes Available <br>
-    {% endif %}
+{% if products %}
+    {% for category in products %}
 
-    <br>
+        <h1>{{category.0}}</h1>
+        {% for product in category.1 %}
+                {{category.product.id}} <br>
+                {{product.title}} <br>
+                <img style="width: 200px;" src="{{product.main_image.url}}" alt="">
+                Price: {{product.display_price}}<br>
 
-{% endfor %}
+                {% if product.multiple_sizes is True%}
+                    Multiple Sizes Available <br>
+                {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+
+{% else %}
+<h2>Site under maintenance - Products will be back soon!</h2>
+{% endif %}
+
+
+
 
 
 {% endblock %}

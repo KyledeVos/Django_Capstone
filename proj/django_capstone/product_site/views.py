@@ -11,7 +11,7 @@ site_home(request):
         member allowing access to admin control functionality
 """
 from django.shortcuts import render, HttpResponse
-from crafts_by_micks.models import Product, Product_Sizes
+from crafts_by_micks.models import Category, Product, Product_Sizes
 
 # Helper Function
 def logincheck(request):
@@ -36,7 +36,6 @@ def populate_display_products(all_products):
 
         # product attributes stored in a dictionary
         current_product = {}
-        print(f"Pricing: {product_pricing}")
         # retrieve compulsory fields for product with pricing options
         current_product['id'] = product.id
         current_product['category'] = product.category.title
@@ -76,17 +75,34 @@ def site_home(request):
     if logged_in:
         staff = True if request.user.is_staff else False
 
-    # retrieve all products
-    all_products = Product.objects.all()
-    # refine product list and validate products that may be put on website display
-    valid_products = populate_display_products(all_products)
-    print(valid_products)
+    # retrieve all product categories - in alphabetical order
+    all_categories = Category.objects.order_by('title')
+    # list to hold all categories and their associated, valid products for main site display
+    category_list = []
+
+    # confirm there are categories loaded, if not there cannot be any products
+    # and product to category association is not needed
+    if len(all_categories) > 0: 
+
+        for category in all_categories:
+            # retrieve all products  for each category:
+            all_products = Product.objects.filter(category=category).order_by('title')
+            # refine product list and validate products that may be put on website display
+            current_category_products = populate_display_products(all_products)
+
+            # determine if there were any associated products for this category
+            if current_category_products is not None:
+                # add found products to category list for display on main page
+                # remove display of category name with no associated products
+                category_list.append([category.title, current_category_products])
+
+    print(category_list)
         
     context = {
         'logged_in': logged_in,
         'username': request.user.username,
         'source' : 'site_home',
         'staff' : staff,
-        'products': valid_products,
+        'products': category_list
     }
     return render(request, 'site_home.html', context)
