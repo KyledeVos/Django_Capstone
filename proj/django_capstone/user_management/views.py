@@ -119,17 +119,25 @@ def add_user(request, source):
     # attempt to retrieve username and password
     username = request.POST['username']
     password = request.POST['password']
+    # retrieve user full name and email address
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    email = request.POST['email_address']
 
-    # check username and password do not contain empty characters
-    if username.isspace() or password.isspace():
-        error_message = "Sign Up Failed - Username and\\or password did not contain any characters"
+    # check fields above do not contain empty characters
+    if (username.isspace() or password.isspace() 
+        or first_name.isspace() or last_name.isspace() or email.isspace()):
+        error_message = "Sign Up Failed - An option did not contain any characters"
         return HttpResponseRedirect(reverse('user_management:create_user', args=(source, error_message,)))
 
-    # attempt to create new user with a unique username
+    # attempt to create new user with a unique username and associated fields
     try:
         user = User.objects.create_user(
                         username=username,
-                        password=password)
+                        password=password,
+                        first_name = first_name,
+                        last_name = last_name,
+                        email = email)
     except IntegrityError:
         # error message for display to user for non-unique username
         error_message = "Username is not unique"
