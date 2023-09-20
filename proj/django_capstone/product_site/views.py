@@ -164,3 +164,7 @@ def product_view(request, product_id):
         'staff' : staff,
     }
     return render(request, 'product_view.html', context)
+
+
+def create_order_item(request):
+    return HttpResponse('Create Order Item')

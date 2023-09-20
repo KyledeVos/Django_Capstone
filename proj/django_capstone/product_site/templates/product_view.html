@@ -6,6 +6,15 @@
 
     <a href="{%url 'product_site:site_home' %}">All Products</a>
     <br>
+
+    {% if logged_in %}
+
+        <a href="{% url 'product_site:create_order_item' %}">Add to Order</a>
+
+    {% else %}
+        <h3>Please Sign_Up or login to your account to place an order</h3>
+    {% endif %}
+    <br>
     <h1>{{product.title}}</h1>
 
     {% if product.review_value == 0 %}
