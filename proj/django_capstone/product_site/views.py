@@ -48,7 +48,7 @@ def populate_display_products(all_products):
         # Product will have at least one price assigned to it (various sizes).
         # Logic - use 'no' size or smallest product size price as default
         # 1) Check if price of no-size was set, acts as default:
-        current_product['display_price'] = product_pricing[0].price
+        current_product['display_price'] = f"{product_pricing[0].price:.2f}"
 
         # track if there are multiple sizes available for a product
         current_product['multiple_sizes'] = True if len(product_pricing) > 1 else False
