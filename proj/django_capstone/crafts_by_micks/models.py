@@ -9,8 +9,10 @@ Product_Images
 Option
 ProductSizes
 Review
+Order_Item
 """
 from django.db import models
+from django.contrib.auth.models import User
 
 class Label(models.Model):
     """Class modeling a Product Label ('new', 'discount', etc). Product to have Many-To-One
@@ -222,4 +224,39 @@ class Review(models.Model):
     def __str__(self):
         """ return author and id of review"""
         return f"{self.author}, Review No: {self.id}"
-    
+
+
+class Order_Item(models.Model):
+    """Class modeling an Item to be added to an Order for a customer (user).
+
+    Attributes:
+    -----------
+    customer: Django User
+        current customer taken as currently logged in user
+    product_id: IntegerField
+        unique id of product being added to an order
+    product_title: TextField (str)
+        title of product being added to an order
+    quantity: IntegerField
+        quantity of a product being ordered
+    chosen_size: TextField
+        description of the size being chosen
+    price: FloatField
+        price of product matching a chosen size
+
+    Methods:
+    --------
+    __str__(self): str
+        return author and id of review
+    """
+    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    product_id = models.IntegerField()
+    product_title = models.TextField(max_length = 200)
+    quantity = models.IntegerField()
+    chosen_size = models.TextField()
+    price = models.FloatField(max_length=30)
+
+
+    def __str__(self):
+        """ return customer_name and product title selected"""
+        return f"Customer: {self.customer.first_name},Product: {self.product_title}"
