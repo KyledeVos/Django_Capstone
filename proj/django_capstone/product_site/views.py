@@ -100,8 +100,6 @@ def site_home(request):
     if logged_in:
         staff = True if request.user.is_staff else False
 
-    # Retrieve initial list 
-
     # retrieve list of product categories and associated products
     category_products_list = create_product_list()
         

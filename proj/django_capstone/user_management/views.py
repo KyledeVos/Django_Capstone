@@ -75,7 +75,7 @@ def authenticate_user(request, source):
         login(request, user)
         # successful login - use source to return user to original page of login call
         return HttpResponseRedirect(reverse(f'product_site:{source}'))
-    
+
 
 def user_logout(request):
     """log current user out and return user to app homepage"""
