@@ -15,12 +15,17 @@
         {% for product in category.1 %}
                 {{category.product.id}} <br>
                 {{product.title}} <br>
-                <img style="width: 200px;" src="{{product.main_image.url}}" alt="">
+                <a href="{% url 'product_site:product_view' product.id %}">
+                    <img style="width: 200px;" src="{{product.main_image.url}}">
+                </a>
                 Price: {{product.display_price}}<br>
 
                 {% if product.multiple_sizes is True%}
                     Multiple Sizes Available <br>
                 {% endif %}
+                <form action="{% url 'product_site:product_view' product.id %}">
+                    <button type="submit">View</button>
+                </form>
         {% endfor %}
 
     {% endfor %}

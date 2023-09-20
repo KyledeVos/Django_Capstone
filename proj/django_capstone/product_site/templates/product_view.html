@@ -1,0 +1,57 @@
+{% extends "page_base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    <a href="{%url 'product_site:site_home' %}">All Products</a>
+    <br>
+    <h1>{{product.title}}</h1>
+
+    {% if product.review_value == 0 %}
+        No Reviews
+    {% else %}
+        Rating: {{product.review_value}}
+    {% endif %}
+
+    {% if discount_bool %}
+        <h4>On Discount</h4>
+    {% endif %}
+
+    {% for label in labels %}
+        <h3>{{label.title}}</h3>
+
+    {% endfor %}
+
+    {{product.description}}<br>
+    <img style="width: 200px;" src="{{product.product_image.url}}"> <br>
+
+    <h3>Pricing</h3>
+    {% for size_price in price_list %}
+        {% if size_price.size == 'none' %}
+            Base Price: R{{size_price.price}}
+        {% else %}
+            {{size_price.size}}: R{{size_price.price}}
+        {% endif %}
+        <br>
+    {% endfor %}
+
+    {%if options %}
+        <h3>Options</h3>
+        {% for option in options %}
+            {{option.title}}: {{option.description}}
+            <br>
+        {% endfor %}
+    {% endif %}
+
+    {% for image in product_images %}
+    <img style="width: 200px;" src="{{image.image.url}}">
+    <br>
+    <br>
+    {% endfor %}
+
+
+
+
+
+{% endblock %}

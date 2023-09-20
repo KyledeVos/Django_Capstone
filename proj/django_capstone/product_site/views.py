@@ -11,7 +11,7 @@ site_home(request):
         member allowing access to admin control functionality
 """
 from django.shortcuts import render, HttpResponse
-from crafts_by_micks.models import Category, Product, Product_Sizes
+from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option
 
 # Helper Function
 def logincheck(request):
@@ -100,14 +100,69 @@ def site_home(request):
     if logged_in:
         staff = True if request.user.is_staff else False
 
+    # Retrieve initial list 
+
     # retrieve list of product categories and associated products
-    category_list = create_product_list()
+    category_products_list = create_product_list()
         
     context = {
         'logged_in': logged_in,
         'username': request.user.username,
         'source' : 'site_home',
         'staff' : staff,
-        'products': category_list
+        'products': category_products_list
     }
     return render(request, 'site_home.html', context)
+
+
+def product_view(request, product_id):
+
+    # Determine if the user has been logged in
+    logged_in = logincheck(request)
+    # if the user has been checked in, check if they are staff; giving access to admin control
+    # of the site
+    staff = False
+    if logged_in:
+        staff = True if request.user.is_staff else False
+
+    # Retrieve product
+    product = Product.objects.get(pk = product_id)
+    # Retrieve all labels associated with the product
+    labels = product.labels.all()
+    # Retrieve all associated sizes and prices for the product
+    product_pricing = Product_Sizes.objects.filter(product = product)
+
+    # labels can apply discounts to a product price
+    highest_discount = 0
+    # determine highest discount from labels
+    for label in labels:
+        if label.discount_percentage > 0 and label.discount_percentage > highest_discount:
+            highest_discount = label.discount_percentage
+    # track if a discount has been applied for notification on project page
+    discount_bool = True if highest_discount > 0 else False
+    # if there is a discount to apply, modify all product prices to show discount
+    if highest_discount > 0:
+        for price_option in product_pricing:
+            price_option.price *= (highest_discount/100)
+            # correct decimals for price
+            price_option.price = f"{(round(price_option.price, 2)):.2f}"
+
+    # retrive all possible product additonal images
+    product_images = Product_Images.objects.filter(product = product)
+
+    # retrieve all additional product options
+    product_options = Option.objects.filter(product = product)
+
+    context = {
+        'product': product,
+        'labels': labels,
+        'discount_bool': discount_bool,
+        'price_list': product_pricing,
+        'product_images': product_images,
+        'options': product_options,
+        'logged_in': logged_in,
+        'username': request.user.username,
+        'source' : 'site_home',
+        'staff' : staff,
+    }
+    return render(request, 'product_view.html', context)
