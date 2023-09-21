@@ -166,5 +166,20 @@ def product_view(request, product_id):
     return render(request, 'product_view.html', context)
 
 
-def create_order_item(request):
-    return HttpResponse('Create Order Item')
+def create_order_item(request, product_id):
+
+    # list of tuples holding a size, price and quantity
+    pricing_list = []
+    # retrieve list of selected sizes from html form and use to retrieve
+    # Product_Size instance
+    selected_sizes = [Product_Sizes.objects.filter(pk = id) for id in request.POST.getlist('selected_sizes')]
+
+    # for each selected price, retrieve the quantity ordered
+    for size_choice in selected_sizes:
+        # attempt to retrieve a set quantity - html default set to 1
+        quantity = request.POST[f'{size_choice[0].size} quantity']
+        # create tuple of size, price and quantity and add to list
+        pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
+    
+    return HttpResponse(f'Create Order Item for product {product_id}')
+

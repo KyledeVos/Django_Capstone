@@ -7,14 +7,11 @@
     <a href="{%url 'product_site:site_home' %}">All Products</a>
     <br>
 
-    {% if logged_in %}
-
-        <a href="{% url 'product_site:create_order_item' %}">Add to Order</a>
-
-    {% else %}
+    {% if not logged_in %}
         <h3>Please Sign_Up or login to your account to place an order</h3>
     {% endif %}
     <br>
+    
     <h1>{{product.title}}</h1>
 
     {% if product.review_value == 0 %}
@@ -29,21 +26,58 @@
 
     {% for label in labels %}
         <h3>{{label.title}}</h3>
-
     {% endfor %}
 
     {{product.description}}<br>
     <img style="width: 200px;" src="{{product.product_image.url}}"> <br>
 
-    <h3>Pricing</h3>
-    {% for size_price in price_list %}
-        {% if size_price.size == 'none' %}
-            Base Price: R{{size_price.price}}
-        {% else %}
-            {{size_price.size}}: R{{size_price.price}}
-        {% endif %}
+    {% for image in product_images %}
+        <img style="width: 200px;" src="{{image.image.url}}">
+        <br>
         <br>
     {% endfor %}
+
+    <h3>Pricing</h3>
+    {% if logged_in %}
+    <h4>Select the Size(s) you would like</h4>
+    <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
+        {% csrf_token %}
+        
+        {% for size_price in price_list %}
+            <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
+
+            {% if size_price.size == 'none' %}
+                <label for="{{size_price}}.size">
+                    Base Price:
+                </label>
+                <label for="{{size_price}}.price">
+                    R{{size_price.price}}
+                </label> 
+
+            <input type="number" name="{{size_price.size}} quantity" min="1" value="1">
+            {% else %}
+                {{size_price.size}}: R{{size_price.price}}
+                <input type="number" name="{{size_price.size}} quantity" min="1" value="1">
+            {% endif %}
+            <br>    
+        {% endfor %}
+
+        <input type="submit" value="Add to Order">
+    </form>
+
+    {% else %}
+
+        {% for size_price in price_list %}
+            {% if size_price.size == 'none' %}
+                Base Price: R{{size_price.price}}
+            {% else %}
+                {{size_price.size}}: R{{size_price.price}}
+            {% endif %}
+                <br>
+        {% endfor %}
+
+    {% endif %}
+
 
     {%if options %}
         <h3>Options</h3>
@@ -53,11 +87,7 @@
         {% endfor %}
     {% endif %}
 
-    {% for image in product_images %}
-    <img style="width: 200px;" src="{{image.image.url}}">
-    <br>
-    <br>
-    {% endfor %}
+
 
 
 

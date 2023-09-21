@@ -11,5 +11,5 @@ urlpatterns = [
     # individual Product View
     path('<product_id>/product_view/', views.product_view, name='product_view'),
     # Retrieve product specifications to create an item to be added to an order
-    path('create_order_item', views.create_order_item, name='create_order_item')
+    path('<product_id>/create_order_item', views.create_order_item, name='create_order_item')
 ]
