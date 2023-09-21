@@ -169,6 +169,9 @@ def product_view(request, product_id):
 
 def create_order_item(request, product_id):
 
+    # retrieve current user (customer)
+    current_user = request.user
+
     # list of tuples holding a size, price and quantity
     pricing_list = []
     # retrieve list of selected sizes from html form and use to retrieve
@@ -183,7 +186,6 @@ def create_order_item(request, product_id):
         pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
 
     chosen_options = [Option.objects.filter(pk = id) for id in request.POST.getlist('product_options')]
-    print(chosen_options)
     
     return HttpResponse(f'Create Order Item for product {product_id}')
 
