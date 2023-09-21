@@ -243,6 +243,8 @@ class Order_Item(models.Model):
         description of the size being chosen
     price: FloatField
         price of product matching a chosen size
+    options: TextField (str)
+        description of specified options for a product
 
     Methods:
     --------
@@ -255,6 +257,7 @@ class Order_Item(models.Model):
     quantity = models.IntegerField()
     chosen_size = models.TextField()
     price = models.FloatField(max_length=30)
+    options = models.TextField(default=None)
 
 
     def __str__(self):

@@ -186,6 +186,9 @@ def create_order_item(request, product_id):
         pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
 
     chosen_options = [Option.objects.filter(pk = id) for id in request.POST.getlist('product_options')]
+
+    # Create Order item
+    
     
     return HttpResponse(f'Create Order Item for product {product_id}')
 
