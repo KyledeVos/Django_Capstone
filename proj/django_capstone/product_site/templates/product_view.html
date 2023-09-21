@@ -37,12 +37,14 @@
         <br>
     {% endfor %}
 
+    <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
     <h3>Pricing</h3>
     {% if logged_in %}
     <h4>Select the Size(s) you would like</h4>
     <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
         {% csrf_token %}
         
+        <!--PRICING-->
         {% for size_price in price_list %}
             <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
 
@@ -62,11 +64,27 @@
             <br>    
         {% endfor %}
 
+        <!--OPTIONS-->
+        <h3>Addtional Options</h3>
+        <!--Options not Compulsory for a Product-->
+        {% if options %}
+        <h4>Select any options you would like to add:</h4>
+            {% for option in options %}
+            <input type="checkbox" name="product_options" value="{{option.id}}"/>  
+                {{option.title}}: {{option.description}}
+                <br>
+            {% endfor %}
+        {% endif %}
+        
+
+        <!--FORM SUBMISSION-->
         <input type="submit" value="Add to Order">
     </form>
 
+    <!--NOT LOGGED IN - SHOW PRICING, QUANTITY AND OPTIONS WITH NO SUBMISSION-->
     {% else %}
 
+        <!--PRICING-->
         {% for size_price in price_list %}
             {% if size_price.size == 'none' %}
                 Base Price: R{{size_price.price}}
@@ -76,16 +94,21 @@
                 <br>
         {% endfor %}
 
-    {% endif %}
-
-
-    {%if options %}
+        <!--OPTIONS-->
+        <h3>Addtional Options</h3>
+        {%if options %}
         <h3>Options</h3>
         {% for option in options %}
             {{option.title}}: {{option.description}}
             <br>
         {% endfor %}
     {% endif %}
+
+
+    {% endif %}
+
+    <!--OPTIONS-->
+
 
 
 

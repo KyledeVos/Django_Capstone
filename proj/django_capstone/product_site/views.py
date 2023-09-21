@@ -150,6 +150,7 @@ def product_view(request, product_id):
 
     # retrieve all additional product options
     product_options = Option.objects.filter(product = product)
+    print(product_options)
 
     context = {
         'product': product,
@@ -180,6 +181,9 @@ def create_order_item(request, product_id):
         quantity = request.POST[f'{size_choice[0].size} quantity']
         # create tuple of size, price and quantity and add to list
         pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
+
+    chosen_options = [Option.objects.filter(pk = id) for id in request.POST.getlist('product_options')]
+    print(chosen_options)
     
     return HttpResponse(f'Create Order Item for product {product_id}')
 
