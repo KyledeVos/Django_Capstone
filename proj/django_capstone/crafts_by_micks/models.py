@@ -231,8 +231,6 @@ class Order_Item(models.Model):
 
     Attributes:
     -----------
-    customer: Django User
-        current customer taken as currently logged in user
     product_id: IntegerField
         unique id of product being added to an order
     product_title: TextField (str)
@@ -251,7 +249,6 @@ class Order_Item(models.Model):
     __str__(self): str
         return author and id of review
     """
-    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     product_id = models.IntegerField()
     product_title = models.TextField(max_length = 200)
     quantity = models.IntegerField()

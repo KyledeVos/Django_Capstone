@@ -179,9 +179,6 @@ def product_view(request, product_id, error):
 
 def create_order_item(request, product_id):
 
-    # retrieve current user (customer)
-    current_user = request.user
-
     # list of tuples holding a size, price and quantity
     pricing_list = []
     # retrieve list of selected sizes from html form and use to retrieve
