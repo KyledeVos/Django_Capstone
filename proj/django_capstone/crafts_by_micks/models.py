@@ -226,19 +226,47 @@ class Review(models.Model):
         return f"{self.author}, Review No: {self.id}"
     
 class Order(models.Model):
-        
-        customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-        submitted_date = models.DateTimeField(default=None)
-        total_value = models.FloatField(default=0)
+    """Class Modelling a Single Order for a customer.
+    
+    Attributes:
+    -----------
+    customer: Django User
+        Authenticated and Logged-In Customer placing order
+    submitted_date: DateTimeField
+        date for order submission to be processed
+    payment_received_date: DateTimeField
+        date payment was received for order
+    delivered_date: DateTimeField
+        date order was delivered to customer
+    total_value: FloatField
+        tracked total value for order
+    status: CharField (str)
+        description of order status from not yet completed by
+        customer to completed and delivered
 
-        status_options = (
-            ('ns','not_submitted'),
-            ('r', 'receieved'),
-            ('p', 'paid'),
-            ('c', 'completed')
-        )
+    Method:
+    -------
+    def __str__(self):
+        "Return Description of Order"
+    """
+    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    submitted_date = models.DateTimeField(null=True, blank=True)
+    payment_received_date = models.DateTimeField(null=True, blank=True)
+    delivered_date = models.DateTimeField(null=True, blank=True)
+    total_value = models.FloatField(default=0)
 
-        status = models.CharField(max_length=20, choices=status_options)
+    status_options = (
+        ('ns','not_submitted'),
+        ('r', 'receieved'),
+        ('p', 'paid'),
+        ('c', 'completed')
+    )
+
+    status = models.CharField(max_length=20, choices=status_options)
+
+    def __str__(self):
+        "Return Description of Order"
+        return str(f'Order: {self.id}, Customer: {self.customer.first_name}, status: {self.status}')
 
 
 class Order_Item(models.Model):
