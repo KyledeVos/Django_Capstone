@@ -12,7 +12,7 @@ site_home(request):
 """
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item
+from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order
 
 # Helper Function
 def logincheck(request):
@@ -176,6 +176,21 @@ def product_view(request, product_id, error):
     }
     return render(request, 'product_view.html', context)
 
+def create_retrieve_order(request):
+
+    # retrieve current user (customer)
+    customer = request.user
+    
+    # attempt to retrieve all orders assigned to customer
+    current_orders = Order.objects.filter(customer = customer)
+    # no assigned orders- create a new order
+    if len(current_orders) == 0:
+        Order.objects.create(
+            customer = customer,
+            status = 'not_submitted'
+        )
+
+
 
 def create_order_item(request, product_id):
 
@@ -220,16 +235,17 @@ def create_order_item(request, product_id):
 
     # Create Order item - Each unique size and price set as individual item
     # All items get the same product_options
-    for size_option in pricing_list:
-        Order_Item.objects.create(
-            customer = current_user,
-            product_id = product_id,
-            product_title = Product.objects.filter(pk=product_id)[0].title,
-            chosen_size = size_option[0],
-            price = size_option[1],
-            quantity = size_option[2],
-            options = product_options
-        )
+    # for size_option in pricing_list:
+    #     Order_Item.objects.create(
+    #         product_id = product_id,
+    #         product_title = Product.objects.filter(pk=product_id)[0].title,
+    #         chosen_size = size_option[0],
+    #         price = size_option[1],
+    #         quantity = size_option[2],
+    #         options = product_options
+    #     )
+
+    create_retrieve_order(request)
     
     return HttpResponse(f'Create Order Item for product {product_id}')
 
