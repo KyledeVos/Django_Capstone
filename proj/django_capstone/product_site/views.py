@@ -11,7 +11,7 @@ site_home(request):
         member allowing access to admin control functionality
 """
 from django.shortcuts import render, HttpResponse
-from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option
+from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item
 
 # Helper Function
 def logincheck(request):
@@ -185,10 +185,29 @@ def create_order_item(request, product_id):
         # create tuple of size, price and quantity and add to list
         pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
 
-    chosen_options = [Option.objects.filter(pk = id) for id in request.POST.getlist('product_options')]
+    # string to store chosen options as text
+    product_options = ""
+    # retrieve each option id from request that was selected by user
+    for id in request.POST.getlist('product_options'):
+        # retrieve the mathcing option from datase
+        current_option = Option.objects.filter(pk = id)
+        # append each option title and description
+        product_options += current_option[0].title + ":"
+        product_options += current_option[0].description + ";"
 
-    # Create Order item
-    
+    # Create Order item - Each unique size and price set as individual item
+    # All items get the same product_options
+    for size_option in pricing_list:
+            
+        Order_Item.objects.create(
+            customer = current_user,
+            product_id = product_id,
+            product_title = Product.objects.filter(pk=product_id)[0].title,
+            chosen_size = size_option[0],
+            price = size_option[1],
+            quantity = size_option[2],
+            options = product_options
+        )
     
     return HttpResponse(f'Create Order Item for product {product_id}')
 
