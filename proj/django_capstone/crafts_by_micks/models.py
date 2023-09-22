@@ -9,6 +9,7 @@ Product_Images
 Option
 ProductSizes
 Review
+Order
 Order_Item
 """
 from django.db import models
@@ -274,6 +275,8 @@ class Order_Item(models.Model):
 
     Attributes:
     -----------
+    order: Order
+        assigned order for this product Item
     product_id: IntegerField
         unique id of product being added to an order
     product_title: TextField (str)
@@ -299,7 +302,6 @@ class Order_Item(models.Model):
     chosen_size = models.TextField()
     price = models.FloatField(max_length=30)
     options = models.TextField(default=None)
-
 
     def __str__(self):
         """ return customer_name and product title selected"""
