@@ -160,7 +160,6 @@ def product_view(request, product_id):
 
     # retrieve all additional product options
     product_options = Option.objects.filter(product = product)
-    print(product_options)
 
     context = {
         'product': product,
@@ -188,12 +187,24 @@ def create_order_item(request, product_id):
     # Product_Size instance
     selected_sizes = [Product_Sizes.objects.filter(pk = id) for id in request.POST.getlist('selected_sizes')]
 
+    # Retrieve all labels associated with the product
+    labels = Product.objects.filter(pk = product_id)[0].labels.all()
+    # determine highest discount percentage that may be applied to a product
+    highest_discount = determine_discount_percentage(labels)
+
     # for each selected price, retrieve the quantity ordered
     for size_choice in selected_sizes:
+
+        # determine if a discount has been applied
+        if highest_discount > 0:
+            price = size_choice[0].price * (highest_discount/100)
+        else:
+            price = size_choice[0].price
+
         # attempt to retrieve a set quantity - html default set to 1
         quantity = request.POST[f'{size_choice[0].size} quantity']
         # create tuple of size, price and quantity and add to list
-        pricing_list.append((size_choice[0].size, size_choice[0].price, quantity))
+        pricing_list.append((size_choice[0].size, price, quantity))
 
     # string to store chosen options as text
     product_options = ""
