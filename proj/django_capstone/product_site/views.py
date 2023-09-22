@@ -10,7 +10,8 @@ site_home(request):
     Render main site home page, checking if currently logged-in user is a staff
         member allowing access to admin control functionality
 """
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item
 
 # Helper Function
@@ -126,8 +127,7 @@ def determine_discount_percentage(labels):
     return highest_discount
 
 
-def product_view(request, product_id):
-
+def product_view(request, product_id, error):
     # Determine if the user has been logged in
     logged_in = logincheck(request)
     # if the user has been checked in, check if they are staff; giving access to admin control
@@ -172,6 +172,7 @@ def product_view(request, product_id):
         'username': request.user.username,
         'source' : 'site_home',
         'staff' : staff,
+        'error': error
     }
     return render(request, 'product_view.html', context)
 
@@ -187,6 +188,11 @@ def create_order_item(request, product_id):
     # Product_Size instance
     selected_sizes = [Product_Sizes.objects.filter(pk = id) for id in request.POST.getlist('selected_sizes')]
 
+    # check if user selected at least one price:
+    if len(selected_sizes) == 0:
+        # a price was not selected - order item invalid
+        return HttpResponseRedirect(reverse('product_site:product_view', args=(product_id, "No Price",)))
+
     # Retrieve all labels associated with the product
     labels = Product.objects.filter(pk = product_id)[0].labels.all()
     # determine highest discount percentage that may be applied to a product
@@ -194,7 +200,6 @@ def create_order_item(request, product_id):
 
     # for each selected price, retrieve the quantity ordered
     for size_choice in selected_sizes:
-
         # determine if a discount has been applied
         if highest_discount > 0:
             price = size_choice[0].price * (highest_discount/100)
@@ -219,7 +224,6 @@ def create_order_item(request, product_id):
     # Create Order item - Each unique size and price set as individual item
     # All items get the same product_options
     for size_option in pricing_list:
-            
         Order_Item.objects.create(
             customer = current_user,
             product_id = product_id,

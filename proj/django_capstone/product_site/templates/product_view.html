@@ -40,6 +40,10 @@
     <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
     <h3>Pricing</h3>
     {% if logged_in %}
+
+    {% if error != 'none' %}
+        <h3>ERROR - Price was not selected</h3>
+    {% endif %}
     <h4>Select the Size(s) you would like</h4>
     <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
         {% csrf_token %}
