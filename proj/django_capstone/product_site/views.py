@@ -112,6 +112,19 @@ def site_home(request):
     }
     return render(request, 'site_home.html', context)
 
+# Helper Method
+def determine_discount_percentage(labels):
+    
+    # track highest percentage discount applied
+    highest_discount = 0
+
+    # iterate through all labels checking for a new, highest discount to apply
+    for label in labels:
+        if label.discount_percentage > 0 and label.discount_percentage > highest_discount:
+            highest_discount = label.discount_percentage
+    
+    return highest_discount
+
 
 def product_view(request, product_id):
 
@@ -131,11 +144,8 @@ def product_view(request, product_id):
     product_pricing = Product_Sizes.objects.filter(product = product)
 
     # labels can apply discounts to a product price
-    highest_discount = 0
-    # determine highest discount from labels
-    for label in labels:
-        if label.discount_percentage > 0 and label.discount_percentage > highest_discount:
-            highest_discount = label.discount_percentage
+    highest_discount = determine_discount_percentage(labels)
+
     # track if a discount has been applied for notification on project page
     discount_bool = True if highest_discount > 0 else False
     # if there is a discount to apply, modify all product prices to show discount
