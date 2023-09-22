@@ -224,6 +224,21 @@ class Review(models.Model):
     def __str__(self):
         """ return author and id of review"""
         return f"{self.author}, Review No: {self.id}"
+    
+class Order(models.Model):
+        
+        customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+        submitted_date = models.DateTimeField(default=None)
+        total_value = models.FloatField(default=0)
+
+        status_options = (
+            ('ns','not_submitted'),
+            ('r', 'receieved'),
+            ('p', 'paid'),
+            ('c', 'completed')
+        )
+
+        status = models.CharField(max_length=20, choices=status_options)
 
 
 class Order_Item(models.Model):
@@ -249,6 +264,7 @@ class Order_Item(models.Model):
     __str__(self): str
         return author and id of review
     """
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, default=None)
     product_id = models.IntegerField()
     product_title = models.TextField(max_length = 200)
     quantity = models.IntegerField()
@@ -259,4 +275,5 @@ class Order_Item(models.Model):
 
     def __str__(self):
         """ return customer_name and product title selected"""
-        return f"Customer: {self.customer.first_name},Product: {self.product_title}"
+        return f"Order for Product: {self.product_title}"
+    
