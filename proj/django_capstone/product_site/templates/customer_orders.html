@@ -4,6 +4,46 @@
 
 </head>
 <body>
-    <h2>Customer Orders</h2>
+    <h2>All Orders for: {{customer.first_name}} {{customer.last_name}}</h2>
+
+    <!--Open Orders-->
+    <h3>Open Orders</h3>
+    {% if open_orders %}
+
+    {% for order in open_orders %}
+        An Open Order
+        <br>
+    {% endfor %}
+
+    {% else %}
+        <h4>No Open Orders</h4>
+    {% endif %}
+
+    <!--Processing Orders-->
+    <h3>Processing</h3>
+    {% if processing_orders %}
+
+    {% for order in processing_orders %}
+        An Order being processed
+        <br>
+    {% endfor %}
+
+    {% else %}
+        <h4>No Orders being processed</h4>
+    {% endif %}
+
+    <!--Completed Orders-->
+    <h3>Completed Orders</h3>
+    {% if completed_orders %}
+
+    {% for order in completed_orders %}
+        A completed Order
+        <br>
+    {% endfor %}
+
+    {% else %}
+        <h4>No Completed Orders</h4>
+    {% endif %}
+
 </body>
 </html>

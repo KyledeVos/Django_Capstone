@@ -396,4 +396,12 @@ def customer_orders(request):
         else:
             processing.append(order)
 
-    return render(request, 'customer_orders.html')
+        # add customer and order types too context
+        context = {
+            'customer': customer,
+            'open_orders': open_orders,
+            'processing_orders': processing, 
+            'completed_orders': completed
+        }
+
+    return render(request, 'customer_orders.html', context)
