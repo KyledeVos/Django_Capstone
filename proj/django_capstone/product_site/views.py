@@ -399,8 +399,9 @@ def customer_orders(request):
     # if there is an open order, retrieve all order items
     open_order_items = []
     if len(open_orders) > 0:
-        for order in open_orders:
-            open_order_items = Order_Item.objects.filter(order = order)
+        for item in Order_Item.objects.filter(order = order):
+            item.price = f"{(round(item.price, 2)):.2f}"
+            open_order_items.append(item)
 
     print(open_order_items)
             
