@@ -396,4 +396,4 @@ def customer_orders(request):
         else:
             processing.append(order)
 
-    return HttpResponse(f"Customer Page: {customer.id}")
+    return render(request, 'customer_orders.html')
