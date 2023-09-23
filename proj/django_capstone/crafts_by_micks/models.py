@@ -252,9 +252,9 @@ class Order(models.Model):
         "Return Description of Order"
     """
     customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    submitted_date = models.DateTimeField(null=True, blank=True)
-    payment_received_date = models.DateTimeField(null=True, blank=True)
-    delivered_date = models.DateTimeField(null=True, blank=True)
+    submitted_date = models.DateField(null=True, blank=True)
+    payment_received_date = models.DateField(null=True, blank=True)
+    delivered_date = models.DateField(null=True, blank=True)
     total_value = models.FloatField(default=0)
 
     status_options = (
