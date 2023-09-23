@@ -14,6 +14,7 @@ Order_Item
 """
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Label(models.Model):
     """Class modeling a Product Label ('new', 'discount', etc). Product to have Many-To-One

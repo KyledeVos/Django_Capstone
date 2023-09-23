@@ -79,7 +79,6 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_obj
 from django.urls import reverse
 from django.db import IntegrityError
 from . import models
-from datetime import date
 
 
 def home_page(request):

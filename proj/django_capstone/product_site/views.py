@@ -48,7 +48,9 @@ submit_order(request, order_id):
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from datetime import date
 from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order
+
 
 # Helper Function
 def logincheck(request):
@@ -446,6 +448,8 @@ def submit_order(request, order_id):
     order = get_object_or_404(Order, pk = order_id)
     # change status to recieved (displayed as processing on webpage) and save
     order.status = 'r'
+    # update submission date
+    order.submitted_date = date.today()
     order.save()
 
     # return user to orders pages
