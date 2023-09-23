@@ -60,7 +60,7 @@ def authenticate_user(request, source):
     # check username and password do not contain empty characters
     if username.isspace() or password.isspace():
         error_message = "Login Failed - Username and\\or password did not contain any characters"
-        return HttpResponseRedirect(reverse('user_management:user_login', args=(error_message,)))
+        return HttpResponseRedirect(reverse('user_management:user_login', args=(source, error_message)))
 
     # attempt to authenticate user
     user = authenticate(username=username, password = password)
@@ -69,7 +69,7 @@ def authenticate_user(request, source):
         # unsuccessful authentication
         error_message = "Invalid username and\\or password - Please Try again"
         # allow user to try login again
-        return HttpResponseRedirect(reverse('user_management:user_login', args=(error_message,)))
+        return HttpResponseRedirect(reverse('user_management:user_login', args=(source, error_message)))
     else:
         # log current user in to session
         login(request, user)
