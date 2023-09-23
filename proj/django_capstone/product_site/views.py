@@ -36,6 +36,14 @@ create_order_item(request, product_id):
     Retrieve Product Attributes and user selected Attributes for a Selected Product.
         Validate against chosen price(s) and size(s) and add Product to open Order
         for User.
+
+customer_orders(request, message):
+    Retrieve current logged in customer info and matching Orders information
+        for display to client
+
+submit_order(request, order_id):
+    Retrieve an order submitted for processing and change order status
+        to received
 """
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -369,12 +377,15 @@ def create_order_item(request, product_id):
 
 def customer_orders(request, message):
     """Retrieve current logged in customer info and matching Orders information
-        for display to cleint
+        for display to client
         
-    Parameter:
+    Parameters:
     ----------
     request: HTTPRequest object
         Retrieved current logged-in customer and render html page showing order info
+    
+    message: str
+        Message to display to user for successful submission of an order for processing
         """
     # retrieve current logged in customer (user)
     customer = request.user
@@ -421,7 +432,16 @@ def customer_orders(request, message):
 
 
 def submit_order(request, order_id):
-
+    """Retrieve an order submitted for processing and change order status
+        to received.
+        
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        Used to return customer to view orders page
+    order_id: int
+        primary key of order being submitted for processing
+    """
     # retrieve current order
     order = get_object_or_404(Order, pk = order_id)
     # change status to recieved (displayed as processing on webpage) and save
