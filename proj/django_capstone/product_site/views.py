@@ -362,6 +362,5 @@ def create_order_item(request, product_id):
             options = product_options
         )
 
-    create_retrieve_order(request)
-    
-    return HttpResponse(f'Create Order Item for product {product_id}')
+    # Return User to All Products Page
+    return HttpResponseRedirect(reverse('product_site:site_home'))
