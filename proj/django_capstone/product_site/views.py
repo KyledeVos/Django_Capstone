@@ -367,7 +367,7 @@ def create_order_item(request, product_id):
     return HttpResponseRedirect(reverse('product_site:site_home'))
 
 
-def customer_orders(request):
+def customer_orders(request, message):
     """Retrieve current logged in customer info and matching Orders information
         for display to cleint
         
@@ -413,7 +413,8 @@ def customer_orders(request):
         'open_orders': open_orders,
         'open_order_items': open_order_items,
         'processing_orders': processing, 
-        'completed_orders': completed
+        'completed_orders': completed,
+        'message': message
     }
 
     return render(request, 'customer_orders.html', context)
@@ -428,4 +429,4 @@ def submit_order(request, order_id):
     order.save()
 
     # return user to orders pages
-    return HttpResponseRedirect(reverse('product_site:customer_orders'))
+    return HttpResponseRedirect(reverse('product_site:customer_orders', args=('Order Recieved', )))

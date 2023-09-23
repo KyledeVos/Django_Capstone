@@ -4,6 +4,10 @@
 
 </head>
 <body>
+
+    {% if message != 'none' %}
+        {{message}}
+    {% endif %}
     <h2>All Orders for: {{customer.first_name}} {{customer.last_name}}</h2>
 
     <!--Open Orders-->

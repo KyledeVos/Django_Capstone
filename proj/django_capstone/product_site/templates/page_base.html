@@ -13,7 +13,7 @@
         {% if staff %}
             <a href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a>
         {% else %}
-            <a href="{% url 'product_site:customer_orders'%}">Orders</a>
+            <a href="{% url 'product_site:customer_orders' message='none' %}">Orders</a>
         {% endif %}
 
         

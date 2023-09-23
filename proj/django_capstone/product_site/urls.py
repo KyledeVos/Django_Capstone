@@ -13,7 +13,7 @@ urlpatterns = [
     # Retrieve product specifications to create an item to be added to an order
     path('<product_id>/create_order_item', views.create_order_item, name='create_order_item'),
     # customer orders and details menu
-    path('customer_orders', views.customer_orders, name='customer_orders'),
+    path('<message>/customer_orders', views.customer_orders, name='customer_orders'),
     # allow customer to submit an open order
     path('<order_id>/submit_order', views.submit_order, name='submit_order')
 ]
