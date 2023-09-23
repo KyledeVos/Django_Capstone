@@ -8,10 +8,12 @@ app_name='product_site'
 urlpatterns = [
     # site home page
     path('', views.site_home, name='site_home'),
-    # customer orders and details menu
-    path('customer_orders', views.customer_orders, name='customer_orders'),
     # individual Product View
     path('<product_id>/<error>/product_view/', views.product_view, name='product_view'),
     # Retrieve product specifications to create an item to be added to an order
-    path('<product_id>/create_order_item', views.create_order_item, name='create_order_item')
+    path('<product_id>/create_order_item', views.create_order_item, name='create_order_item'),
+    # customer orders and details menu
+    path('customer_orders', views.customer_orders, name='customer_orders'),
+    # allow customer to submit an open order
+    path('<order_id>/submit_order', views.submit_order, name='submit_order')
 ]

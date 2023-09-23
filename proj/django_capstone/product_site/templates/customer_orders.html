@@ -31,6 +31,12 @@
                 {% endif %}
             <h5>----------------------------------------------------</h5>
             {% endfor %}
+
+            <form action="{% url 'product_site:submit_order' order.id %}" method="post">
+                {% csrf_token %}
+
+                <input type="submit" value="Submit Order"> 
+            </form>
         {% endfor %}
 
     {% else %}

@@ -39,6 +39,7 @@ create_order_item(request, product_id):
 """
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order
 
 # Helper Function
@@ -405,7 +406,6 @@ def customer_orders(request):
             # retrieve any product options and seperate each option
             item.options = [split_option for split_option in item.options.split(";")]
             open_order_items.append(item)
-
             
     # add customer and order types to context
     context = {
@@ -417,3 +417,15 @@ def customer_orders(request):
     }
 
     return render(request, 'customer_orders.html', context)
+
+
+def submit_order(request, order_id):
+
+    # retrieve current order
+    order = get_object_or_404(Order, pk = order_id)
+    # change status to recieved (displayed as processing on webpage) and save
+    order.status = 'r'
+    order.save()
+
+    # return user to orders pages
+    return HttpResponseRedirect(reverse('product_site:customer_orders'))
