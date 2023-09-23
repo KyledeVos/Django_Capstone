@@ -342,7 +342,7 @@ def create_order_item(request, product_id):
     product_options = ""
     # retrieve each option id from request that was selected by user
     for id in request.POST.getlist('product_options'):
-        # retrieve the mathcing option from datase
+        # retrieve the matching option from database
         current_option = Option.objects.filter(pk = id)
         # append each option title and description
         product_options += current_option[0].title + ":"
@@ -364,3 +364,36 @@ def create_order_item(request, product_id):
 
     # Return User to All Products Page
     return HttpResponseRedirect(reverse('product_site:site_home'))
+
+
+def customer_orders(request):
+    """Retrieve current logged in customer info and matching Orders information
+        for display to cleint
+        
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        Retrieved current logged-in customer and render html page showing order info
+        """
+    # retrieve current logged in customer (user)
+    customer = request.user
+    #retrieve all orders assigned to a customer
+    all_orders = Order.objects.filter(customer = customer)
+    # lists to store each order type
+    open_orders = []
+    processing = []
+    completed = []
+
+    # seperate orders
+    for order in all_orders:
+        # order not yet submitted
+        if order.status == 'ns':
+            open_orders.append(order)
+        # order completed and delivered
+        elif order.status == 'c':
+            completed.append(order)
+        # order awaiting payment, manufacture or delivery
+        else:
+            processing.append(order)
+
+    return HttpResponse(f"Customer Page: {customer.id}")
