@@ -19,7 +19,16 @@
                 Quantity: {{order_item.quantity}} <br>
                 Size: {{order_item.chosen_size}} <br>
                 Price: R{{order_item.price}}<br>
-                Options: {{order_item.options}}
+                {% if order_item.options %}
+                    Additional Options:<br>
+                    {% for option in order_item.options %}
+                        {%if option != ""%}
+                            <ul>
+                                <li>{{option}}</li>
+                            </ul> 
+                        {% endif %}
+                    {% endfor %}  
+                {% endif %}
             <h5>----------------------------------------------------</h5>
             {% endfor %}
         {% endfor %}

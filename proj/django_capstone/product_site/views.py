@@ -400,10 +400,12 @@ def customer_orders(request):
     open_order_items = []
     if len(open_orders) > 0:
         for item in Order_Item.objects.filter(order = order):
+            # retrieve current item and correct price decimals
             item.price = f"{(round(item.price, 2)):.2f}"
+            # retrieve any product options and seperate each option
+            item.options = [split_option for split_option in item.options.split(";")]
             open_order_items.append(item)
 
-    print(open_order_items)
             
     # add customer and order types to context
     context = {
