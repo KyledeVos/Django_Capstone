@@ -10,10 +10,19 @@
     <h3>Open Orders</h3>
     {% if open_orders %}
 
-    {% for order in open_orders %}
-        An Open Order
-        <br>
-    {% endfor %}
+        {% for order in open_orders %}
+            Order: {{order.id}}
+            {% for order_item in open_order_items %}
+            <h5>----------------------------------------------------</h5>
+                
+                Product: <strong>{{order_item.product_title}}</strong> <br>
+                Quantity: {{order_item.quantity}} <br>
+                Size: {{order_item.chosen_size}} <br>
+                Price: R{{order_item.price}}<br>
+                Options: {{order_item.options}}
+            <h5>----------------------------------------------------</h5>
+            {% endfor %}
+        {% endfor %}
 
     {% else %}
         <h4>No Open Orders</h4>

@@ -396,12 +396,21 @@ def customer_orders(request):
         else:
             processing.append(order)
 
-        # add customer and order types too context
-        context = {
-            'customer': customer,
-            'open_orders': open_orders,
-            'processing_orders': processing, 
-            'completed_orders': completed
-        }
+    # if there is an open order, retrieve all order items
+    open_order_items = []
+    if len(open_orders) > 0:
+        for order in open_orders:
+            open_order_items = Order_Item.objects.filter(order = order)
+
+    print(open_order_items)
+            
+    # add customer and order types to context
+    context = {
+        'customer': customer,
+        'open_orders': open_orders,
+        'open_order_items': open_order_items,
+        'processing_orders': processing, 
+        'completed_orders': completed
+    }
 
     return render(request, 'customer_orders.html', context)
