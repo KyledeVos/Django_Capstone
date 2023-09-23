@@ -6,9 +6,36 @@ Methods:
 logincheck(request):
     Determine if a current user is authenticated
 
+populate_display_products(all_products):
+    validate and sort a list of products for website display - checking at least one price
+    has been set
+
+create_product_list():
+    Retrieve all Categories and Products from database, Sort Products into their
+    categories - sorting Products and Categories in Alphabetical order according to title.
+    Performs product validation for website display
+
 site_home(request):
     Render main site home page, checking if currently logged-in user is a staff
         member allowing access to admin control functionality
+
+determine_discount_percentage(labels):
+    Using QuerySet of associated Labels for a Product, determine highest
+    assigned label percentage discount to apply a Product
+
+product_view(request, product_id, error):
+    Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
+    showing Product Details, Pricing and validation of customer login for addition of Product
+    to an Order.
+
+create_retrieve_order(request):
+    Determine Order for currently logged in user to add selected Product_Item.
+        If no open order is present, create a new open order for user.
+
+create_order_item(request, product_id):
+    Retrieve Product Attributes and user selected Attributes for a Selected Product.
+        Validate against chosen price(s) and size(s) and add Product to open Order
+        for User.
 """
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -20,16 +47,29 @@ def logincheck(request):
     return True if request.user.is_authenticated else False
 
 
-# Business Logic - Define and Sort Product Attributes
+# Business Logic - Product Site Validity for Display based on price presence
 def populate_display_products(all_products):
+    """validate and sort a list of products for website display - checking at least one price
+    has been set.
+        
+    Parameters:
+    -----------
+    all_products: list of Product
+        list containing unvalidated Products
 
+    NOTE:
+     Products without prices are allowed in system (in creation process by admin),
+    but may not be displayed on the product site
+
+    Return:
+    -------
+    validated list of Products
+    """
     # list to hold each product
     product_list = []
 
     for product in all_products:
-        # Retrieve All associated prices for the current product. Products
-        # without prices are allowed in system (in creation process by admin),
-        # but may not be displayed on the product site
+        # Retrieve All associated prices for the current product.
         product_pricing = Product_Sizes.objects.filter(product = product)
 
         # no associated prices, move to next product
@@ -61,6 +101,14 @@ def populate_display_products(all_products):
 
 # Helper Function
 def create_product_list():
+    """Retrieve all Categories and Products from database, Sort Products into their
+    categories - sorting Products and Categories in Alphabetical order according to title.
+    Performs product validation for website display.
+
+    Return:
+    -------
+    list containing tuples as: (category_name, list of valid Products )
+    """
     # retrieve all product categories - in alphabetical order
     all_categories = Category.objects.order_by('title')
     # list to hold all categories and their associated, valid products for main site display
@@ -84,9 +132,9 @@ def create_product_list():
 
 
 def site_home(request):
-    """Render main site home page, checking
-     if currently logged-in user is a staff
-        member allowing access to admin control functionality.
+    """Render main site home page, checking if currently logged-in user is a staff
+        member allowing access to admin control functionality. Retrieves validated
+        and sorted list of Categories and associated Products for home page display.
          
     Parameter:
     ----------
@@ -113,9 +161,20 @@ def site_home(request):
     }
     return render(request, 'site_home.html', context)
 
-# Helper Method
+
 def determine_discount_percentage(labels):
+    """Using QuerySet of associated Labels for a Product, determine highest
+    assigned label percentage discount to apply a Product.
     
+    Parameter:
+    ---------
+    labels: QuerySet of Assigned Labels
+        QuerySet containing Labels that have been assigned to a Product.
+
+    Return:
+    -------
+    Highest Percentage Discount applicable to Product Prices
+    """
     # track highest percentage discount applied
     highest_discount = 0
 
@@ -128,6 +187,26 @@ def determine_discount_percentage(labels):
 
 
 def product_view(request, product_id, error):
+    """Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
+    showing Product Details, Pricing and validation of customer login for addition of Product
+    to an Order.
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        required for user authentication, status check and html page render
+    product_id: Integer
+        unique Primary Key value for selected Product
+    error: str
+        description of error to display to user on page - current implementation
+        accounts for addition of Product to Order without selection of Size and 
+        Associated Price
+
+    Return:
+    -------
+    webpage displaying selected Product Attributes for addition to an order or view
+    of Product details by user
+    """
     # Determine if the user has been logged in
     logged_in = logincheck(request)
     # if the user has been checked in, check if they are staff; giving access to admin control
@@ -176,8 +255,20 @@ def product_view(request, product_id, error):
     }
     return render(request, 'product_view.html', context)
 
-def create_retrieve_order(request):
 
+def create_retrieve_order(request):
+    """Determine Order for currently logged in user to add selected Product_Item.
+        If no open order is present, create a new open order for user.
+        
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        determine current logged-in user
+
+    Return:
+    -------
+    open order to add a Product Item to or new open Order
+    """
     # retrieve current user (customer)
     customer = request.user
     
@@ -185,15 +276,39 @@ def create_retrieve_order(request):
     current_orders = Order.objects.filter(customer = customer)
     # no assigned orders- create a new order
     if len(current_orders) == 0:
-        Order.objects.create(
+        new_order = Order.objects.create(
             customer = customer,
-            status = 'not_submitted'
+            status = 'ns'
         )
-
+        return new_order
+    # existing orders do exist
+    else:
+        # check for current, non-submitted order
+        for order in current_orders:
+            if order.status == 'ns':
+                # open order exists
+                return order
+        
+        # no open orders for customer, create and return a new order
+        new_order = Order.objects.create(
+            customer = customer,
+            status = 'ns'
+        )
+        return new_order
 
 
 def create_order_item(request, product_id):
+    """Retrieve Product Attributes and user selected Attributes for a Selected Product.
+        Validate against chosen price(s) and size(s) and add Product to open Order
+        for User.
 
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        ussed to retrieve Product and Selected Attributes from Product_Page
+    product_id: Integer
+        unique Primary Key value for selected Product
+    """
     # list of tuples holding a size, price and quantity
     pricing_list = []
     # retrieve list of selected sizes from html form and use to retrieve
@@ -235,17 +350,18 @@ def create_order_item(request, product_id):
 
     # Create Order item - Each unique size and price set as individual item
     # All items get the same product_options
-    # for size_option in pricing_list:
-    #     Order_Item.objects.create(
-    #         product_id = product_id,
-    #         product_title = Product.objects.filter(pk=product_id)[0].title,
-    #         chosen_size = size_option[0],
-    #         price = size_option[1],
-    #         quantity = size_option[2],
-    #         options = product_options
-    #     )
+    for size_option in pricing_list:
+        Order_Item.objects.create(
+            # retrieve an existing open order or create new order   
+            order = create_retrieve_order(request),
+            product_id = product_id,
+            product_title = Product.objects.filter(pk=product_id)[0].title,
+            chosen_size = size_option[0],
+            price = size_option[1],
+            quantity = size_option[2],
+            options = product_options
+        )
 
     create_retrieve_order(request)
     
     return HttpResponse(f'Create Order Item for product {product_id}')
-
