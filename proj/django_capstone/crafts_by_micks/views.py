@@ -1014,7 +1014,7 @@ def customer_orders(request, customer_id):
     return render(request, 'display/customer_orders.html', context)
 
 
-def view_order(request, order_id, customer_id):
+def view_order(request, order_id, customer_id, type):
 
     # retrieve the current order
     order = get_object_or_404(models.Order, pk=order_id)
@@ -1030,7 +1030,8 @@ def view_order(request, order_id, customer_id):
     
     context = {
         'order_items': order_items,
-        'customer_id': customer_id
+        'customer_id': customer_id,
+        'type': type
     }
 
     return render(request, 'Display/view_order.html', context)

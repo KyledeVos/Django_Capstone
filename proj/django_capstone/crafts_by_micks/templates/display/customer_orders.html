@@ -16,13 +16,11 @@
     {% if awaiting_payment_orders %}
         {% for order in awaiting_payment_orders %}
         Order: {{forloop.counter}}. Submitted on {{order.submitted_date}}
-        <form action="{% url 'crafts_by_micks:view_order' order.id customer_id %}">
+        <form action="{% url 'crafts_by_micks:view_order' order.id customer_id 'not_paid' %}">
             <button type="submit">View Order</button>
         </form>
             <br>
         {% endfor %}
-
-        
 
     {% else %}
         No Orders require payment<br>
@@ -32,7 +30,11 @@
     <h3>Processing:</h3>
     {% if processing_orders %}
         {% for order in processing_orders %}
-            Order being processed<br>
+        Order: {{forloop.counter}}. Paid on {{order.submitted_date}}
+        <form action="{% url 'crafts_by_micks:view_order' order.id customer_id 'processing' %}">
+            <button type="submit">View Order</button>
+        </form>
+            <br>
         {% endfor %}
 
     {% else %}

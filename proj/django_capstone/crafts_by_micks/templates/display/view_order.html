@@ -8,6 +8,13 @@
     <!--Navigation to All Orders for current customer-->
     <a href="{% url 'crafts_by_micks:customer_orders' customer_id%}">Client Orders</a>
 
+    {% if type == 'not_paid'%}
+        <h4>Order Awaiting Payment</h4>
+
+    {% elif type == 'processing' %}
+        <h4> Order Being Processed</h4>
+    {% endif %}
+
     {% for order_item in order_items %}
     <h5>----------------------------------------------------</h5>
     <h4>Item {{forloop.counter}}</h6>
