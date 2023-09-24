@@ -15,5 +15,7 @@ urlpatterns = [
     # customer orders and details menu
     path('<message>/customer_orders', views.customer_orders, name='customer_orders'),
     # allow customer to submit an open order
-    path('<order_id>/submit_order', views.submit_order, name='submit_order')
+    path('<order_id>/submit_order', views.submit_order, name='submit_order'),
+    # allow customer to view processing and completed orders
+    path('<order_id>/view_order', views.view_order, name='view_order')
 ]

@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+
+</head>
+<body>
+    <!--Order being Processed or Made -->
+    {% if status != 'c' %}
+        <h3>Status: Processing</h3>
+        Order Submitted: {{order.submitted_date}}<br>
+        Payment: {{payment_date}}
+    <!--Order Completed -->
+    {% else %}
+        <h3>Status: Completed</h3>
+        Order Submitted: {{order.submitted_date}}<br>
+        Payment: {{payment_date}}<br>
+        Delivered on: {{order.delivered_date}}
+    {% endif %}
+
+    <h4>Order Details</h4>
+    Total: R{{order.total_value}}
+
+    {% for order_item in order_items %}
+    <h5>Item: {{forloop.counter}}</h5>
+    <h5>----------------------------------------------------</h5>
+        
+        Product: <strong>{{order_item.product_title}}</strong> <br>
+        Quantity: {{order_item.quantity}} <br>
+        Size: {{order_item.chosen_size}} <br>
+        Price: R{{order_item.price}}<br>
+        {% if order_item.options %}
+            Additional Options:<br>
+            {% for option in order_item.options %}
+                {%if option != ""%}
+                    <ul>
+                        <li>{{option}}</li>
+                    </ul> 
+                {% endif %}
+            {% endfor %}  
+        {% endif %}
+    <h5>----------------------------------------------------</h5>
+    {% endfor %}
+
+</body>
+</html>

@@ -48,7 +48,7 @@ submit_order(request, order_id):
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
-from datetime import date
+from datetime import datetime, date
 from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order
 
 
@@ -433,6 +433,39 @@ def customer_orders(request, message):
     return render(request, 'customer_orders.html', context)
 
 
+def view_order(request, order_id):
+
+    # retrieve order, status and order_items
+    order = get_object_or_404(Order, pk=order_id)
+    status = order.status
+    order_items = Order_Item.objects.filter(order = order)
+    
+    # Date Checks and Format
+    # 1) Payment Date
+    if order.payment_received_date == None:
+        payment_date = "Not Recieved / Processing"
+    else:
+        payment_date = f'Received on: {order.payment_received_date}'
+
+    # Correct Total Value Decimals
+    order.total_value = f"{(round(order.total_value, 2)):.2f}"
+
+    for item in order_items:
+        # retrieve current item and correct price decimals
+        item.price = f"{(round(item.price, 2)):.2f}"
+        # retrieve any product options and seperate each option
+        item.options = [split_option for split_option in item.options.split(";")]
+        
+    context = {
+        'order': order,
+        'status': status,
+        'payment_date': payment_date,
+        'order_items': order_items
+    }
+
+    return render(request, 'view_order.html', context)
+
+
 def submit_order(request, order_id):
     """Retrieve an order submitted for processing and change order status
         to received.
@@ -446,10 +479,21 @@ def submit_order(request, order_id):
     """
     # retrieve current order
     order = get_object_or_404(Order, pk = order_id)
+
+    # retrieve order_items for order
+    order_items = Order_Item.objects.filter(order = order)
+    total_value = 0
+
+    for item in order_items:
+        total_value += float(item.price) * int(item.quantity)
+
     # change status to recieved (displayed as processing on webpage) and save
     order.status = 'r'
     # update submission date
     order.submitted_date = date.today()
+    print(order.submitted_date)
+    # update order total_value
+    order.total_value = total_value
     order.save()
 
     # return user to orders pages
