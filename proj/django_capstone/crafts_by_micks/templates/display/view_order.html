@@ -10,10 +10,13 @@
 
     {% if type == 'not_paid'%}
         <h4>Order Awaiting Payment</h4>
-
     {% elif type == 'processing' %}
         <h4> Order Being Processed</h4>
+    {% else %}
+        <h4> Order Completed and Delivered</h4>
     {% endif %}
+
+    <h3>Total Value: R{{total_value}}</h3>
 
     {% for order_item in order_items %}
     <h5>----------------------------------------------------</h5>

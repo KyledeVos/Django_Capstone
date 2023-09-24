@@ -35,7 +35,7 @@
             <button type="submit">View Order</button>
         </form>
             <br>
-        {% endfor %}
+    {% endfor %}
 
     {% else %}
         No Orders being processed<br>
@@ -45,7 +45,11 @@
     <h3>Completed:</h3>
     {% if completed_orders %}
         {% for order in completed_orders %}
-            Order Completed<br>
+        Order: {{forloop.counter}}. Delivered On: {{order.delivered_date}}
+        <form action="{% url 'crafts_by_micks:view_order' order.id customer_id 'completed' %}">
+            <button type="submit">View Order</button>
+        </form>
+            <br>
         {% endfor %}
     {% else %}
         No orders have been completed for Client<br>

@@ -1020,6 +1020,8 @@ def view_order(request, order_id, customer_id, type):
     order = get_object_or_404(models.Order, pk=order_id)
     # retrieve all items associated with this order
     order_items = models.Order_Item.objects.filter(order = order)
+    # retrieve and format order total:
+    total_value = f"{(round(order.total_value, 2)):.2f}"
 
     
     for item in order_items:
@@ -1031,7 +1033,8 @@ def view_order(request, order_id, customer_id, type):
     context = {
         'order_items': order_items,
         'customer_id': customer_id,
-        'type': type
+        'type': type,
+        'total_value': total_value
     }
 
     return render(request, 'Display/view_order.html', context)
