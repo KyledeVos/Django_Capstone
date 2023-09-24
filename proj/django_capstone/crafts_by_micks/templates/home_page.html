@@ -10,6 +10,7 @@
 <body>
     <a href = "{% url 'product_site:site_home' %}">Main Site</a>
     <h1>Admin Home Page</h1>
+    <h1>PRODUCTS</h1>
     <h2>Creation</h2>
     <a href = "{% url 'crafts_by_micks:create_product' error='none' %}">Create Product</a>
     <br>
@@ -25,7 +26,13 @@
     <br>
     <a href = "{% url 'crafts_by_micks:view_all_products' %}">View All Products</a>
     <br>
+
+    <H1>CUSTOMERS AND ORDERS</H1>
     
+    <a href="{% url 'crafts_by_micks:all_customers' %}">All Customers</a>
+    <br>
+    <a href="{% url 'crafts_by_micks:all_orders' %}">All Orders</a>
+
 </body>
 
 </html>

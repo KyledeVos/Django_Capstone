@@ -51,4 +51,10 @@ urlpatterns = [
     # Product Confirmed Deletion Deletion
     path('<int:product_id>/confirmed_product_deletion', views.confirmed_product_deletion, name='confirmed_product_deletion'),
 
+    # 5) Customers and Orders - Details
+    # View all Customers
+    path('all_customers', views.all_customers, name='all_customers'),
+    # View all Orders
+    path('all_orders', views.all_orders, name='all_orders')
+
 ]

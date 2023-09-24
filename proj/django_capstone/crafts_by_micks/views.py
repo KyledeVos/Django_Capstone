@@ -939,3 +939,13 @@ def confirmed_product_deletion(request, product_id):
     # return user to all products page
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
 
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+# Views for Customer and Order Details
+
+def all_customers(request):
+    return render(request, 'Display/all_customers.html')
+
+
+def all_orders(request):
+    return render(request, 'Display/all_orders.html')
