@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+    
+    <!--Orders Needing Payment-->
+    <h3>Awaiting Payment:</h3>
+    {% if awaiting_payment_orders %}
+        {% for order in awaiting_payment_orders %}
+            Order needs to be paid <br>
+        {% endfor %}
+
+    {% else %}
+        No Orders require payment<br>
+    {% endif %}
+
+    <!--Orders Being Processed-->
+    <h3>Processing:</h3>
+    {% if processing_orders %}
+        {% for order in processing_orders %}
+            Order being processed<br>
+        {% endfor %}
+
+    {% else %}
+        No Orders being processed<br>
+    {% endif %}
+
+    <!--Completed Orders-->
+    <h3>Completed:</h3>
+    {% if completed_orders %}
+        {% for order in completed_orders %}
+            Order Completed<br>
+        {% endfor %}
+    {% else %}
+        No orders have been completed for Client<br>
+    {% endif %}
+    
+</body>
+</html>

@@ -980,7 +980,36 @@ def all_customers(request):
     return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 
 def customer_orders(request, customer_id):
-    return HttpResponse(f'Orders for cleint: {customer_id}')
+
+    #Lists to sort customer orders:
+    awaiting_payment_orders = []
+    processing_orders = []
+    completed_orders = []
+
+    # retrieve current customer
+    customer = get_object_or_404(models.User, pk=customer_id )
+    # retrieve all orders associated with customer
+    all_orders = models.Order.objects.filter(customer = customer)
+
+    # sort orders into above lists  
+    for order in all_orders:
+        # ordered received and awaiting payment
+        if order.status == 'r':
+            awaiting_payment_orders.append(order)
+        # order paid and being processed
+        elif order.status == 'p':
+            processing_orders.append(order)
+        # order delivered and completed
+        elif order.status == 'c':
+            completed_orders.append(order)
+
+    context = {
+        "awaiting_payment_orders": awaiting_payment_orders,
+        'processing_orders': processing_orders, 
+        'completed_orders': completed_orders
+    }
+
+    return render(request, 'display/customer_orders.html', context)
 
 
 def all_orders(request):
