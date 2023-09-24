@@ -944,7 +944,14 @@ def confirmed_product_deletion(request, product_id):
 # Views for Customer and Order Details
 
 def all_customers(request):
-
+    """Retrieve All saved customers and their associated orders. Determine order status
+        for 'action_required' notification to admin user.
+         
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        used to render page displaying all customer orders and their status
+    """
     # retrieve all customers
     customers = models.User.objects.filter(is_staff=False)
     # list to store customer and 'action_required' boolean
@@ -975,12 +982,18 @@ def all_customers(request):
             # reset for next customer loop
             action_required == False
 
-        print(customer_status)
-    
     return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 
 def customer_orders(request, customer_id):
-
+    """Retrieve and sort customer orders into not paid, processing and completed.
+    
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        used to render page displaying seperated customer orders
+    customer_id: int
+        Customer primary key
+    """
     #Lists to sort customer orders:
     awaiting_payment_orders = []
     processing_orders = []
@@ -1015,7 +1028,19 @@ def customer_orders(request, customer_id):
 
 
 def view_order(request, order_id, customer_id, type):
+    """Retrieve an format an individual customer order for render.
 
+    Parameters:
+    ----------
+    request: HTTPRequest object
+        used to render page displaying order details
+    order_id: int
+        primary key to retrieve specific order
+    customer_id: int
+        primary key for customer to whom order is assigned
+    type: str
+        description of order type (not_paid, processing or completed)
+    """
     # retrieve the current order
     order = get_object_or_404(models.Order, pk=order_id)
     # retrieve all items associated with this order
