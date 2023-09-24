@@ -41,6 +41,10 @@ customer_orders(request, message):
     Retrieve current logged in customer info and matching Orders information
         for display to client
 
+view_order(request, order_id):
+    Retreive current order (processing or completed status) details for
+        display to customer.
+
 submit_order(request, order_id):
     Retrieve an order submitted for processing and change order status
         to received
@@ -434,7 +438,16 @@ def customer_orders(request, message):
 
 
 def view_order(request, order_id):
-
+    """Retreive current order (processing or completed status) details for
+        display to customer.
+    
+    Parameter:
+    ----------
+    request: HTTPRequest object
+        render html page displaying order info
+    order_id: int
+        primary key for order details being requested
+    """
     # retrieve order, status and order_items
     order = get_object_or_404(Order, pk=order_id)
     status = order.status
@@ -462,7 +475,6 @@ def view_order(request, order_id):
         'payment_date': payment_date,
         'order_items': order_items
     }
-
     return render(request, 'view_order.html', context)
 
 
