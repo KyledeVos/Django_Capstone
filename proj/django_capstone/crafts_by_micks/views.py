@@ -944,7 +944,38 @@ def confirmed_product_deletion(request, product_id):
 # Views for Customer and Order Details
 
 def all_customers(request):
-    return render(request, 'Display/all_customers.html')
+
+    # retrieve all customers
+    customers = models.User.objects.filter(is_staff=False)
+    # list to store customer and 'action_required' boolean
+    customer_status = []
+    # track action required for a customer
+    action_required = False
+    
+    # for each customer, determine if an order is not yet completed and still requires attention
+    for customer in customers:
+        # retrieve all orders assigned to customer
+        customer_orders = models.Order.objects.filter(customer = customer)
+        for order in customer_orders:
+            # determine if order recieved but no payment yet
+            if order.status == 'r':
+                action_required = True
+                customer_status.append([customer, "Awaiting Payment"])
+                break
+            # payment recieved - order being processed
+            elif order.status == 'p':
+                customer_status.append([customer, "Payment Received - Processing"])
+                # order submitted
+                action_required = True
+                break
+        if action_required == False:
+            # order has either not been submitted yet or has been completed
+            customer_status.append([customer, False])
+        else:
+            # reset for next customer loop
+            action_required == False
+    
+    return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 
 
 def all_orders(request):
