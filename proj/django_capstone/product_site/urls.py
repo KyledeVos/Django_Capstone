@@ -12,8 +12,10 @@ urlpatterns = [
     path('<product_id>/<error>/product_view/', views.product_view, name='product_view'),
     # Retrieve product specifications to create an item to be added to an order
     path('<product_id>/create_order_item', views.create_order_item, name='create_order_item'),
-    # customer orders and details menu
+    # display customer orders and details menu
     path('<message>/customer_orders', views.customer_orders, name='customer_orders'),
+    # allow customer to remove an item from an order
+    path('<item_id>/<order_id>/remove_item/', views.remove_item, name='remove_item'),
     # allow customer to submit an open order
     path('<order_id>/submit_order', views.submit_order, name='submit_order'),
     # allow customer to view processing and completed orders

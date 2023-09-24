@@ -41,6 +41,9 @@ customer_orders(request, message):
     Retrieve current logged in customer info and matching Orders information
         for display to client
 
+remove_item(request, item_id, order_id):
+    Delete an Order_Item from an order. Delete order if all Order Items have been removed.
+
 view_order(request, order_id):
     Retreive current order (processing or completed status) details for
         display to customer.
@@ -392,7 +395,7 @@ def customer_orders(request, message):
     
     message: str
         Message to display to user for successful submission of an order for processing
-        """
+    """
     # retrieve current logged in customer (user)
     customer = request.user
     #retrieve all orders assigned to a customer
@@ -435,6 +438,34 @@ def customer_orders(request, message):
     }
 
     return render(request, 'customer_orders.html', context)
+
+
+def remove_item(request, item_id, order_id):
+    """Delete an Order_Item from an order. Delete order if all Order Items have been removed.
+
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        render Orders Display page
+    item_id: int
+        primary key field for Order_Time to be deleted
+    order_id: int
+        primary key field for Order holding selecting Order Item 
+    """
+    # Retrieve Order_Item for deletion and assigned Order
+    order_item = get_object_or_404(Order_Item, pk=item_id)
+    order = get_object_or_404(Order, pk = order_id )
+    # Delete Order_Item
+    order_item.delete()
+
+    # Determine if a non-submitted order has all order_items removed,
+    # if so, delete this order
+    remaining_items = Order_Item.objects.filter(order = order)
+    if len(remaining_items) == 0:
+        order.delete()
+
+    # Return customer to Order Display Page
+    return HttpResponseRedirect(reverse('product_site:customer_orders', args=("Item Successfully Removed",)))
 
 
 def view_order(request, order_id):

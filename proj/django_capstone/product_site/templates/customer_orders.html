@@ -35,6 +35,11 @@
                         {% endif %}
                     {% endfor %}  
                 {% endif %}
+
+                <form action = "{% url 'product_site:remove_item' order_item.id order.id %}">
+                    <button type="submit"> Remove </button>
+
+                </form>
             <h5>----------------------------------------------------</h5>
             {% endfor %}
 
