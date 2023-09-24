@@ -7,11 +7,14 @@
     <h1>All Customers</h1>
     {% if customer_status %}
         {%for customer_log in customer_status %}
+
             Name: {{customer_log.0.first_name}} {{customer_log.0.last_name}}
             {% if customer_log.1  != False %}
                 <strong>Action Required: {{customer_log.1}}</strong> 
             {% endif %}
-            <br>    
+            <form action="{% url 'crafts_by_micks:customer_orders' customer_log.0.id %}">
+                <button type="submit">View</button>
+            </form>   
         {% endfor %}
 
     {% else %}

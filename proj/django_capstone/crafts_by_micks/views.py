@@ -979,6 +979,9 @@ def all_customers(request):
     
     return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 
+def customer_orders(request, customer_id):
+    return HttpResponse(f'Orders for cleint: {customer_id}')
+
 
 def all_orders(request):
     return render(request, 'Display/all_orders.html')
