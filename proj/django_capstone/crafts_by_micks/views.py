@@ -974,6 +974,8 @@ def all_customers(request):
         else:
             # reset for next customer loop
             action_required == False
+
+        print(customer_status)
     
     return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 

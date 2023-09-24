@@ -5,5 +5,17 @@
 </head>
 <body>
     <h1>All Customers</h1>
+    {% if customer_status %}
+        {%for customer_log in customer_status %}
+            Name: {{customer_log.0.first_name}} {{customer_log.0.last_name}}
+            {% if customer_log.1  != False %}
+                <strong>Action Required: {{customer_log.1}}</strong> 
+            {% endif %}
+            <br>    
+        {% endfor %}
+
+    {% else %}
+    There are no customers loaded in the system
+    {% endif%}
 </body>
 </html>
