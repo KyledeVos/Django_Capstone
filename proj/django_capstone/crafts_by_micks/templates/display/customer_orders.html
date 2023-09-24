@@ -8,13 +8,21 @@
     <!--Return to All Customers-->
     <a href="{% url 'crafts_by_micks:all_customers'%}">All Customers</a>
     <a href="{% url 'crafts_by_micks:home_page' %}">Admin Home Page</a>
+
+    <h3>Orders for: {{customer.first_name}} {{customer.last_name}}</h3>
     
     <!--Orders Needing Payment-->
     <h3>Awaiting Payment:</h3>
     {% if awaiting_payment_orders %}
         {% for order in awaiting_payment_orders %}
-            Order needs to be paid <br>
+        Order: {{forloop.counter}}. Submitted on {{order.submitted_date}}
+        <form action="{% url 'crafts_by_micks:view_order' order.id %}">
+            <button type="submit">View Order</button>
+        </form>
+            <br>
         {% endfor %}
+
+        
 
     {% else %}
         No Orders require payment<br>
