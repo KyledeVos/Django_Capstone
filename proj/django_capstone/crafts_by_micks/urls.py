@@ -53,11 +53,13 @@ urlpatterns = [
 
     # 5) Customers and Orders - Details
     # View all Customers
-    path('all_customers', views.all_customers, name='all_customers'),
+    path('all_customers/', views.all_customers, name='all_customers'),
     # View All Orders for a Client
-    path('<customer_id>/customer_orders', views.customer_orders, name='customer_orders'),
+    path('<customer_id>/customer_orders/', views.customer_orders, name='customer_orders'),
+    # view specific client order
+    path('<order_id>/<customer_id>/view_order/', views.view_order, name='view_order'),
     # View all Orders
-    path('all_orders', views.all_orders, name='all_orders'),
+    path('all_orders/', views.all_orders, name='all_orders'),
 
 
 ]

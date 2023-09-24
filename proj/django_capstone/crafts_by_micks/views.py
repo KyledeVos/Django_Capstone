@@ -1004,12 +1004,36 @@ def customer_orders(request, customer_id):
             completed_orders.append(order)
 
     context = {
+        'customer': customer,
         "awaiting_payment_orders": awaiting_payment_orders,
         'processing_orders': processing_orders, 
-        'completed_orders': completed_orders
+        'completed_orders': completed_orders,
+        'customer_id': customer_id
     }
 
     return render(request, 'display/customer_orders.html', context)
+
+
+def view_order(request, order_id, customer_id):
+
+    # retrieve the current order
+    order = get_object_or_404(models.Order, pk=order_id)
+    # retrieve all items associated with this order
+    order_items = models.Order_Item.objects.filter(order = order)
+
+    
+    for item in order_items:
+        # correct decimals in product price
+        item.price = f"{(round(item.price, 2)):.2f}"
+        # retrieve any product options and seperate each option
+        item.options = [split_option for split_option in item.options.split(";")]
+    
+    context = {
+        'order_items': order_items,
+        'customer_id': customer_id
+    }
+
+    return render(request, 'Display/view_order.html', context)
 
 
 def all_orders(request):

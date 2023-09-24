@@ -16,7 +16,7 @@
     {% if awaiting_payment_orders %}
         {% for order in awaiting_payment_orders %}
         Order: {{forloop.counter}}. Submitted on {{order.submitted_date}}
-        <form action="{% url 'crafts_by_micks:view_order' order.id %}">
+        <form action="{% url 'crafts_by_micks:view_order' order.id customer_id %}">
             <button type="submit">View Order</button>
         </form>
             <br>

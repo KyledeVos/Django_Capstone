@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+
+    <!--Navigation to All Orders for current customer-->
+    <a href="{% url 'crafts_by_micks:customer_orders' customer_id%}">Client Orders</a>
+
+    {% for order_item in order_items %}
+    <h5>----------------------------------------------------</h5>
+    <h4>Item {{forloop.counter}}</h6>
+    Product: <strong>{{order_item.product_title}}</strong> <br>
+    Quantity: {{order_item.quantity}} <br>
+    Size: {{order_item.chosen_size}} <br>
+    Price: R{{order_item.price}}<br>
+    {% if order_item.options %}
+        Additional Options:<br>
+        {% for option in order_item.options %}
+            {%if option != ""%}
+                <ul>
+                    <li>{{option}}</li>
+                </ul> 
+            {% endif %}
+        {% endfor %}  
+    {% endif %}
+
+<h5>----------------------------------------------------</h5>
+    {% endfor %}
+    
+</body>
+</html>
