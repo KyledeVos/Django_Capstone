@@ -52,11 +52,11 @@ submit_order(request, order_id):
     Retrieve an order submitted for processing and change order status
         to received
 
-product_review(request, order_item_id):
+product_review(request, order_item_id, order_id):
     Allow logged-in user to submit a review for a product that has been paid for
         and delivered
 
-save_review(request, product_id):
+save_review(request, product_id, order_id):
     Retrieve customer review attributes and preferences to create new product
         review and assign to the Product
 """
@@ -559,7 +559,10 @@ def product_review(request, order_item_id, order_id):
     request: HTTPRequest object
         used to render product review page
     order_item_id: int
-        primary key for product item to be reviewed    
+        primary key for product item to be reviewed
+    order_id: int
+        primary key of current order needed to return user to order view after
+        review of product is submitted  
     """
     # retrieve order_item for review
     order_item = get_object_or_404(Order_Item, pk = order_item_id)
@@ -582,6 +585,8 @@ def save_review(request, product_id, order_id):
         used to render product review page
     product_id: int
         primary key of product to which review is to be added
+    order_id: int
+        primary key of current order with product being reviewed
     """
     # determine if customer wants anonymous review
     anonymous = request.POST.get('anonymous_review', 'Anonymous')
