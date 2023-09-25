@@ -4,6 +4,7 @@
 
 </head>
 <body>
+    <a href="{% url 'product_site:view_order' order_id 'none' %}">Back to Orders</a><br>
         Product Review for: {{order_item.product_title}}
 
         <form action="{% url 'product_site:save_review' order_item.product_id order_id %}" method="post">
