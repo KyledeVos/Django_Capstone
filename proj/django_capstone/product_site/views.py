@@ -608,10 +608,13 @@ def product_review(request, order_item_id, order_id):
     """
     # retrieve order_item for review
     order_item = get_object_or_404(Order_Item, pk = order_item_id)
+    # retrieve product main image
+    product_image = get_object_or_404(Product, pk=order_item.product_id).product_image
     
     context = {
         'order_item': order_item,
         'order_id': order_id,
+        'product_image': product_image,
         'max_rating': [str(count) for count in range(1, 6)],
     }
     return render(request, 'product_review.html', context)
