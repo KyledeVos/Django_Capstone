@@ -19,7 +19,7 @@ urlpatterns = [
     # allow customer to submit an open order
     path('<order_id>/submit_order', views.submit_order, name='submit_order'),
     # allow customer to view processing and completed orders
-    path('<order_id>/view_order', views.view_order, name='view_order'),
+    path('<order_id>/<message>/view_order', views.view_order, name='view_order'),
     # allow a customer to leave a review
     path('<order_item_id>/<order_id>/product_review', views.product_review, name='product_review'),
     # save review to a product

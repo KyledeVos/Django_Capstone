@@ -44,7 +44,7 @@ customer_orders(request, message):
 remove_item(request, item_id, order_id):
     Delete an Order_Item from an order. Delete order if all Order Items have been removed.
 
-view_order(request, order_id):
+view_order(request, order_id, message):
     Retreive current order (processing or completed status) details for
         display to customer.
 
@@ -480,7 +480,7 @@ def remove_item(request, item_id, order_id):
     return HttpResponseRedirect(reverse('product_site:customer_orders', args=("Item Successfully Removed",)))
 
 
-def view_order(request, order_id):
+def view_order(request, order_id, message):
     """Retreive current order (processing or completed status) details for
         display to customer.
     
@@ -490,6 +490,8 @@ def view_order(request, order_id):
         render html page displaying order info
     order_id: int
         primary key for order details being requested
+    message: str
+        informative message to display to customer
     """
     # retrieve order, status and order_items
     order = get_object_or_404(Order, pk=order_id)
@@ -516,7 +518,8 @@ def view_order(request, order_id):
         'order': order,
         'status': status,
         'payment_date': payment_date,
-        'order_items': order_items
+        'order_items': order_items,
+        'message': message
     }
     return render(request, 'view_order.html', context)
 
@@ -577,6 +580,7 @@ def product_review(request, order_item_id, order_id):
         'max_rating': [str(count) for count in range(1, 6)],
     }
     return render(request, 'product_review.html', context)
+
 
 # Helper Function - Update Overall Review Rating of Product
 def review_rating_update(applied_rating, product):
@@ -646,4 +650,4 @@ def save_review(request, product_id, order_id):
     # updating product review rating
     review_rating_update(rating, product)
 
-    return HttpResponseRedirect(reverse('product_site:view_order', args=(order_id, )))
+    return HttpResponseRedirect(reverse('product_site:view_order', args=(order_id, 'Review Submitted' )))

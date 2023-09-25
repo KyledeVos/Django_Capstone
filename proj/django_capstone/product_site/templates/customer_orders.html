@@ -76,7 +76,7 @@
 
         {% for order in completed_orders %}
             Order {{forloop.counter}} - Delivered on {{order.delivered_date}}
-            <form action="{% url 'product_site:view_order' order.id  %}">
+            <form action="{% url 'product_site:view_order' order.id 'none'  %}">
                 <button type="submit">View</button>
             </form>
             <br>
