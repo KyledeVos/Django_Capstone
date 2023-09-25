@@ -1063,7 +1063,3 @@ def view_order(request, order_id, customer_id, type):
     }
 
     return render(request, 'Display/view_order.html', context)
-
-
-def all_orders(request):
-    return render(request, 'Display/all_orders.html')
