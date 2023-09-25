@@ -74,6 +74,25 @@ delete_label(request, label_id):
 initial_product_deletion(request, product_id):
     Retrieve current product selected by user for deletion and return confirmation
     page to confirm if deletion is correct
+
+confirmed_product_deletion(request, product_id):
+    Retrieve deletion confirmation from html form used to determine if application is
+    to go ahead with deletion or not. If so, retrieve product and perform deletion
+
+all_customers(request):
+    Retrieve All saved customers and their associated orders. Determine order status
+        for 'action_required' notification to admin user
+
+customer_orders(request, customer_id):
+    Retrieve and sort customer orders into not paid, processing and completed
+
+view_order(request, order_id, customer_id, type):
+    Retrieve an format an individual customer order for render
+
+change_order_status(request, order_id, customer_id, new_status):
+    Allow admin user to change order status after payment received and then after
+        product has been delivered
+
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
@@ -1069,7 +1088,20 @@ def view_order(request, order_id, customer_id, type):
 
 
 def change_order_status(request, order_id, customer_id, new_status):
-
+    """Allow admin user to change order status after payment received and then after
+        product has been delivered
+        
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        used to return customer to view_order page
+    order_id: int
+        primary key for order whose status is to changed
+    customer_id: int
+        primary key of current customer needed for return to view_order page
+    new_status: str
+        description of new status to be applied to order
+    """
     #Retrieve the current order
     order = get_object_or_404(models.Order, pk = order_id)
 
