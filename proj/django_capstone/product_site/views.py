@@ -56,6 +56,10 @@ product_review(request, order_item_id, order_id):
     Allow logged-in user to submit a review for a product that has been paid for
         and delivered
 
+review_rating_update(applied_rating, product):
+    Calculate New Average Review rating for a product after a new review
+        has been added for the product
+
 save_review(request, product_id, order_id):
     Retrieve customer review attributes and preferences to create new product
         review and assign to the Product
@@ -574,6 +578,30 @@ def product_review(request, order_item_id, order_id):
     }
     return render(request, 'product_review.html', context)
 
+# Helper Function - Update Overall Review Rating of Product
+def review_rating_update(applied_rating, product):
+    """Calculate New Average Review rating for a product after a new review
+        has been added for the product
+        
+    Parameters:
+    ----------
+    applied_rating: int
+        value of review_rating added to a product
+    product: Product
+        product whose review rating needs to be re-calculated
+    """
+    # track number of reviews for a product and sum of all ratings
+    count = 0
+    sum = 0
+    # iterate through all product reviews
+    for review in Review.objects.filter(product = product):
+        count += 1
+        sum += review.rating
+
+    # calculate review average rating and update product
+    product.review_value = round(sum/count, 1)
+    product.save()
+    
 
 def save_review(request, product_id, order_id):
     """Retrieve customer review attributes and preferences to create new product
@@ -604,12 +632,18 @@ def save_review(request, product_id, order_id):
     # Retrieve Review Description - No description provided will have value of 'Optional'
     description = request.POST['review_description']
 
+    # retrieve current product
+    product = get_object_or_404(Product, pk=product_id)
+
     # Create New Review
     review = Review.objects.create(
-        product = get_object_or_404(Product, pk=product_id),
+        product = product,
         author = author,
         description = description,
         rating = rating
     )
+
+    # updating product review rating
+    review_rating_update(rating, product)
 
     return HttpResponseRedirect(reverse('product_site:view_order', args=(order_id, )))
