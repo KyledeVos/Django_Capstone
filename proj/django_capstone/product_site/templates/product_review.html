@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+        Product Review for: {{order_item.product_title}}
+
+        <form action="{% url 'product_site:save_review' order_item.product_id %}" method="post">
+            {% csrf_token %}
+
+            <!-- Allow User to Review Anonymously-->
+            <input type="checkbox" name="anonymous_review" value = "checked">
+            <label >
+                Add Name to Review<br>
+            </label>
+            
+            <!--Review Rating-->
+            <h4> Please select a Rating </h4>
+            {% for rating in max_rating %}
+                <input type="radio" name="review_value" value = "{{rating}}" required>
+                {{rating}}
+            {% endfor %}
+
+            <h4>description</h4>
+            <input type="text" name="review_description" value="Optional"><br>
+            <br>
+            <input type="submit" value = "Submit Review">
+        </form>
+</body>
+</html>

@@ -56,7 +56,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from datetime import datetime, date
-from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order
+from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order, Review
 
 
 # Helper Function
@@ -534,7 +534,6 @@ def submit_order(request, order_id):
     order.status = 'r'
     # update submission date
     order.submitted_date = date.today()
-    print(order.submitted_date)
     # update order total_value
     order.total_value = total_value
     order.save()
@@ -544,4 +543,59 @@ def submit_order(request, order_id):
 
 
 def product_review(request, order_item_id):
-    return HttpResponse(f"Product_Review for {order_item_id}")
+    """Allow logged-in user to submit a review for a product that has been paid for
+        and delivered.
+
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        used to render product review page
+    order_item_id: int
+        primary key for product item to be reviewed    
+    """
+    # retrieve order_item for review
+    order_item = get_object_or_404(Order_Item, pk = order_item_id)
+    
+    context = {
+        'order_item': order_item,
+        'max_rating': [str(count) for count in range(1, 6)],
+    }
+    return render(request, 'product_review.html', context)
+
+
+def save_review(request, product_id):
+    """Retrieve customer review attributes and preferences to create new product
+        review and assign to the Product.
+    
+    Parameters:
+    -----------
+    request: HTTPRequest object
+        used to render product review page
+    product_id: int
+        primary key of product to which review is to be added
+    """
+    # determine if customer wants anonymous review
+    anonymous = request.POST.get('anonymous_review', 'Anonymous')
+    # customer chose to revew with name
+    if anonymous != 'checked':
+        # retrieve current logged_in user - only logged in user would be able to review
+        user = request.user
+        author = f"{user.first_name} {user.last_name}"
+    # customer wants review to be anonymous
+    else:
+        author = anonymous
+
+    # Retrieve Review Rating
+    rating = int(request.POST['review_value'])
+    # Retrieve Review Description - No description provided will have value of 'Optional'
+    description = request.POST['review_description']
+
+    # Create New Review
+    review = Review.objects.create(
+        product = get_object_or_404(Product, pk=product_id),
+        author = author,
+        description = description,
+        rating = rating
+    )
+
+    return HttpResponse("Save of Review")

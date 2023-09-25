@@ -21,5 +21,7 @@ urlpatterns = [
     # allow customer to view processing and completed orders
     path('<order_id>/view_order', views.view_order, name='view_order'),
     # allow a customer to leave a review
-    path('<order_item_id>/product_review', views.product_review, name='product_review')
+    path('<order_item_id>/product_review', views.product_review, name='product_review'),
+    # save review to a product
+    path('<product_id>/save_review', views.save_review, name='save_review')
 ]
