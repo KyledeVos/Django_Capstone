@@ -541,3 +541,7 @@ def submit_order(request, order_id):
 
     # return user to orders pages
     return HttpResponseRedirect(reverse('product_site:customer_orders', args=('Order Recieved', )))
+
+
+def product_review(request, order_item_id):
+    return HttpResponse(f"Product_Review for {order_item_id}")

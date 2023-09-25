@@ -38,6 +38,12 @@
             {% endfor %}  
         {% endif %}
     <h5>----------------------------------------------------</h5>
+
+    {% if status == 'c'%}
+            <form action="{% url 'product_site:product_review' order_item.id %}">
+                <button type = "submit"> Review Product </button>
+            </form>
+    {% endif %}
     {% endfor %}
 
 </body>
