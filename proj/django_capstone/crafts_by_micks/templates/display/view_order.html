@@ -10,16 +10,22 @@
 
     {% if type == 'not_paid'%}
         <h4>Order Awaiting Payment</h4>
+        Submitted on: {{order.submitted_date}}
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'paid' %}">
             <button type = "submit">Payment Made</button>
         </form>
     {% elif type == 'processing' %}
         <h4> Order Being Processed</h4>
+        Submitted on: {{order.submitted_date}}<br>
+        Paid on: {{order.payment_received_date}}
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'delivered' %}">
             <button type = "submit">Order Delivered</button>
         </form>
     {% else %}
         <h4> Order Completed and Delivered</h4>
+        Submitted on: {{order.submitted_date}}<br>
+        Paid on: {{order.payment_received_date}}<br>
+        Delivered on: {{order.delivered_date}}
     {% endif %}
 
     <h3>Total Value: R{{total_value}}</h3>

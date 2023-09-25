@@ -1059,6 +1059,7 @@ def view_order(request, order_id, customer_id, type):
     context = {
         'order_items': order_items,
         'order_id': order_id,
+        'order' : order,
         'customer_id': customer_id,
         'type': type,
         'total_value': total_value

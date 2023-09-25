@@ -12,7 +12,7 @@
     {% else %}
         <h3>Status: Completed</h3>
         Order Submitted: {{order.submitted_date}}<br>
-        Payment: {{payment_date}}<br>
+        Payment: {{order.payment_received_date}}<br>
         Delivered on: {{order.delivered_date}}
     {% endif %}
 
