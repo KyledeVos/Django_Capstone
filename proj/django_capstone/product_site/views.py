@@ -37,6 +37,9 @@ create_order_item(request, product_id):
         Validate against chosen price(s) and size(s) and add Product to open Order
         for User.
 
+main_image_control(order_items):
+    Retrieve main image and matching id for products and return as list
+
 customer_orders(request, message):
     Retrieve current logged in customer info and matching Orders information
         for display to client
@@ -395,6 +398,29 @@ def create_order_item(request, product_id):
     # Return User to All Products Page
     return HttpResponseRedirect(reverse('product_site:site_home'))
 
+# Helper Function - Construct list of all product main images
+def main_image_control(order_items):
+    """Retrieve main image and matching id for products and return as list
+    
+    Parameters:
+    -----------
+    order_items: list of Order_Items
+        list containg selected Order_Items  to retrieve product id and main image from
+
+    Return:
+    -------
+    list containing product id's and matching main images
+    """
+    # list to hold product_id and its matching image
+    product_image_list = []
+    
+    for item in order_items:
+        # Retrieve matching product main image
+        product_image = get_object_or_404(Product, pk=item.product_id).product_image
+        product_image_list.append([item.product_id, product_image])
+
+    return product_image_list
+
 
 def customer_orders(request, message):
     """Retrieve current logged in customer info and matching Orders information
@@ -416,6 +442,8 @@ def customer_orders(request, message):
     open_orders = []
     processing = []
     completed = []
+    # list to store product images for orders not submitted
+    product_image_list = []
 
     # seperate orders
     for order in all_orders:
@@ -438,14 +466,17 @@ def customer_orders(request, message):
             # retrieve any product options and seperate each option
             item.options = [split_option for split_option in item.options.split(";")]
             open_order_items.append(item)
+
+        # retrieve list of product_id and matching main image
+        product_image_list = main_image_control(open_order_items)
             
-    # add customer and order types to context
     context = {
         'customer': customer,
         'open_orders': open_orders,
         'open_order_items': open_order_items,
         'processing_orders': processing, 
         'completed_orders': completed,
+        'product_image_list': product_image_list,
         'message': message
     }
 
