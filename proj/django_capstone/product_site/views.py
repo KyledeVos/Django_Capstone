@@ -51,6 +51,14 @@ view_order(request, order_id):
 submit_order(request, order_id):
     Retrieve an order submitted for processing and change order status
         to received
+
+product_review(request, order_item_id):
+    Allow logged-in user to submit a review for a product that has been paid for
+        and delivered
+
+save_review(request, product_id):
+    Retrieve customer review attributes and preferences to create new product
+        review and assign to the Product
 """
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
