@@ -99,7 +99,7 @@ class Product(models.Model):
     """
     title = models.CharField(max_length=200, unique = True)
     description = models.TextField()
-    review_value = 0.0
+    review_value = models.FloatField(default = 0.0)
     product_image = models.ImageField(upload_to= 'products_images/', default=None)
     labels = models.ManyToManyField(Label)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
