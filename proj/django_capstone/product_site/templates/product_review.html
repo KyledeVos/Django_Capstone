@@ -6,7 +6,7 @@
 <body>
         Product Review for: {{order_item.product_title}}
 
-        <form action="{% url 'product_site:save_review' order_item.product_id %}" method="post">
+        <form action="{% url 'product_site:save_review' order_item.product_id order_id %}" method="post">
             {% csrf_token %}
 
             <!-- Allow User to Review Anonymously-->

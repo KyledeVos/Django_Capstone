@@ -550,7 +550,7 @@ def submit_order(request, order_id):
     return HttpResponseRedirect(reverse('product_site:customer_orders', args=('Order Recieved', )))
 
 
-def product_review(request, order_item_id):
+def product_review(request, order_item_id, order_id):
     """Allow logged-in user to submit a review for a product that has been paid for
         and delivered.
 
@@ -566,12 +566,13 @@ def product_review(request, order_item_id):
     
     context = {
         'order_item': order_item,
+        'order_id': order_id,
         'max_rating': [str(count) for count in range(1, 6)],
     }
     return render(request, 'product_review.html', context)
 
 
-def save_review(request, product_id):
+def save_review(request, product_id, order_id):
     """Retrieve customer review attributes and preferences to create new product
         review and assign to the Product.
     
@@ -606,4 +607,4 @@ def save_review(request, product_id):
         rating = rating
     )
 
-    return HttpResponse("Save of Review")
+    return HttpResponseRedirect(reverse('product_site:view_order', args=(order_id, )))

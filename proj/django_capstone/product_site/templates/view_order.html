@@ -40,7 +40,7 @@
     <h5>----------------------------------------------------</h5>
 
     {% if status == 'c'%}
-            <form action="{% url 'product_site:product_review' order_item.id %}">
+            <form action="{% url 'product_site:product_review' order_item.id order.id %}">
                 <button type = "submit"> Review Product </button>
             </form>
     {% endif %}
