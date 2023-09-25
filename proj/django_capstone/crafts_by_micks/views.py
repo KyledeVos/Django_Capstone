@@ -1,4 +1,4 @@
-"""Views Module for Django App 'Polls'
+"""Views Module for Django App 'crafts_by_micks' serving as project admin site and control
 
 Methods:
 --------
@@ -99,7 +99,6 @@ from django.urls import reverse
 from django.db import IntegrityError
 from datetime import date
 from . import models
-
 
 def home_page(request):
     """render admin home app of app with SignUp, Login and Product Catalog"""
