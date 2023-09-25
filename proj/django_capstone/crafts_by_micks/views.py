@@ -78,6 +78,7 @@ initial_product_deletion(request, product_id):
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
 from django.db import IntegrityError
+from datetime import date
 from . import models
 
 
@@ -1057,9 +1058,32 @@ def view_order(request, order_id, customer_id, type):
     
     context = {
         'order_items': order_items,
+        'order_id': order_id,
         'customer_id': customer_id,
         'type': type,
         'total_value': total_value
     }
 
     return render(request, 'Display/view_order.html', context)
+
+
+def change_order_status(request, order_id, customer_id, new_status):
+
+    #Retrieve the current order
+    order = get_object_or_404(models.Order, pk = order_id)
+
+    # payment recieved - order status must be changed to paid
+    if new_status == "paid":
+        order.status = 'p'
+        order.payment_received_date = date.today()
+        order.save()
+        return HttpResponseRedirect(reverse('crafts_by_micks:view_order', args=(order_id, customer_id, 'processing')))
+        
+    # order has been processed and delivered to customer
+    else:
+        order.status = 'c'
+        order.delivered_date = date.today()
+        order.save()
+        return HttpResponseRedirect(reverse('crafts_by_micks:view_order', args=(order_id, customer_id, 'completed')))
+
+    

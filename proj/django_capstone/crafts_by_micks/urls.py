@@ -57,7 +57,9 @@ urlpatterns = [
     # View All Orders for a Client
     path('<customer_id>/customer_orders/', views.customer_orders, name='customer_orders'),
     # view specific client order
-    path('<order_id>/<customer_id>/<type>/view_order/', views.view_order, name='view_order')
+    path('<order_id>/<customer_id>/<type>/view_order/', views.view_order, name='view_order'),
+    # change an order status
+    path("<order_id>/<customer_id>/<new_status>/change_order_status", views.change_order_status, name='change_order_status')
 
 
 ]

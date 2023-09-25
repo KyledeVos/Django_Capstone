@@ -30,7 +30,7 @@
     <h3>Processing:</h3>
     {% if processing_orders %}
         {% for order in processing_orders %}
-        Order: {{forloop.counter}}. Paid on {{order.submitted_date}}
+        Order: {{forloop.counter}}. Paid on {{order.payment_received_date}}
         <form action="{% url 'crafts_by_micks:view_order' order.id customer_id 'processing' %}">
             <button type="submit">View Order</button>
         </form>
