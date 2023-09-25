@@ -52,7 +52,7 @@
 
                         <li>
                             <label>Description</label>
-                            <input type="text" name='description' required>
+                            <textarea name="description" rows="5" cols="50" style="resize: none;" required></textarea>
                             <br>
                         </li>
                         
@@ -63,7 +63,7 @@
                             
                                 <label><h4>{{size}}</h4></label>
                                 <label>Price:</label>
-                                <input type="number" min="0" name='{{size}} price' placeholder="0.00">
+                                <input type="number" min="0.0" name='{{size}} price' placeholder="0.00" step="0.01">
                                 <br>
                             </li>
                         {% endfor %}
