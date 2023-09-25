@@ -26,6 +26,13 @@
     <h5>----------------------------------------------------</h5>
         
         Product: <strong>{{order_item.product_title}}</strong> <br>
+
+        {% for product_image in product_image_list %}
+        {%if product_image.0 == order_item.product_id %}
+            <img src="{{product_image.1.url}}" style = "width: 200px;"> <br>
+            {% endif %}
+        {% endfor %}
+
         Quantity: {{order_item.quantity}} <br>
         Size: {{order_item.chosen_size}} <br>
         Price: R{{order_item.price}}<br>

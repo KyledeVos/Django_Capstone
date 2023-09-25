@@ -528,6 +528,9 @@ def view_order(request, order_id, message):
     order = get_object_or_404(Order, pk=order_id)
     status = order.status
     order_items = Order_Item.objects.filter(order = order)
+    # list to store product_id and associated main image
+    product_image_list = main_image_control(order_items)
+
     
     # Date Checks and Format
     # 1) Payment Date
@@ -550,6 +553,7 @@ def view_order(request, order_id, message):
         'status': status,
         'payment_date': payment_date,
         'order_items': order_items,
+        'product_image_list': product_image_list,
         'message': message
     }
     return render(request, 'view_order.html', context)
