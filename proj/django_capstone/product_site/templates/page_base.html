@@ -1,31 +1,65 @@
+<!--Product Site Base Page - Allow user login, account creation, logout and admin control access options-->
 {% load static %}
 
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
 
+
+    
 </head>
-<body>
+<body class = "container-fluid">
+    <div class = "row my-2">    
+        <!--If User has Logged In, Display Logout Option-->
+        {% if logged_in %}
+            <!--Display Username-->
+            {{username}}
 
-    {% if logged_in %}
-        {{username}}
-        <a href="{% url 'user_management:user_logout' %}">Logout</a>
+            <!--Display Logout Button-->
+            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+            text-center btn btn-primary"
+                href="{% url 'user_management:user_logout' %}">
+                Logout
+            </a>
 
-        {% if staff %}
-            <a href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a>
+            <!--View User Orders Button-->
+            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+            text-center btn btn-primary"
+                href="{% url 'product_site:customer_orders' message='none' %}">
+                Orders
+            </a>
         {% else %}
-            <a href="{% url 'product_site:customer_orders' message='none' %}">Orders</a>
+            <!--User Login Button-->
+            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+            text-center btn btn-primary"
+                href="{% url 'user_management:user_login' error='none' source=source %}">
+                User Login
+            </a>
         {% endif %}
-
         
-    {% else %}
-        <a href="{% url 'user_management:user_login' error='none' source=source %}">User Login</a>
-    {% endif %}
+        <!--Create New User Button-->
+        <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+        text-center btn btn-primary"
+            href="{% url 'user_management:create_user' error='none' source=source %}">
+            Create User
+        </a>
 
-    <a href="{% url 'user_management:create_user' error='none' source=source %}">Create User</a>
+        {% if logged_in and staff %}
+            <!-- Staff User given access to Admin Control Site as Django App - 'crafts_by_micks'-->
+            <a href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a>
+        {% endif %}
+    </div>
 
-    {% block content %}
 
-    {% endblock %}
+        {% block content %}
+
+        {% endblock %}
+
     
 </body>
 </html>
