@@ -627,7 +627,7 @@ def update_product(request, product_id, error):
     # to a list
     more_options = []
     if len(options) < MAX_OPTIONS:
-        for new_option in range(len(options) + 1, MAX_OPTIONS + 1):
+        for new_option in range(1, MAX_OPTIONS -len(options) + 1):
             more_options.append(new_option)
 
     # determine if there are still extra images that may be added on to a product
@@ -778,60 +778,12 @@ def save_update(request, product_id):
         # reset match for next iteration
         match = False
 
-# &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-    # # ---- Product Options ----
-    # # retrieve possible options from html form
-    # request_options = retrieve_product_options(request)
-    # # retrieve all options currently assigned to product
-    # assigned_options = models.Option.objects.filter(product = product)
-    # # retrieve all current option Titles - will be used later to determine assigned
-    # # options that need to be deleted
-    # options_delete = [option.title for option in assigned_options]
-    
-    # # track if an object exists in database matching those recieved from html form
-    # match = False
-    # for request_option in request_options:
-    #     for assigned_option in assigned_options:
-    #         # option with matching title found and non-empty description
-    #         if assigned_option.title == request_option[0] and request_option[1] != '':
-                
-    #             match = True
-    #             # remove this option from assigned options to be deleted
-    #             options_delete.remove(assigned_option.title)
-    #             # check if the description has changed
-    #             if assigned_option.description != request_option[1]:
-    #                 # change and save new description
-    #                 assigned_option.description = request_option[1]
-    #                 assigned_option.save()
-    #                 # move to new retrieved option from html form
-    #                 break
-
-    #     # existing option was not found to match any retrieved
-    #     if not match:
-    #         # 1) user has added a new option, ensure title and description was added
-    #         if request_option[0] != '' and request_option[1] != "":
-    #             # create and save new product option
-    #             prod_option = models.Option.objects.create(
-    #                     product = product,
-    #                     title = request_option[0],
-    #                     description = request_option[1]
-    #                 )
-    #             prod_option.save()
-    #         # reset match for next iteration
-    #     match = False
-
-    # # check if there are any titles left in those assigned to products, if so they 
-    # # are to be deleted (user removed or changed title)
-    # if len(options_delete)> 0:
-    #     for deletion_option in options_delete:
-    #         current_option = models.Option.objects.filter(title = deletion_option)
-    #         current_option.delete()
-
-# &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-    # ---- Product Options ----
+    # ---- Product Options - Current ----
     # retrieve all options currently assigned to product
     assigned_options = models.Option.objects.filter(product = product)
+    # determine original number of options assigned to product to determine
+    # number of additional options user was allowed to add
+    additonal_options_count = MAX_OPTIONS - len(assigned_options)
 
     for option in assigned_options:
         # determine if admin has selected option to be removed
@@ -840,7 +792,6 @@ def save_update(request, product_id):
             # delete option and move to next iteration for next option
             option.delete()
             continue
-
 
         # attempt to retrieve option from html page with matching title id
         # to a current option
@@ -856,12 +807,27 @@ def save_update(request, product_id):
 
         # check the possible new description is not empty nor contains only spaces
         if retrieved_option_description != "" and not retrieved_option_description.isspace():
-            # determine if the title has been changed, if so update title
+            # determine if the descripttion has been changed, if so update description
             if option.description != retrieved_option_description:
                 option.description = retrieved_option_description
                 option.save()
-            print(f'title: {retrieved_option_title}, description: {retrieved_option_description}')
 
+    # ---- Product Options - New ----
+    for count in range(1, additonal_options_count + 1):
+        # attempt to retrieve a posssible new option title and description
+        new_option_title = request.POST.get(f"Option{count} title", 'none')
+        new_option_desc = request.POST.get(f"Option{count} desc", 'none')
+        # check if new title and description was recieved and non_empty
+        if new_option_title != '' and not new_option_title.isspace():
+            if new_option_desc != '' and not new_option_desc.isspace():
+                # valid Title and Description gives, create new product option
+                prod_option = models.Option.objects.create(
+                    product = product,
+                    title = new_option_title,
+                    description = new_option_desc
+                )
+                prod_option.save()
+        
     # ---- Additional Product Images ----
     # retrieve list of product_images that were marked for deletion
     deletion_images_list = request.POST.getlist('deletion_images')

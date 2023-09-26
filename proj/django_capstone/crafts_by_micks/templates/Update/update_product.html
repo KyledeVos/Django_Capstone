@@ -77,33 +77,33 @@
                 <br>
 
             {% endfor %}
+            
+            {% if options %}
+                <h3>Current Options</h3>
+                {% for option in options %}
 
-            <h3>Options</h3>
-            {% for option in options %}
-                <!--ORIGINAL-->
-                <!-- <label>Name</label>
-                <input type="text" name='Option{{forloop.counter}} title' value="{{option.title}}">
-                <label>Description</label>
-                <input type="text" name='Option{{forloop.counter}} desc' value="{{option.description}}">
-                <br> -->
+                    <label>Name</label>
+                    <input type="text" name='Option{{option.id}} title' value="{{option.title}}">
+                    <label>Description</label>
+                    <input type="text" name='Option{{option.id}} desc' value="{{option.description}}">
+                    <label>Delete</label>
+                    <input type="checkbox" name="Option{{option.id}} delete" value="delete">
+                    <br>
 
+                {% endfor %}
+            {% endif %}
+
+            {% if more_options %}
+            <h3>New Options</h3>
+                {% for new_option in more_options %}
+                {{new_option}}
                 <label>Name</label>
-                <input type="text" name='Option{{option.id}} title' value="{{option.title}}">
+                <input type="text" name='Option{{new_option}} title'>
                 <label>Description</label>
-                <input type="text" name='Option{{option.id}} desc' value="{{option.description}}">
-                <label>Delete</label>
-                <input type="checkbox" name="Option{{option.id}} delete" value="delete">
+                <input type="text" name='Option{{new_option}} desc'>
                 <br>
-
-            {% endfor %}
-
-            {% for extra_option in more_options %}
-            <label>Name</label>
-            <input type="text" name='Option{{extra_option}} title'>
-            <label>Description</label>
-            <input type="text" name='Option{{extra_option}} desc'>
-            <br>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
 
             <h3>Product Images</h3>
             {% for image in current_images %}
