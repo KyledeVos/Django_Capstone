@@ -52,12 +52,12 @@
                         <br>
                 {%endif%}
                 <label>Product Name</label>
-                <input type="text" name='title' required value={{product.title}}>
+                <input type="text" name='title' required value="{{product.title}}">
                 <br>
             </li>
             <li>
                 <label>Description</label>
-                <input type="text" name='description' required value={{product.description}}>
+                <input type="text" name='description' required value="{{product.description}}">
                 <br>
                 <br>    
             </li>
@@ -82,9 +82,9 @@
             {% for option in options %}
 
                 <label>Name</label>
-                <input type="text" name='Option{{forloop.counter}} title' value={{option.title}}>
+                <input type="text" name='Option{{forloop.counter}} title' value="{{option.title}}">
                 <label>Description</label>
-                <input type="text" name='Option{{forloop.counter}} desc' value={{option.description}}>
+                <input type="text" name='Option{{forloop.counter}} desc' value="{{option.description}}">
                 <br>
 
             {% endfor %}

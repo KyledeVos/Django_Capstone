@@ -15,9 +15,9 @@
     <h1>{{product.title}}</h1>
 
     {% if product.review_value == 0 %}
-        No Reviews
+        No Reviews<br>
     {% else %}
-        Rating: {{product.review_value}}
+        Rating: {{product.review_value}}<br>
     {% endif %}
 
     {% if discount_bool %}

@@ -97,7 +97,7 @@ class Product(models.Model):
     __str__(self): str
         return title of Product
     """
-    title = models.CharField(max_length=200, unique = True)
+    title = models.TextField(unique = True)
     description = models.TextField()
     review_value = models.FloatField(default = 0.0)
     product_image = models.ImageField(upload_to= 'products_images/', default=None)
@@ -193,7 +193,7 @@ class Product_Sizes(models.Model):
     )
 
     size = models.CharField(max_length=15, choices=size_options)
-    price = models.FloatField(default=0)
+    price = models.FloatField(default=0.0)
 
     def __str__(self):
         """return Product id and size"""
