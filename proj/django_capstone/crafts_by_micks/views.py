@@ -874,15 +874,6 @@ def save_update(request, product_id):
             # new image was not added, do nothing
             pass
     
-    # attempt to save product with possible newly updated title, description, category and/or labels
-    # try:
-    #     product.save()
-    # except IntegrityError:
-    #     # duplicated product name was given for update, return user to update page and pass error message
-    #     # for display
-    #     print("Duplicate Name")
-    #     return HttpResponseRedirect(reverse('crafts_by_micks:update_product', args=(product.id, "Duplicate Name",))) 
-    
     # no errors occured in updating product, return user to display of all products
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
 
