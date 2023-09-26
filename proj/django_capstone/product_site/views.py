@@ -261,11 +261,12 @@ def product_view(request, product_id, error):
     # track if a discount has been applied for notification on project page
     discount_bool = True if highest_discount > 0 else False
     # if there is a discount to apply, modify all product prices to show discount
-    if highest_discount > 0:
-        for price_option in product_pricing:
+    
+    for price_option in product_pricing:
+        if highest_discount > 0:
             price_option.price *= (highest_discount/100)
-            # correct decimals for price
-            price_option.price = f"{(round(price_option.price, 2)):.2f}"
+        # correct decimals for price
+        price_option.price = f"{(round(price_option.price, 2)):.2f}"
 
     # retrive all possible product additonal images
     product_images = Product_Images.objects.filter(product = product)
