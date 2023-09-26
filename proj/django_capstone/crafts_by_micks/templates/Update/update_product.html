@@ -80,11 +80,19 @@
 
             <h3>Options</h3>
             {% for option in options %}
-
-                <label>Name</label>
+                <!--ORIGINAL-->
+                <!-- <label>Name</label>
                 <input type="text" name='Option{{forloop.counter}} title' value="{{option.title}}">
                 <label>Description</label>
                 <input type="text" name='Option{{forloop.counter}} desc' value="{{option.description}}">
+                <br> -->
+
+                <label>Name</label>
+                <input type="text" name='Option{{option.id}} title' value="{{option.title}}">
+                <label>Description</label>
+                <input type="text" name='Option{{option.id}} desc' value="{{option.description}}">
+                <label>Delete</label>
+                <input type="checkbox" name="Option{{option.id}} delete" value="delete">
                 <br>
 
             {% endfor %}
