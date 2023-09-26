@@ -15,7 +15,8 @@
                 <h1>{{category.0}}</h1>
                 {% for product in category %}
                 {% if forloop.counter > 1 %}
-                    <h3>{{product.title}} {{product.description}}</h3>
+                    <h3>{{product.title}}</h3>
+                    <img src="{{product.product_image.url}}" style = "width: 200px;"> <br>
                     <a href = "{% url 'crafts_by_micks:update_product' product.id 'none' %}">Update</a>
                     <a href="{% url 'crafts_by_micks:initial_product_deletion' product.id %}">Delete</a>
                 {% endif %}
