@@ -29,7 +29,7 @@
     <!-- Main Page Container and sets background image-->
     <div class = "row text-end" style = "height: 60%;"> 
         <div style = "border-bottom: 1px solid black;
-        background-image: url('{% static "page_base_images/title_div_bg1.jpg" %}');
+        background-image: url('{% static 'page_base_images/title_div_bg1.jpg' %}');
         height: 100%;">
 
             <!--Dropdown Menu for User Login, Signup and Order Menus-->
@@ -76,8 +76,11 @@
                 <!--Business Logo-->
                 <section class = "row g-0">
                 <figure class = "col-xl-4 col-lg-5 col-md-7 col-sm-10 col-10 mx-auto">
-                <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
-                    class = "card-img-top rounded-circle std_img_border">
+                    <!-- Use Business Logo as Link to Return to Home Page-->
+                    <a href="{% url 'product_site:site_home' %}">
+                        <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
+                            class = "card-img-top rounded-circle std_img_border">
+                    </a>
                 </figure>
                 </section>
 
