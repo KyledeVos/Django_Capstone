@@ -14,45 +14,108 @@
     
 </head>
 <body class = "container-fluid">
-    <div class = "row my-2">    
-        <!--If User has Logged In, Display Logout Option-->
-        {% if logged_in %}
-            <!--Display Username-->
-            {{username}}
+    <div class = "row" style = "height: 50%;"> 
+        <div style = "border-bottom: 1px solid black;
+        background-image: url('static/page_base_images/title_div_bg1.jpg');
+        height: 100%;">
+            <!--If User has Logged In, Display Logout Option-->
+            {% if logged_in %}
+                <!--Display Username-->
+                <div class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+                my-1 text-center btn btn-primary fw-bold"
+                style="color: white; outline: 0.1rem solid white">
+                    {{username}}
+                </div>
 
-            <!--Display Logout Button-->
-            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-            text-center btn btn-primary"
-                href="{% url 'user_management:user_logout' %}">
-                Logout
+                <!--Display Logout Button-->
+                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+                my-1 text-center btn btn-primary fw-bold"
+                style="color: white; outline: 0.1rem solid white"
+                    href="{% url 'user_management:user_logout' %}">
+                    Logout
+                </a>
+
+                <!--View User Orders Button-->
+                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+                my-1 text-center btn btn-primary fw-bold"
+                style="color: white; outline: 0.1rem solid white"
+                    href="{% url 'product_site:customer_orders' message='none' %}">
+                    Orders
+                </a>
+            {% else %}
+                <!--User Login Button-->
+                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+                my-1 text-center btn btn-primary fw-bold"
+                style="color: white; outline: 0.1rem solid white"
+                    href="{% url 'user_management:user_login' error='none' source=source %}">
+                    Login
+                </a>
+
+                <!--Create New User Button-->
+                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
+                my-1 text-center btn btn-primary fw-bold"
+                style="color: white; outline: 0.1rem solid white;"
+                    href="{% url 'user_management:create_user' error='none' source=source %}">
+                    Sign Up
+            {% endif %}
+            
+
             </a>
 
-            <!--View User Orders Button-->
-            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-            text-center btn btn-primary"
-                href="{% url 'product_site:customer_orders' message='none' %}">
-                Orders
-            </a>
-        {% else %}
-            <!--User Login Button-->
-            <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-            text-center btn btn-primary"
-                href="{% url 'user_management:user_login' error='none' source=source %}">
-                User Login
-            </a>
-        {% endif %}
-        
-        <!--Create New User Button-->
-        <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-        text-center btn btn-primary"
-            href="{% url 'user_management:create_user' error='none' source=source %}">
-            Create User
-        </a>
+            {% if logged_in and staff %}
+                <!-- Staff User given access to Admin Control Site as Django App - 'crafts_by_micks'-->
+                <a class="col-xxl-2 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 my-1
+                text-center btn btn-info fw-bold"
+                style="color: white; outline: 0.1rem solid white; float: right;"
+                    href="{% url 'crafts_by_micks:home_page'%}">
+                    Admin Control
+                </a>
+            {% endif %}
+            <!-- Business Logo
+            <section class = "row g-0">
+                <figure class = "col-xl-4 col-lg-5 col-md-5 col-sm-6 col-7 mx-auto">
+                <img src = "{% static 'page_base_images/company_logo.jpg' %}"
+                    class = "card-img-top rounded-circle std_img_border">
+                </figure>
+            </section> -->
+            <!--Business Logo and Social Media Links-->
+            <section class = "row justify-content-around text-white g-0">
 
-        {% if logged_in and staff %}
-            <!-- Staff User given access to Admin Control Site as Django App - 'crafts_by_micks'-->
-            <a href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a>
-        {% endif %}
+                <!--Social Media Links - Top Right-->
+                <article class="col-12 my-2 text-end">
+                    <nav>
+                        <!--Instagram Logo and Link-->
+                        <a href = "https://www.instagram.com/craftsbymicks/" target = "_blank">
+                            <img src = "{% static 'page_base_images/instagram_logo.png' %}"
+                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                    style = "width:40px;">
+                        </a>
+                        <!--Facebook Logo and Link-->
+                        <a href = "https://www.facebook.com/craftsbymicks" target = "_blank">
+                            <img src = "{% static 'page_base_images/facebook_logo.png' %}"
+                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                    style = "width:40px;">
+                        </a>
+                        <!--Youtube Logo and Link-->
+                        <a href = "https://www.youtube.com/@craftsbymicks" target = "_blank">
+                            <img src = "{% static 'page_base_images/youtube_logo.png' %}"
+                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                style = "width:40px;">
+                        </a>
+                    </nav>
+                </aticle>
+            </section>
+
+            <!--Business Logo-->
+            <section class = "row g-0">
+            <figure class = "col-xl-4 col-lg-5 col-md-5 col-sm-6 col-7 mx-auto">
+            <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
+                class = "card-img-top rounded-circle std_img_border">
+            </figure>
+            </section>
+        </section>
+        </div> 
+
     </div>
 
 
