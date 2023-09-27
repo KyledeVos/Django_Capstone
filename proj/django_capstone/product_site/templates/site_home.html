@@ -8,13 +8,17 @@
 {% if products %}
     
     {% for category in products %}
+        <!--Display Each Product Category - Already Validated to only display Categories
+            with at least one products
+        -->
         <div class = "row my-2 text-center border border-primary ">
             <h1>{{category.0}}</h1>
         </div>
         
         <section class = "row border border-secondary my-2 g-1">
             {% for product in category.1 %}
-                <div class = "col-xl-3 p-0">
+                <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 
+                            p-0 border border-primary">
                     <!--Display Multiple Sizes Notification for Product with Pricing Options-->
                     {% if product.multiple_sizes is True%}
                         <h6 class = "card-header border-0 text-center fw-bold bg-transparent"
@@ -26,20 +30,30 @@
                     {% endif %}
                     
                     <!-- Product Title-->
-                    <h5 class = "card-header border-0 text-center bg-transparent">
+                    <h5 class = "card-header border-0 text-center text-truncate bg-transparent">
                         {{product.title}}
                     </h5>
 
-                    <!-- Product Main Image -->
-                    <a class = "mx-5" href="{% url 'product_site:product_view' product.id 'none' %}">
-                        <img class = "my-2 card-img-top rounded product_image"
-                            src="{{product.main_image.url}}">
-                    </a>
-                    <h5 class = "card-header border-0 text-center bg-transparent">R{{product.display_price}}</h5>
-                    <form class="text-center d-grid mx-5" action="{% url 'product_site:product_view' product.id 'none' %}">
-                        <button type="submit" class="btn btn-outline-dark " >View</button>
-                    </form>
+                    <!-- Product Main Image x`-->
+                    <div class = "text-center">
+                        <a href="{% url 'product_site:product_view' product.id 'none' %}">
+                            <img class = "my-2 card-img-top rounded product_image"
+                                src="{{product.main_image.url}}">
+                        </a>
+                    </div>
 
+                    <!--Product Price-->
+                    <h5 class = "card-header border-0 text-center bg-transparent">
+                        R{{product.display_price}}
+                    </h5>
+
+                    <!-- View Product Button-->
+                    <form class="text-center d-grid mx-5"
+                            action="{% url 'product_site:product_view' product.id 'none' %}">
+                        <button type="submit" class="btn btn-outline-dark " >
+                            View
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
         </section>
