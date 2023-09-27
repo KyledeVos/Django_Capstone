@@ -11,14 +11,14 @@
         <!--Display Each Product Category - Already Validated to only display Categories
             with at least one products
         -->
-        <div class = "row my-2 text-center border border-primary ">
+        <div class = "row my-2 text-center">
             <h1>{{category.0}}</h1>
         </div>
         
-        <section class = "row border border-secondary my-2 g-1">
+        <section class = "row my-2 g-1">
             {% for product in category.1 %}
                 <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 
-                            p-0 border border-primary">
+                            p-0     ">
                     <!--Display Multiple Sizes Notification for Product with Pricing Options-->
                     {% if product.multiple_sizes is True%}
                         <h6 class = "card-header border-0 text-center fw-bold bg-transparent"
@@ -34,12 +34,24 @@
                         {{product.title}}
                     </h5>
 
-                    <!-- Product Main Image x`-->
-                    <div class = "text-center">
-                        <a href="{% url 'product_site:product_view' product.id 'none' %}">
-                            <img class = "my-2 card-img-top rounded product_image"
-                                src="{{product.main_image.url}}">
-                        </a>
+                    <!-- Product Main Image -->
+                    <div class="card">
+                        <div class = "text-center">
+                            <!-- Main Image also link to Product View-->
+                            <a href="{% url 'product_site:product_view' product.id 'none' %}">
+                                <img class = " my-2 card-img-top rounded product_image" style="z-index: 0;"
+                                    src="{{product.main_image.url}}">
+                            </a>
+                            <!--Add Labels Over Product Image-->
+                            <div class="card-img-overlay card-inverse">
+                                    {% for label in product.labels %}
+                                        <div class = "text-start my-1 px-1 rounded fw-bold text-truncate "
+                                        style=" width: 150px; color: white; background-color: {{label.custom_colour}};">
+                                        {{label}}
+                                        </div>
+                                    {% endfor %}     
+                            </div>
+                        </div>
                     </div>
 
                     <!--Product Price-->

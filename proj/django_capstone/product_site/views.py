@@ -71,7 +71,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from datetime import datetime, date
-from crafts_by_micks.models import Category, Product, Product_Sizes, Product_Images, Option, Order_Item, Order, Review
+from crafts_by_micks.models import Category, Label, Product, Product_Sizes, Product_Images, Option, Order_Item, Order, Review
 
 
 # Helper Function
@@ -117,6 +117,10 @@ def populate_display_products(all_products):
         current_product['title'] = product.title
         current_product['main_image'] = product.product_image
         current_product['review_value'] = product.review_value
+
+        # retrieve all labels associated with a product
+        labels = Label.objects.filter(product = product)
+        current_product['labels'] = labels
 
         # -- PRICING --
         # Product will have at least one price assigned to it (various sizes).
