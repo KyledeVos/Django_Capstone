@@ -4,125 +4,113 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous">
-
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- BootStrap Styling-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- Popper - Needed for DropDown Menus-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <!-- Bootstrap Javascript for DropDown Menus-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     
 </head>
+
 <body class = "container-fluid">
-    <div class = "row" style = "height: 50%;"> 
+
+    <!-- Display Login in Details for Project Marker-->
+    <div class = "row">
+        <h4> For Project Marker Logins:</h4>
+        <!-- Login with access to Admin Control App-->
+        <h5>Admin Control: username: admin &nbsp&nbsp password: admin</h5>
+        <!-- Login as customer with populated orders-->
+        <h5>Current Customer with Orders: username: bpython &nbsp&nbsp password: defpassword</h5>
+    </div>
+
+    <!-- Main Page Container and sets background image-->
+    <div class = "row text-end" style = "height: 60%;"> 
         <div style = "border-bottom: 1px solid black;
         background-image: url('static/page_base_images/title_div_bg1.jpg');
         height: 100%;">
-            <!--If User has Logged In, Display Logout Option-->
-            {% if logged_in %}
-                <!--Display Username-->
-                <div class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-                my-1 text-center btn btn-primary fw-bold"
-                style="color: white; outline: 0.1rem solid white">
-                    {{username}}
-                </div>
 
-                <!--Display Logout Button-->
-                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-                my-1 text-center btn btn-primary fw-bold"
-                style="color: white; outline: 0.1rem solid white"
-                    href="{% url 'user_management:user_logout' %}">
-                    Logout
-                </a>
+            <!--Dropdown Menu for User Login, Signup and Order Menus-->
+            <!--Adapted from: studytonight.com on 27 September 2023
+                Available from: https://www.studytonight.com/bootstrap/solvedbootstrap-dropdown-not-working
+            -->
+            <div class="dropdown text-start my-2">
+                <button class="btn btn-light border-2 dropdown-toggle "
+                    style="background-color:rgba(241, 220, 238, 0.368); font-weight: bold;"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <!-- Logged-In User - Show username. Display 'Menu' for non-logged-in user-->
+                    {% if logged_in %}
+                        {{username}}
+                    {% else %}
+                        Menu
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu">
+                    <!-- Options for Logged-In User-->
+                    {% if logged_in %}
+                        <!-- Admin Users have additional access to Admin Control App-->
+                        {% if staff %}
+                        <li><a class="dropdown-item" href="{% url 'crafts_by_micks:home_page'%}">Admin Control</a></li>
+                        {% endif %}
+                    <!-- Logout Option -->
+                    <li><a class="dropdown-item" href="{% url 'user_management:user_logout' %}">Logout</a></li>
+                    <!-- View Orders -->
+                    <li><a class="dropdown-item" href="{% url 'product_site:customer_orders' message='none' %}">Order</a></li>
 
-                <!--View User Orders Button-->
-                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-                my-1 text-center btn btn-primary fw-bold"
-                style="color: white; outline: 0.1rem solid white"
-                    href="{% url 'product_site:customer_orders' message='none' %}">
-                    Orders
-                </a>
-            {% else %}
-                <!--User Login Button-->
-                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-                my-1 text-center btn btn-primary fw-bold"
-                style="color: white; outline: 0.1rem solid white"
-                    href="{% url 'user_management:user_login' error='none' source=source %}">
-                    Login
-                </a>
+                    <!-- Options for Non-Logged-In User -->
+                    {% else %}
+                    <!-- Allow Non-Logged-In user to Login or Sign Up-->
+                    <li><a class="dropdown-item" href="{% url 'user_management:user_login' error='none' source=source %}">Login</a></li>
+                    <li><a class="dropdown-item" href="{% url 'user_management:create_user' error='none' source=source %}">Sign Up</a></li>
+                    {% endif %} 
+                </ul>
+            </div>
 
-                <!--Create New User Button-->
-                <a class="col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 
-                my-1 text-center btn btn-primary fw-bold"
-                style="color: white; outline: 0.1rem solid white;"
-                    href="{% url 'user_management:create_user' error='none' source=source %}">
-                    Sign Up
-            {% endif %}
-            
+            <!--Business Logo and Social Media Links-->
+            <section class = "row justify-content-around text-white g-0">   
 
-            </a>
-
-            {% if logged_in and staff %}
-                <!-- Staff User given access to Admin Control Site as Django App - 'crafts_by_micks'-->
-                <a class="col-xxl-2 col-xl-1 col-lg-2 col-md-2 col-3 ms-3 my-1
-                text-center btn btn-info fw-bold"
-                style="color: white; outline: 0.1rem solid white; float: right;"
-                    href="{% url 'crafts_by_micks:home_page'%}">
-                    Admin Control
-                </a>
-            {% endif %}
-            <!-- Business Logo
-            <section class = "row g-0">
-                <figure class = "col-xl-4 col-lg-5 col-md-5 col-sm-6 col-7 mx-auto">
-                <img src = "{% static 'page_base_images/company_logo.jpg' %}"
+                <!--Business Logo-->
+                <section class = "row g-0">
+                <figure class = "col-xl-4 col-lg-5 col-md-7 col-sm-10 col-10 mx-auto">
+                <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
                     class = "card-img-top rounded-circle std_img_border">
                 </figure>
-            </section> -->
-            <!--Business Logo and Social Media Links-->
-            <section class = "row justify-content-around text-white g-0">
+                </section>
 
                 <!--Social Media Links - Top Right-->
-                <article class="col-12 my-2 text-end">
+                <article class="col-12 my-2 text-center">
                     <nav>
                         <!--Instagram Logo and Link-->
                         <a href = "https://www.instagram.com/craftsbymicks/" target = "_blank">
                             <img src = "{% static 'page_base_images/instagram_logo.png' %}"
                                     class = "card-img-top rounded-circle mx-2 std_img_border"
-                                    style = "width:40px;">
+                                    style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                         <!--Facebook Logo and Link-->
                         <a href = "https://www.facebook.com/craftsbymicks" target = "_blank">
                             <img src = "{% static 'page_base_images/facebook_logo.png' %}"
                                     class = "card-img-top rounded-circle mx-2 std_img_border"
-                                    style = "width:40px;">
+                                    style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                         <!--Youtube Logo and Link-->
                         <a href = "https://www.youtube.com/@craftsbymicks" target = "_blank">
                             <img src = "{% static 'page_base_images/youtube_logo.png' %}"
                                     class = "card-img-top rounded-circle mx-2 std_img_border"
-                                style = "width:40px;">
+                                style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                     </nav>
                 </aticle>
             </section>
-
-            <!--Business Logo-->
-            <section class = "row g-0">
-            <figure class = "col-xl-4 col-lg-5 col-md-5 col-sm-6 col-7 mx-auto">
-            <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
-                class = "card-img-top rounded-circle std_img_border">
-            </figure>
-            </section>
         </section>
         </div> 
-
     </div>
 
-
+        <!-- Pages Extending This page needing User Authorization Functionality-->
         {% block content %}
-
         {% endblock %}
 
-    
 </body>
 </html>
