@@ -24,11 +24,12 @@
         <!-- Login as customer with populated orders-->
         <h5>Current Customer with Orders: username: bpython &nbsp&nbsp password: defpassword</h5>
     </div>
+    <!--background-image: url('static/page_base_images/title_div_bg1.jpg');-->
 
     <!-- Main Page Container and sets background image-->
     <div class = "row text-end" style = "height: 60%;"> 
         <div style = "border-bottom: 1px solid black;
-        background-image: url('static/page_base_images/title_div_bg1.jpg');
+        background-image: url('{% static "page_base_images/title_div_bg1.jpg" %}');
         height: 100%;">
 
             <!--Dropdown Menu for User Login, Signup and Order Menus-->
@@ -58,7 +59,7 @@
                     <!-- Logout Option -->
                     <li><a class="dropdown-item" href="{% url 'user_management:user_logout' %}">Logout</a></li>
                     <!-- View Orders -->
-                    <li><a class="dropdown-item" href="{% url 'product_site:customer_orders' message='none' %}">Order</a></li>
+                    <li><a class="dropdown-item" href="{% url 'product_site:customer_orders' message='none' %}">Orders</a></li>
 
                     <!-- Options for Non-Logged-In User -->
                     {% else %}
