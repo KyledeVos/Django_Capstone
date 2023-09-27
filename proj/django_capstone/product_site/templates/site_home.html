@@ -1,37 +1,52 @@
+<!-- Extend page_base allowing for User Login and SignUp options to be accessible-->
 {% extends "page_base.html" %}
-
 {% load static %}
 
 {% block content %}
 
-
-<h1>Product Home Page</h1>
-
-
+<!-- Display Products loaded in system or 'maintenance' message if none are loaded-->
 {% if products %}
+    
     {% for category in products %}
+        <div class = "row my-2 text-center border border-primary ">
+            <h1>{{category.0}}</h1>
+        </div>
+        
+        <section class = "row border border-secondary my-2 g-1">
+            {% for product in category.1 %}
+                <div class = "col-xl-3 p-0">
+                    <!--Display Multiple Sizes Notification for Product with Pricing Options-->
+                    {% if product.multiple_sizes is True%}
+                        <h6 class = "card-header border-0 text-center fw-bold bg-transparent"
+                            style="color: rgb(141, 26, 176);">
+                            Multiple Sizes</h6>
+                    {% else %}
+                    <!--Spacer-->
+                        <h6 class = "card-header border-0 text-center bg-transparent">&nbsp</h6>
+                    {% endif %}
+                    
+                    <!-- Product Title-->
+                    <h5 class = "card-header border-0 text-center bg-transparent">
+                        {{product.title}}
+                    </h5>
 
-        <h1>{{category.0}}</h1>
-        {% for product in category.1 %}
-                {{category.product.id}} <br>
-                {{product.title}} <br>
-                <a href="{% url 'product_site:product_view' product.id 'none' %}">
-                    <img style="width: 200px;" src="{{product.main_image.url}}">
-                </a>
-                Price: {{product.display_price}}<br>
+                    <!-- Product Main Image -->
+                    <a class = "mx-5" href="{% url 'product_site:product_view' product.id 'none' %}">
+                        <img class = "my-2 card-img-top rounded product_image"
+                            src="{{product.main_image.url}}">
+                    </a>
+                    <h5 class = "card-header border-0 text-center bg-transparent">R{{product.display_price}}</h5>
+                    <form class="text-center d-grid mx-5" action="{% url 'product_site:product_view' product.id 'none' %}">
+                        <button type="submit" class="btn btn-outline-dark " >View</button>
+                    </form>
 
-                {% if product.multiple_sizes is True%}
-                    Multiple Sizes Available <br>
-                {% endif %}
-                <form action="{% url 'product_site:product_view' product.id 'none' %}">
-                    <button type="submit">View</button>
-                </form>
-        {% endfor %}
-
+                </div>
+            {% endfor %}
+        </section>
     {% endfor %}
 
 {% else %}
-<h2>Site under maintenance - Products will be back soon!</h2>
+    <h2>Site under maintenance - Products will be back soon!</h2>
 {% endif %}
 
 

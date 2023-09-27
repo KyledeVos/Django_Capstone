@@ -10,7 +10,19 @@
     <!-- Popper - Needed for DropDown Menus-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <!-- Bootstrap Javascript for DropDown Menus-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+    .product_image{
+        width: 80%;
+        height: 15rem;
+        object-fit:cover;
+        transition: transform .2s;
+}
+    </style>
     
 </head>
 
@@ -75,7 +87,7 @@
 
                 <!--Business Logo-->
                 <section class = "row g-0">
-                <figure class = "col-xl-4 col-lg-5 col-md-7 col-sm-10 col-10 mx-auto">
+                <figure class = "col-xl-4 col-lg-5 col-md-6 col-sm-8 col-10 mx-auto">
                     <!-- Use Business Logo as Link to Return to Home Page-->
                     <a href="{% url 'product_site:site_home' %}">
                         <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
@@ -84,25 +96,25 @@
                 </figure>
                 </section>
 
-                <!--Social Media Links - Top Right-->
-                <article class="col-12 my-2 text-center">
+                <!--Social Media Links-->
+                <article class="col-12 my-1 text-center">
                     <nav>
                         <!--Instagram Logo and Link-->
                         <a href = "https://www.instagram.com/craftsbymicks/" target = "_blank">
                             <img src = "{% static 'page_base_images/instagram_logo.png' %}"
-                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                    class = "card-img-top rounded-circle mx-2"
                                     style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                         <!--Facebook Logo and Link-->
                         <a href = "https://www.facebook.com/craftsbymicks" target = "_blank">
                             <img src = "{% static 'page_base_images/facebook_logo.png' %}"
-                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                    class = "card-img-top rounded-circle mx-2"
                                     style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                         <!--Youtube Logo and Link-->
                         <a href = "https://www.youtube.com/@craftsbymicks" target = "_blank">
                             <img src = "{% static 'page_base_images/youtube_logo.png' %}"
-                                    class = "card-img-top rounded-circle mx-2 std_img_border"
+                                    class = "card-img-top rounded-circle mx-2"
                                 style = "width:50px; outline: 0.1rem solid white;">
                         </a>
                     </nav>
