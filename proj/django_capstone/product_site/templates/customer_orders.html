@@ -28,66 +28,109 @@
                 All Orders for: {{customer.first_name}} {{customer.last_name}}
             </h2>
         </div>
-
     </div>
 
+    <!-- Message for Successful Order Submission-->
     <article class = "row">
         {% if message != 'none' %}
             <h4 style = "color: blueviolet;">{{message}}</h4>
         {% endif %}
-        </article>
+    </article>
     
+    <!--Open Orders Title -->
+    <div class="row my-3 mx-2 rounded">
+        <h3 class = "col-xxl-7 col-xl-7 col-lg-8 col-md-9 col-12 rounded-1 pt-1 pb-2"
+            style="background-color:dimgrey; color: white;">
+            {% if order_total != 0 %}
+                Open Order - R{{order_total}}
+            {% else %}
+                Open Order
+            {% endif %}
+        </h3>
+    </div>
+    
+    <div class ="row">
+        {% if open_orders %}
+            {% for order in open_orders %}
+                <form action="{% url 'product_site:submit_order' order.id %}" method="post">
+                    {% csrf_token %}
 
-    <!--Open Orders-->
-    <h3>Open Orders</h3>
-    {% if open_orders %}
-
-        {% for order in open_orders %}
-            {% for order_item in open_order_items %}
-            <h5>----------------------------------------------------</h5>
-                
-                Product: <strong>{{order_item.product_title}}</strong> <br>
-
-                {% for product_image in product_image_list %}
-                    {%if product_image.0 == order_item.product_id %}
-                        <img src="{{product_image.1.url}}" style = "width: 200px;"> <br>
-                        {% endif %}
-                {% endfor %}
-
-                Quantity: {{order_item.quantity}} <br>
-                Size: {{order_item.chosen_size}} <br>
-                Price: R{{order_item.price}}<br>
-                {% if order_item.options %}
-                    Additional Options:<br>
-                    {% for option in order_item.options %}
-                        {%if option != ""%}
-                            <ul>
-                                <li>{{option}}</li>
-                            </ul> 
-                        {% endif %}
-                    {% endfor %}  
-                {% endif %}
-
-                <form action = "{% url 'product_site:remove_item' order_item.id order.id %}">
-                    <button type="submit"> Remove </button>
-
+                    <!-- Allow Customer to Submit an Order for Payment and Processing -->
+                    <input class = "mx-3 btn btn-primary"
+                        type="submit" 
+                        value="Submit Order"> 
                 </form>
-            <h5>----------------------------------------------------</h5>
+
+                <!-- Iterate through each order item -->
+                {% for order_item in open_order_items %}
+
+                <!-- Each Order Item displayed on its own card-->
+                <div class="card col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 my-2"
+                    style="background-color: rgb(222, 222, 222); border: 3px solid black;">
+
+                    <div class = "row">
+                        <!-- Product Image Div-->
+                        <div class = "col-6">
+                            {% for product_image in product_image_list %}
+                                {%if product_image.0 == order_item.product_id %}
+                                    <img  class="card-img-top mx-1 my-2"
+                                        style="width: 100%; height: 15rem;
+                                        object-fit:cover; border: 2px solid white;"
+                                        src="{{product_image.1.url}}">
+                                {% endif %}
+                        {% endfor %}
+                        </div>
+                        
+                        <!-- Additional Options Div-->
+                        <div class = "col-6">
+                            {% if order_item.options %}
+                            <ul class="list-group">
+                                <h5 class = "my-2">Options:</h5>
+                                {% for option in order_item.options %}
+                                    {%if option != ""%}
+                                        <li class="list-group-item my-0 border rounded"
+                                        style="max-width: 100%;">{{option}}</li>
+                                    {% endif %}
+                                {% endfor %}  
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                    <!-- Title-->
+                        <h4 class="card-title">{{order_item.product_title}}</h4>
+                        <!-- Price-->
+                        <h5 class="card-title">Unit Price: R{{order_item.price}}</h5>
+                        <!-- Quantity Ordered-->
+                        <h5 class="card-title">Quantity: {{order_item.quantity}}</h5>
+                        <!-- Sizing-->
+                        {% if order_item.chosen_size != 'none' %}
+                        <h5 class="card-title">Size: {{order_item.chosen_size}}</h5>
+                        {% else %}
+                            <!--Spacer-->
+                            &nbsp
+                        {% endif %}
+
+                    <!-- Remove Order Item-->
+                      <form action = "{% url 'product_site:remove_item' order_item.id order.id %}">
+                        <button class = "btn btn-danger" type="submit"> Remove </button>
+                    </form>
+                    </div>
+                  </div>
+                {% endfor %}
             {% endfor %}
-
-            <form action="{% url 'product_site:submit_order' order.id %}" method="post">
-                {% csrf_token %}
-
-                <input type="submit" value="Submit Order"> 
-            </form>
-        {% endfor %}
-
-    {% else %}
-        <h4>No Open Orders</h4>
-    {% endif %}
+        {% else %}
+            <h4>No Open Orders</h4>
+        {% endif %}
+    </div>
 
     <!--Processing Orders-->
-    <h3>Processing</h3>
+    <div class="row my-3 mx-2 rounded">
+        <h3 class = "col-6 rounded-1 pt-1 pb-2"
+            style="background-color:dimgrey; color: white;">
+            Processing</h3>
+    </div>
     {% if processing_orders %}
 
     {% for order in processing_orders %}
@@ -107,7 +150,11 @@
     {% endif %}
 
     <!--Completed Orders-->
-    <h3>Completed Orders</h3>
+    <div class="row my-3 mx-2 rounded">
+        <h3 class = "col-6 rounded-1 pt-1 pb-2"
+            style="background-color:dimgrey; color: white;">
+            Completed</h3>
+    </div>
     {% if completed_orders %}
 
         {% for order in completed_orders %}
