@@ -471,14 +471,20 @@ def customer_orders(request, message):
 
     # if there is an open order, retrieve all order items
     open_order_items = []
+    # track order total value
+    order_total = 0
     if len(open_orders) > 0:
         for item in Order_Item.objects.filter(order = order):
+            # add item total value to order total value
+            order_total += item.price * item.quantity
             # retrieve current item and correct price decimals
             item.price = f"{(round(item.price, 2)):.2f}"
             # retrieve any product options and seperate each option
             item.options = [split_option for split_option in item.options.split(";")]
             open_order_items.append(item)
 
+        # format order total value to two decimal places
+        order_total = f"{(round(order_total, 2)):.2f}"
         # retrieve list of product_id and matching main image
         product_image_list = main_image_control(open_order_items)
             
@@ -486,6 +492,7 @@ def customer_orders(request, message):
         'customer': customer,
         'open_orders': open_orders,
         'open_order_items': open_order_items,
+        'order_total': order_total,
         'processing_orders': processing, 
         'completed_orders': completed,
         'product_image_list': product_image_list,
