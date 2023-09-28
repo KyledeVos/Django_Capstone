@@ -14,74 +14,72 @@
         <h4 style = "color: blueviolet;">Login for Order Placement</h4>
     {% endif %}
     <br>
-    
+
     <div class = "row border border-1">
-        <!--Product Main Image-->
-        <figure class = "col-xl-3">
-            <img class = "my-2 card-img-top rounded"
-                style="width: 300px; max-height: 500px; border: 3px solid goldenrod;"
-                src="{{product.product_image.url}}"> <br>
-        </figure>
-        <div class = "col-5">
-            <h2 >{{product.title}}</h2>
+        <!--Product Category, Tile and Main Image-->
+        <figure class = "col-xxl-3 border border-1 text-center">
+            <!-- Title -->
+            <h2 style="font-family:''Arial Narrow', Arial, sans-serif;" >{{product.title}}</h2>
+            <!-- Category -->
             <h4 style="font-family: Brush Script MT;"> {{product.category}}</h4>
-
-            <pre style="max-width: 400px; max-height: 500px; padding: 5px;
-                overflow-y: auto; overflow-x:hidden;
-                white-space: break-spaces;
-                font-family: Cursive;
-                border: 2px solid rgb(234, 192, 234);">{{product.description}}</pre><br>
-        </div>
-        
-
-        {% if product.review_value == 0 %}
-            No Reviews<br>
-        {% else %}
-            Rating: {{product.review_value}}<br>
-        {% endif %}
-
-        {% if discount_bool %}
-            <h4>On Discount</h4>
-        {% endif %}
-
-        {% for label in labels %}
-            <h3>{{label.title}}</h3>
-        {% endfor %}
-
-        
-
-    </div>
-
-    <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
-    <h3>Pricing</h3>
-    {% if logged_in %}
-
-    {% if error != 'none' %}
-        <h3>ERROR - Price was not selected</h3>
-    {% endif %}
-    <h4>Select the Size(s) you would like</h4>
-    <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
-        {% csrf_token %}
-        
-        <!--PRICING-->
-        {% for size_price in price_list %}
-            <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
-
-            {% if size_price.size == 'none' %}
-                <label for="{{size_price}}.size">
-                    Base Price:
-                </label>
-                <label for="{{size_price}}.price">
-                    R{{size_price.price}}
-                </label> 
-
-            <input type="number" name="{{size_price.size}} quantity" min="1" value="1">
+            <!-- Review Rating-->
+            {% if product.review_value == 0 %}
+                &nbsp
             {% else %}
-                {{size_price.size}}: R{{size_price.price}}
-                <input type="number" name="{{size_price.size}} quantity" min="1" value="1">
+                Rating: {{product.review_value}}<br>
             {% endif %}
-            <br>    
-        {% endfor %}
+            <img class = "my-2 card-img-top rounded"
+                style="width: 80%; max-height: 500px; border: 3px solid goldenrod;"
+                src="{{product.product_image.url}}"> <br>
+                
+        </figure>
+
+        <!-- Product Labels, Pricing and Options Selection-->
+        <div class = "col-xxl-4 border border-1">
+
+            <!-- Labels -->
+            {% for label in labels %}
+                <div class = "text-start my-1 px-1 rounded fw-bold text-truncate "
+                    style=" width: 150px; color: white; background-color: {{label.custom_colour}};">
+                    {{label}}
+                </div>
+            {% endfor %}
+
+            <!-- Discount Notification-->
+            {% if discount_bool %}
+                <h4 class = "my-2 text-center" style="color:deepskyblue;">On Discount</h4>
+            {% endif %}
+
+            <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
+
+            {% if logged_in %}
+                {% if error != 'none' %}
+                <!-- Display Error for Order Submission without price selection-->
+                    <h5 style="color: red;"><strong>Price was not selected</strong></h5>
+                {% endif %}
+                <h4>Select the Size(s) you would like</h4>
+                <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
+                    {% csrf_token %}
+        
+                    <!--PRICING-->
+                    {% for size_price in price_list %}
+                        <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
+
+                        {% if size_price.size == 'none' %}
+                            <label for="{{size_price}}.size">
+                                Base Price:
+                            </label>
+                            <label for="{{size_price}}.price">
+                                <strong>R{{size_price.price}}</strong>
+                            </label> 
+                            
+                            <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
+                        {% else %}
+                            {{size_price.size}}: <strong>R{{size_price.price}}</strong>
+                            <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
+                        {% endif %}
+                            <br>    
+                    {% endfor %}
 
         <!--OPTIONS-->
         <h3>Addtional Options</h3>
@@ -126,8 +124,25 @@
 
     {% endif %}
 
+            
+        </div>
+
+        <div class="col-xxl-3 border border-1">
+            <pre style="max-width: 90%; max-height: 500px; padding: 5px;
+                overflow-y: auto; overflow-x:hidden;
+                white-space: break-spaces; background-color:aquamarine;
+                font-family: Cursive; text-align: justify;
+                border: 2px solid rgb(234, 192, 234);">{{product.description}}
+            </pre><br>
+
+        </div>
+    
+    </div>
+
+    
+
         <!-- Additonal Product Images -->
-        {% for image in product_images %}
+    {% for image in product_images %}
         <img style="width: 200px;" src="{{image.image.url}}">
         <br>
         <br>
