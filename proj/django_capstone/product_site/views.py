@@ -422,11 +422,14 @@ def main_image_control(order_items):
     """
     # list to hold product_id and its matching image
     product_image_list = []
+
+    # make order_items list contain unique values based on product id
+    unique_items = set([item.product_id for item in set(order_items)])
     
-    for item in order_items:
+    for product_id in unique_items:
         # Retrieve matching product main image
-        product_image = get_object_or_404(Product, pk=item.product_id).product_image
-        product_image_list.append([item.product_id, product_image])
+        product_image = get_object_or_404(Product, pk=product_id).product_image
+        product_image_list.append([product_id, product_image])
 
     return product_image_list
 
