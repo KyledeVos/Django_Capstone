@@ -39,7 +39,7 @@
                     <div class="card border-0">
                         <div class = "text-center">
                             <!-- Main Image also link to Product View-->
-                            <a href="{% url 'product_site:product_view' product.id 'none' %}">
+                            <a class = "movement zoom" href="{% url 'product_site:product_view' product.id 'none' %}">
                                 <img class = " my-2 card-img-top rounded product_image" style="z-index: 0;"
                                     src="{{product.main_image.url}}">
                                     <!--Add Labels Over Product Image-->

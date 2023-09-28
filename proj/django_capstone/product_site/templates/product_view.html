@@ -1,41 +1,56 @@
-{% extends "page_base.html" %}
+<!-- HTML Page for Individual Product View including Price and Size Selection,
+    Quantity and Add to Order Functionality-->
 
+<!-- Extend page_base allowing for User Login and SignUp options to be accessible-->
+{% extends "page_base.html" %}
 {% load static %}
 
 {% block content %}
 
-    <a href="{%url 'product_site:site_home' %}">All Products</a>
+    <a class = " my-2 btn btn-outline-dark" href="{%url 'product_site:site_home' %}">All Products</a>
     <br>
 
     {% if not logged_in %}
-        <h3>Please Sign_Up or login to your account to place an order</h3>
+        <h4 style = "color: blueviolet;">Login for Order Placement</h4>
     {% endif %}
     <br>
     
-    <h1>{{product.title}}</h1>
+    <div class = "row border border-1">
+        <!--Product Main Image-->
+        <figure class = "col-xl-3">
+            <img class = "my-2 card-img-top rounded"
+                style="width: 300px; max-height: 500px; border: 3px solid goldenrod;"
+                src="{{product.product_image.url}}"> <br>
+        </figure>
+        <div class = "col-5">
+            <h2 >{{product.title}}</h2>
+            <h4 style="font-family: Brush Script MT;"> {{product.category}}</h4>
 
-    {% if product.review_value == 0 %}
-        No Reviews<br>
-    {% else %}
-        Rating: {{product.review_value}}<br>
-    {% endif %}
+            <pre style="max-width: 400px; max-height: 500px; padding: 5px;
+                overflow-y: auto; overflow-x:hidden;
+                white-space: break-spaces;
+                font-family: Cursive;
+                border: 2px solid rgb(234, 192, 234);">{{product.description}}</pre><br>
+        </div>
+        
 
-    {% if discount_bool %}
-        <h4>On Discount</h4>
-    {% endif %}
+        {% if product.review_value == 0 %}
+            No Reviews<br>
+        {% else %}
+            Rating: {{product.review_value}}<br>
+        {% endif %}
 
-    {% for label in labels %}
-        <h3>{{label.title}}</h3>
-    {% endfor %}
+        {% if discount_bool %}
+            <h4>On Discount</h4>
+        {% endif %}
 
-    {{product.description}}<br>
-    <img style="width: 200px;" src="{{product.product_image.url}}"> <br>
+        {% for label in labels %}
+            <h3>{{label.title}}</h3>
+        {% endfor %}
 
-    {% for image in product_images %}
-        <img style="width: 200px;" src="{{image.image.url}}">
-        <br>
-        <br>
-    {% endfor %}
+        
+
+    </div>
 
     <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
     <h3>Pricing</h3>
@@ -111,13 +126,12 @@
 
     {% endif %}
 
-    <!--OPTIONS-->
-
-
-
-
-
-
+        <!-- Additonal Product Images -->
+        {% for image in product_images %}
+        <img style="width: 200px;" src="{{image.image.url}}">
+        <br>
+        <br>
+    {% endfor %}
 
 
 {% endblock %}
