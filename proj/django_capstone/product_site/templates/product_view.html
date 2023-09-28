@@ -21,7 +21,7 @@
             <!-- Title -->
             <h2 style="font-family:''Arial Narrow', Arial, sans-serif;" >{{product.title}}</h2>
             <!-- Category -->
-            <h4 style="font-family: Brush Script MT;"> {{product.category}}</h4>
+            <h4 style="font-family: Brush Script MT"> {{product.category}}</h4>
             <!-- Review Rating-->
             {% if product.review_value == 0 %}
                 &nbsp
@@ -57,7 +57,7 @@
                 <!-- Display Error for Order Submission without price selection-->
                     <h5 style="color: red;"><strong>Price was not selected</strong></h5>
                 {% endif %}
-                <h4>Select the Size(s) you would like</h4>
+                <h4 style="font-family: Brush Script MT">Size Selection</h4>
                 <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
                     {% csrf_token %}
         
@@ -66,18 +66,21 @@
                     <div class = "row g-1">
                         <section class = "col-xxl-5">
                             <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
-
+                            <!-- Add Name for size of 'none'-->
                             {% if size_price.size == 'none' %}
                                 <label for="{{size_price}}.size">
                                     Base Price:
                                 </label>
                             {% else %}
+                                <!-- Use Size Name -->
                                 <label for="{{size_price}}.size">
                                     {{size_price.size}}:
                                 </label>
                             {% endif %}
+                            <!-- Display Price for Associated Size -->
                             <strong>R{{size_price.price}}</strong>
                         </section> 
+                        <!-- Quantity input for a selected Size -->
                         <section class = "col-xxl-5 ">
                                 <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
                         </section>
@@ -106,12 +109,23 @@
 
         <!--PRICING-->
         {% for size_price in price_list %}
-            {% if size_price.size == 'none' %}
-                Base Price: R{{size_price.price}}
-            {% else %}
-                {{size_price.size}}: R{{size_price.price}}
-            {% endif %}
-                <br>
+            <div class = "row g-1">
+                <section class = "col-xxl-5">
+                    <!-- Show a Size name for size of 'none' -->
+                    {% if size_price.size == 'none' %}
+                        <label for="{{size_price}}.size">
+                            Base Price:
+                        </label>
+                    {% else %}
+                        <!-- Display Size Name -->
+                        <label for="{{size_price}}.size">
+                            {{size_price.size}}:
+                        </label>
+                    {% endif %}
+                    <!-- Display Price for Associated Size -->
+                    <strong>R{{size_price.price}}</strong>
+                </section> 
+            </div>
         {% endfor %}
 
         <!--OPTIONS-->
