@@ -371,8 +371,12 @@ def create_order_item(request, product_id):
         else:
             price = size_choice[0].price
 
-        # attempt to retrieve a set quantity - html default set to 1
-        quantity = request.POST[f'{size_choice[0].size} quantity']
+        # attempt to retrieve a set quantity
+        quantity = request.POST.get(f'{size_choice[0].size} quantity', "1")
+        
+        # if quantity was not entered, set default to '1'
+        if quantity == "":
+            quantity = "1"
         # create tuple of size, price and quantity and add to list
         pricing_list.append((size_choice[0].size, price, quantity))
 

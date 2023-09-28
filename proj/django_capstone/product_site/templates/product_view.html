@@ -63,24 +63,27 @@
         
                     <!--PRICING-->
                     {% for size_price in price_list %}
-                        <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
+                    <div class = "row g-1">
+                        <section class = "col-xxl-5">
+                            <input type="checkbox" name="selected_sizes" value="{{size_price.id}}"/>
 
-                        {% if size_price.size == 'none' %}
-                            <label for="{{size_price}}.size">
-                                Base Price:
-                            </label>
-                            <label for="{{size_price}}.price">
-                                <strong>R{{size_price.price}}</strong>
-                            </label> 
-                            
-                            <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
-                        {% else %}
-                            {{size_price.size}}: <strong>R{{size_price.price}}</strong>
-                            <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
-                        {% endif %}
-                            <br>    
+                            {% if size_price.size == 'none' %}
+                                <label for="{{size_price}}.size">
+                                    Base Price:
+                                </label>
+                            {% else %}
+                                <label for="{{size_price}}.size">
+                                    {{size_price.size}}:
+                                </label>
+                            {% endif %}
+                            <strong>R{{size_price.price}}</strong>
+                        </section> 
+                        <section class = "col-xxl-5 ">
+                                <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
+                        </section>
+                    </div> 
                     {% endfor %}
-
+                 
         <!--OPTIONS-->
         <h3>Addtional Options</h3>
         <!--Options not Compulsory for a Product-->
