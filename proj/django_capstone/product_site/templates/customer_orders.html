@@ -125,22 +125,31 @@
         {% endif %}
     </div>
 
+    <!--#############################################################################-->
     <!--Processing Orders-->
     <div class="row my-3 mx-2 rounded">
         <h3 class = "col-6 rounded-1 pt-1 pb-2"
             style="background-color:dimgrey; color: white;">
             Processing</h3>
     </div>
+
     {% if processing_orders %}
 
     {% for order in processing_orders %}
+    <!-- Order has been submitted and payment was recieved-->
         {% if order.payment_received_date%}
-            Order {{forloop.counter}} - Paid on {{order.payment_received_date}}
+            <h5>Order {{forloop.counter}} - 
+                <span style = "color:forestgreen;">Paid on {{order.payment_received_date}}</span>
+            </h5>
         {% else %}
-            Order {{forloop.counter}} - Payment Not Received/Processed
+        <!-- Order has been submitted but payment was not received or is being processed -->
+            <h5>Order {{forloop.counter}} - 
+                <span style="color: red;">Payment Not Received/Processed</span>
+            </h5>
         {% endif %}
+        <!-- Button for user to View the Received Order-->
         <form action="{% url 'product_site:view_order' order.id 'none'  %}">
-            <button type="submit">View</button>
+            <button class = "btn btn-primary" type="submit">View</button>
         </form>
         <br>
     {% endfor %}
@@ -149,6 +158,7 @@
         <h4>No Orders being processed</h4>
     {% endif %}
 
+    <!--#############################################################################-->
     <!--Completed Orders-->
     <div class="row my-3 mx-2 rounded">
         <h3 class = "col-6 rounded-1 pt-1 pb-2"
