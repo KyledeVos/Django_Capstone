@@ -66,7 +66,11 @@
     {% if processing_orders %}
 
     {% for order in processing_orders %}
-        Order {{forloop.counter}} - Paid on {{order.payment_received_date}}
+        {% if order.payment_received_date%}
+            Order {{forloop.counter}} - Paid on {{order.payment_received_date}}
+        {% else %}
+            Order {{forloop.counter}} - Payment Not Received/Processed
+        {% endif %}
         <form action="{% url 'product_site:view_order' order.id 'none'  %}">
             <button type="submit">View</button>
         </form>
