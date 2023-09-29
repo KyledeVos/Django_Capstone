@@ -1,33 +1,105 @@
+<!-- Functionality for customer to submit a review for a product.
+    NOTE: Business Logic has determined this functionality is only for items
+        in orders that have been completed
+-->
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Review: {{order_item.product_title}} </title>
+    <!-- BootStrap Styling-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
 
+    <style>
+        textarea{  
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            border: 2px solid purple;   
+        }
+    </style>
 </head>
-<body>
-    <a href="{% url 'product_site:view_order' order_id 'none' %}">Back to Orders</a><br>
-        Product Review for: {{order_item.product_title}}<br>
-        <img src="{{product_image.url}}" style = "width: 200px;"> <br>
 
-        <form action="{% url 'product_site:save_review' order_item.product_id order_id %}" method="post">
-            {% csrf_token %}
+<body class = "container-fluid">
 
-            <!-- Allow User to Review Anonymously-->
-            <input type="checkbox" name="anonymous_review" value = "checked">
-            <label >
-                Add Name to Review<br>
-            </label>
-            
-            <!--Review Rating-->
-            <h4> Please select a Rating </h4>
-            {% for rating in max_rating %}
-                <input type="radio" name="review_value" value = "{{rating}}" required>
-                {{rating}}
-            {% endfor %}
+    <!-- Return to All Orders-->
+    <div class = "row" style="background-image: linear-gradient(to right, white, purple, black);">
+        <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-4">
+            <a class = "btn btn-outline-dark"
+                href="{% url 'product_site:view_order' order_id 'none' %}">
+                <strong>Back to Orders</strong>
+            </a>
+        </div>
+    </div>
 
-            <h4>description</h4>
-            <input type="text" name="review_description" value="Optional"><br>
-            <br>
-            <input type="submit" value = "Submit Review">
-        </form>
+    <!-- Business Logo -->
+    <div class = "row" style="background-image: linear-gradient(to right, white, purple,  black);">
+        <figure class = "col-xl-3 col-lg-4 col-md-6 col-sm-8 col-10 mx-auto
+                    rounded-circle text-center"
+            style = "background-color: dr; border: 2px solid white;">
+            <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
+            class = "card-img-top rounded-circle std_img_border"
+                style="height: 99%; border: 2px solid black;">
+        </figure>
+    </div>
+
+    <!-- Review Content-->
+    <div class = "row">
+        <!-- Product Title and Main Image-->
+        <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 my-4 text-center">
+            <h4>Review for: {{order_item.product_title}}</h4>
+            <img class = " my-2 card-img-top rounded product_image"
+                style = "width: 80%; height: 20rem; object-fit:cover; border: 1px solid gold;"
+                src="{{product_image.url}}"> <br>
+        </div>
+        
+        <!-- Review Body -->
+        <div class = "col-xxl-8 col-xl-8 col-lg-7 col-md-8 my-2">
+            <form action="{% url 'product_site:save_review' order_item.product_id order_id %}" method="post">
+                {% csrf_token %}
+
+                <!--Review Rating Title-->
+                <div class = "row ps-2 my-2">
+                    <div class = "col-4 my-3 text-start">
+                        <h4>Rating </h4>
+                    </div>
+                </div>
+
+                <!-- Review Rating Input -->
+                <div class = "row mx-auto">
+                    <div class = "col-xxl-6 col-xl-7 col-lg-10 col-md-12 col-12 text-start rounded"
+                        style="background-image: linear-gradient(to right, rgb(29, 29, 29), purple);
+                            border: 1px solid black;">
+                        {% for rating in max_rating %}
+                        {% if rating == "1" %}
+                            <span style="color:white;">BAD</span>
+                        {%endif %}
+                        <input class="my-3 mx-4" type="radio" name="review_value" value = "{{rating}}" required>
+                        {% if rating == "5" %}
+                        <span style="color:white;">GOOD</span>
+                        {%endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Allow User to add name to review-->
+                <div class = "row">
+                    <div class = "col-12 my-2">
+                        <input type="checkbox" name="anonymous_review" value = "checked">
+                        <label>
+                            <h5>Add Name to Review</h5>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Review Description -->
+                <h4>Optional Description</h4>
+                <textarea name="review_description" rows="10" cols="50" style="resize: none;"></textarea>
+                <br>
+                <!-- Review Submission -->
+                <input class =" my-2 btn btn-primary" type="submit" value = "Submit Review">
+            </form>
+        </div>
+    </div>
+    
 </body>
 </html>
