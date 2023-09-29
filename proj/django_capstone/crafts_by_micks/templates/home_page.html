@@ -1,36 +1,127 @@
-{% load static %}
-
+<!-- Home Page for Administrator Control -->
 <!DOCTYPE html>
 <html>
 
 <head>
-
+    <title>Admin Control Home</title>
+    <!-- BootStrap Styling-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
 </head>
 
-<body>
-    <a href = "{% url 'product_site:site_home' %}">Main Site</a>
-    <h1>Admin Home Page</h1>
-    <h1>PRODUCTS</h1>
-    <h2>Creation</h2>
-    <a href = "{% url 'crafts_by_micks:create_product' error='none' %}">Create Product</a>
-    <br>
-    <a href = "{% url 'crafts_by_micks:create_category' source='home_page' error='none' %}"> Create New Category</a>
-    <br>
-    <a href = "{% url 'crafts_by_micks:create_label' source='home_page' error='none' %}">New Product Label</a>
-    <br>
+<body class = "container-fluid">
 
-    <h2>Reading and Update</h2>
-    <a href = "{% url 'crafts_by_micks:view_all_categories' 'none' %}">View All Categories</a>
-    <br>
-    <a href = "{% url 'crafts_by_micks:view_all_labels'%}">View All Labels</a>
-    <br>
-    <a href = "{% url 'crafts_by_micks:view_all_products' %}">View All Products</a>
-    <br>
+    <!-- Heading Section -->
+    <div class = "row"
+        style="background-color: gray;">
+        <!-- Return to Product Site Link-->
+        <div class = "col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-4 my-2">
+            <a class = "btn btn-outline-light"
+                href= "{% url 'product_site:site_home' %}">
+                Main Site
+            </a>
+        </div>
+        <!-- Page Title -->
+        <div class = "col text-start" style="color: white;">
+            <h2>Admin Home Page</h2>
+        </div>
+    </div>
 
-    <H1>CUSTOMERS AND ORDERS</H1>
+    <!--#####################################################################-->
+    <!-- Creation Section--> 
+    <div class = "row">
+        <div class = "col my-2 mx-1 rounded"
+            style="background-color: blueviolet; color: white;">
+            <h2>Creation</h2>
+        </div>
+    </div>
+
+    <!--Create Product Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:create_product' error='none' %}">
+                Create Product
+            </a>
+        </div>
+    </div>
+
+    <!--Create Product Category Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:create_category' source='home_page' error='none' %}">
+                Create New Category
+            </a>
+        </div>
+    </div>
+
+    <!--Create Product Label Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:create_label' source='home_page' error='none' %}">
+                New Product Label
+            </a>
+        </div>
+    </div>
+
+    <!--#####################################################################-->
+    <!-- Read and Update Section--> 
+    <div class = "row">
+        <div class = "col my-2 mx-1 rounded"
+            style="background-color: blueviolet; color: white;">
+            <h2>Reading and Update</h2>
+        </div>
+    </div>
+
+    <!-- View All Categories Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:view_all_categories' 'none' %}">
+                View All Categories
+            </a>
+        </div>
+    </div>
+
+    <!-- View All Labels Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:view_all_labels'%}">
+                View All Labels
+            </a>
+        </div>
+    </div>
+
+    <!-- View All Products Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:view_all_products' %}">
+                View All Products
+            </a>
+        </div>
+    </div>
+
+    <!--#####################################################################-->
+    <!-- Customers and Order Access --> 
+    <div class = "row">
+        <div class = "col my-2 mx-1 rounded"
+            style="background-color: blueviolet; color: white;">
+            <h2>Customers and Orders</h2>
+        </div>
+    </div>
+
+    <!-- View All Customers Button/Link-->
+    <div class = "row ">
+        <div class = "col-xxl-4 my-2 mx-1 ">
+            <a class = "btn btn-outline-dark"
+                href = "{% url 'crafts_by_micks:all_customers' %}">
+                All Customers
+            </a>
+        </div>
+    </div>
     
-    <a href="{% url 'crafts_by_micks:all_customers' %}">All Customers</a>
-
 </body>
-
 </html>
