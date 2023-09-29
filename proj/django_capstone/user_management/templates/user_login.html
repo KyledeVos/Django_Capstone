@@ -1,27 +1,80 @@
+<!-- User Login Page -->
+{% load static %}
+
 <html lang="en">
 <head>
-
+    <title>Login Page</title>
+    <!-- BootStrap Styling-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet" >
 </head>
-<body>
-    <h1>User Login Page</h1>
+<body class="container-fluid">
 
+    <!-- Display Heading-->
+    <div class = "row pt-1 pb-1"
+        style = "background-color: rgb(111, 92, 119); color: white;">
+        <div class = "col-2">
+            <!-- Return to Site Home -->
+            <a class = " my-2 btn btn-outline-light"
+            href="{%url 'product_site:site_home' %}">
+                <strong>Home</strong>
+            </a>
+        </div>
+    </div>
+
+    <!-- Error Message for unsuccessful login-->
+    </div>
     {% if error != 'none' %}
-        <h4>{{error}}</h4>
-        <br>
+        <div class = "row text-center">
+            <h4 class = " col-xxl-4 col-xl-4 col-lg-8 col-md-9 col-sm-8 col-xs-6
+                    my-2 mx-1 mx-auto p-1 rounded"
+                style = "border: 3px solid red;">{{error}}</h4>
+        </div>
     {% endif %}
 
+     <!-- Container for Login Fields-->
+    <div class = "row my-3 g-1">
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-8 mx-auto rounded"
+            style="background-color: rgb(232, 232, 232); border: 2px solid black;">
+            <!-- Login Title-->
+            <div class = "row my-2 text-center" >
+                <h1>Login</h1>
+            </div>
 
-    <form action="{% url 'user_management:authenticate_user' source=source %}" method="post">
-        {% csrf_token %}
+            <form action="{% url 'user_management:authenticate_user' source=source %}" method="post">
+                {% csrf_token %}
+                <!-- Username -->
+                <div class = "row text-center my-3 p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class="form-control"
+                            style="border: 2px solid black"
+                            type="text"
+                            name="username"
+                            placeholder="Username" 
+                            required>
+                    </div>
+                </div>
+        
+                <!-- Password -->
+                <div class = "row text-center my-3 p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class="form-control" 
+                        style="border: 2px solid black"
+                        type="password" name="password"
+                        placeholder="Enter your password"
+                        required>
+                    </div>
+                </div>
+                
+                <!-- Login Button-->
+                <div class = "row text-center">
+                    <div class = "col-xxl-5 mx-auto ">
+                        <input class = "btn btn-primary btn-block" type = "submit" value = "Login">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <label>Username</label>
-        <input type="text" name="username" placeholder="Enter your username" required>
-
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter your password" required>
-
-        <input type = "submit" value = "Login">
-
-    </form>
 </body>
 </html>
