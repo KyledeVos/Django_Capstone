@@ -126,10 +126,12 @@
                         &nbsp
                     {% endif %}
 
-                <!-- Allows customer to review the product item added to a non-submitted order-->
-                <form action = "{% url 'product_site:product_review' order_item.id order.id %}">
-                    <button class = "btn btn-primary" type="submit"> Review Product </button>
-                </form>
+                    <!-- Allows customer to add a review ONLY for completed orders-->
+                    {% if status == 'c' %}
+                        <form action = "{% url 'product_site:product_review' order_item.id order.id %}">
+                            <button class = "btn btn-primary" type="submit"> Review Product </button>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
