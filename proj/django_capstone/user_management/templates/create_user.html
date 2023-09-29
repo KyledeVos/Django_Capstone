@@ -1,39 +1,116 @@
+<!-- Create new User Page-->
 <html lang="en">
 <head>
-
+    <title>Sign Up</title>
+    <!-- BootStrap Styling-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet" >
 </head>
-<body>
-    <h1>User Signup</h1>
-    <form action="{% url 'user_management:add_user' source=source %}" method="post">
-        {% csrf_token %}
+<body class="container-fluid">
 
+    <!-- Display Heading-->
+    <div class = "row pt-1 pb-1"
+        style = "background-color: rgb(111, 92, 119); color: white;">
+        <div class = "col-2">
+            <!-- Return to Site Home -->
+            <a class = " my-2 btn btn-outline-light"
+            href="{%url 'product_site:site_home' %}">
+                <strong>Home</strong>
+            </a>
+        </div>
+    </div>
+
+    <!-- Error Message for duplicated username-->
+    <div>
         {% if error != 'none' %}
-            {{error}}
-            <br>
+            <div class = "row text-center">
+                <h4 class = " col-xxl-4 col-xl-4 col-lg-8 col-md-9 col-sm-8 col-xs-6
+                    my-2 mx-1 mx-auto p-1 rounded"
+                    style = "border: 3px solid red;">{{error}}</h4>
+            </div>
         {% endif %}
+    </div>
 
-        <label>First Name</label>
-        <input type="text" name='first_name' required>
-        <br>
+    <!-- Container for User Creation Attributes-->
+    <div class = "row my-3 g-1">
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-8 mx-auto rounded"
+            style="background-color: rgb(232, 232, 232); border: 2px solid black;">
+            <!-- Title-->
+            <div class = "row my-2 text-center" >
+                <h2>Create Account</h2>
+            </div>
 
-        <label>Last Name</label>
-        <input type="text" name='last_name' required>
-        <br>
+            <form action="{% url 'user_management:add_user' source=source %}" method="post">
+                {% csrf_token %}
+                    
+                <!-- First Name -->
+                <div class = "row text-center p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class = "form-control"
+                                style="border: 2px solid black"
+                                type = "text"
+                                placeholder="First Name"
+                                name='first_name'
+                                required>   
+                    </div>
+                </div>
 
-        <label>Email Address</label>
-        <input type="email" name='email_address' required>
-        <br>
+                <!-- Last Name-->
+                <div class = "row text-center p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class = "form-control"
+                                style="border: 2px solid black"
+                                type = "text"
+                                placeholder="Last Name"
+                                name='last_name'
+                                required>
+                    </div>
+                </div>
+                   
+                <!-- Email Address-->
+                <div class = "row text-center p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class = "form-control"
+                                style="border: 2px solid black"
+                                type = "email"
+                                placeholder="Email Address"
+                                name='email_address'
+                                required>
+                    </div>
+                </div>
+            
+                <!-- Username -->
+                <div class = "row text-center p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class = "form-control"
+                                style="border: 2px solid black"
+                                type = "text"
+                                placeholder="Username"
+                                name='username'
+                                required>
+                    </div>
+                </div>
 
-        <label> Username</label>
-        <input type="text" name='username' placeholder="Username for Login" required>
-        <br>
+                <!-- Username -->
+                <div class = "row text-center p-1">
+                    <div class = "col-xxl-10 form-outline mb-4 mx-auto ">
+                        <input class = "form-control"
+                                style="border: 2px solid black"
+                                type = "password"
+                                placeholder="Password"
+                                name='password'
+                                required>
+                    </div>
+                </div>
 
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter a secure password" required>
-        <br>
-
-        <input type = "submit" value = "Create User">
-
-    </form>
+                <!-- Submit Button-->
+                <div class = "row text-center">
+                    <div class = "col-xxl-5 mx-auto ">
+                        <input class = "btn btn-primary btn-block" type = "submit" value = "Create User">
+                    </div>
+                </div>
+            <form>
+        </div>
+    </div>
 </body>
 </html>
