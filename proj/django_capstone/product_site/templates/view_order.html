@@ -18,7 +18,7 @@
                 <strong>Home</strong>
             </a>
         </div>
-        <div class = "col-6 text-start my-1 pt-1">
+        <div class = "col-6 text-center my-1 pt-1">
             <!-- Order Status -->
             {% if status != 'c' %}
                 <h2>Status: Processing</h2>
@@ -63,55 +63,77 @@
         </article>
     </section>
 
+    <!-- Order Total Value-->
     <div class = "row">
-        <div class = "col-4">
+        <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-5 col col-sm-7">
             <h5 class = "my-3 p-2"
             style="background-color:dimgrey; color: white;">
                 Total: R{{order.total_value}}
             </h5>
         </div>
-
     </div>
 
+    <!-- Individual Order Item Display -->
+    <div class = "row">
+        <!-- Iterate through each order item -->
+        {% for order_item in order_items %}
+            <!-- Each Item Displayed on its own card -->
+            <div class="card col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 my-2"
+            style="background-color: rgb(222, 222, 222); border: 3px solid black;">
 
-    {% for order_item in order_items %}
-    <h5>Item: {{forloop.counter}}</h5>
-    <h5>----------------------------------------------------</h5>
-        
-        Product: <strong>{{order_item.product_title}}</strong> <br>
+                <div class = "row">
+                    <!-- Product Image Div-->
+                    <div class = "col-6">
+                        {% for product_image in product_image_list %}
+                        <!-- Find main image matching current product id-->
+                            {%if product_image.0 == order_item.product_id %}
+                                <img  class="card-img-top mx-1 my-2"
+                                    style="width: 100%; height: 15rem;
+                                    object-fit:cover; border: 2px solid white;"
+                                    src="{{product_image.1.url}}">
+                            {% endif %}
+                    {% endfor %}
+                    </div>
+                    
+                    <!-- Additional Options Div displayed with each option as a list-->
+                    <div class = "col-6">
+                        {% if order_item.options %}
+                        <ul class="list-group">
+                            <h5 class = "my-2">Options:</h5>
+                            {% for option in order_item.options %}
+                                {%if option != ""%}
+                                    <li class="list-group-item my-0 border rounded"
+                                    style="max-width: 100%;">{{option}}</li>
+                                {% endif %}
+                            {% endfor %}  
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
 
-        {% for product_image in product_image_list %}
-        {%if product_image.0 == order_item.product_id %}
-            <img src="{{product_image.1.url}}" style = "width: 200px;"> <br>
-            {% endif %}
+                <div class="card-body">
+                <!-- Title-->
+                    <h4 class="card-title">{{order_item.product_title}}</h4>
+                    <!-- Price-->
+                    <h5 class="card-title">Unit Price: R{{order_item.price}}</h5>
+                    <!-- Quantity Ordered-->
+                    <h5 class="card-title">Quantity: {{order_item.quantity}}</h5>
+                    <!-- Sizing-->
+                    {% if order_item.chosen_size != 'none' %}
+                    <h5 class="card-title">Size: {{order_item.chosen_size}}</h5>
+                    {% else %}
+                        <!--Spacer if no size applicable-->
+                        &nbsp
+                    {% endif %}
+
+                <!-- Allows customer to review the product item added to a non-submitted order-->
+                <form action = "{% url 'product_site:product_review' order_item.id order.id %}">
+                    <button class = "btn btn-primary" type="submit"> Review Product </button>
+                </form>
+                </div>
+            </div>
         {% endfor %}
-
-        Quantity: {{order_item.quantity}} <br>
-        Size: {{order_item.chosen_size}} <br>
-        Price: R{{order_item.price}}<br>
-        {% if order_item.options %}
-            Additional Options:<br>
-            {% for option in order_item.options %}
-                {%if option != ""%}
-                    <ul>
-                        <li>{{option}}</li>
-                    </ul> 
-                {% endif %}
-            {% endfor %}  
-        {% endif %}
-    <h5>----------------------------------------------------</h5>
-
-    {% if status == 'c'%}
-        {% if message == 'Review Submitted' %}
-            {{message}}
-        {% endif %}
-
-        <form action="{% url 'product_site:product_review' order_item.id order.id %}">
-            <button type = "submit"> Review Product </button>
-        </form>
-
-    {% endif %}
-    {% endfor %}
+    </div>
 
 </body>
 </html>
