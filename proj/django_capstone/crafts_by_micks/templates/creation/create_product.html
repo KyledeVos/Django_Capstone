@@ -79,7 +79,7 @@
                 <!----------------------------------------------------------------->
                 <!-- Product Attributes-->
                 <section class = "row">
-                    <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-8 my-2 mx-1 rounded"
+                    <div class = "col-12 my-2 rounded"
                         style="background-color: blueviolet; color: white;">
                         <h3>Product Details</h3>
                     </div>
@@ -95,41 +95,65 @@
                     </div>
                 {%endif%}
 
-                <!-- Product Title -->
+                <!-- Product Name, Description and Size Pricing Row-->
                 <div class = "row">
-                    <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 form-outline mb-2">
-                        <label><strong>Product Name:</strong></label>
-                        <input class="form-control" style="border: 2px solid black;"
-                            type="text", name="title" required>
+                    <!-- Left Vertical Division-->
+                    <div class = "col-xxl-4 col-xl-6 col-lg-6 col-md-7 col-sm-12 col-xs-12">
+                        <div class = "col-xxl-10 col-xl-7 col-lg-8 col-md-9 col-md-8 col-sm-7 form-outline mb-2">
+                            <!-- Product Title -->
+                            <h4>Product Name:</h4>
+                            <input class="form-control" style="border: 2px solid black;"
+                                type="text", name="title" required>
+    
+                            <!-- Description -->
+                            <h4>Description</h4>
+                            <textarea name="description" rows="10" cols="50"
+                                    style="border: 2px solid black; resize: none;" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Right Vertical Div-->
+                    <div class = "col-xxl-8 col-xl-6 col-lg-6 col-md-5 col-sm-12 col-xs-12">
+                        <!-- Sizes and Prices-->
+                        <div class = "col-xxl-8 col-xl-9 col-lg-10 col-md-12 col-sm-10 col-xs-10 form-outline mb-2">
+                            <!-- Pricing Heading-->
+                            <div class ="row">
+                                <div class = "col-12 mx-auto">
+                                    <h4>Pricing</h4>
+                                </div>
+                            </div>
+
+                            <!-- Size and Pricing Table-->
+                            <table class = "table">
+                                <!-- Table Headings -->
+                                <thead class="text-start" style="background-color: rgb(61, 60, 60);
+                                    color: white">
+                                    <tr>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <!-- Size Description and Price Input-->
+                                    {% for size in size_choices %}
+                                        <tr>
+                                            <td>{{size}}</td>
+                                            <td><input type="number" min="0.0"
+                                                    name='{{size}} price' placeholder="0.00"
+                                                    step="0.01"
+                                                    style = "border: 1px dashed black;"></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
 
-
-
-
                     <ul>
-
-
-                        <li>
-                            <label>Description</label>
-                            <textarea name="description" rows="10" cols="50" style="resize: none;" required></textarea>
-                            <br>
-                        </li>
                         
-                        <br>
-                        <h1>Size Pricing</h1>
-                        {% for size in size_choices %}
-                            <li>
-                            
-                                <label><h4>{{size}}</h4></label>
-                                <label>Price:</label>
-                                <input type="number" min="0.0" name='{{size}} price' placeholder="0.00" step="0.01">
-                                <br>
-                            </li>
-                        {% endfor %}
-                        <br>
-
                         <h1>Product Options</h1>
                         {% for option_num in options_list %}
                             <li>
