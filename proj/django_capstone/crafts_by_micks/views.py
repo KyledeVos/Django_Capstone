@@ -579,6 +579,8 @@ def save_label_update(request, label_id):
     new_removal = request.POST['removal_days']
     if new_removal != '':
         label.removal_days = new_removal
+    else:
+        label.removal_days = -1
 
     # retrieve possible new custom_colour for label:
     custom_colour = request.POST['custom_colour']

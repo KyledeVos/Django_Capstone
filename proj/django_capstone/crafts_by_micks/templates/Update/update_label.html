@@ -1,41 +1,49 @@
+<!-- Administrator Control - Update a Label -->
 <html lang="en">
-<head>
+    <head>
+        <title>Admin Control - Update Label {{label.title}}</title>
+        <!-- BootStrap Styling-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    </head>
 
-</head>
-<body>
+    <body class = "container-fluid">
 
-    <a href="{% url 'crafts_by_micks:view_all_labels' %}">Back to Labels</a>
+        <a href="{% url 'crafts_by_micks:view_all_labels' %}">Back to Labels</a>
 
-    <form action= "{% url 'crafts_by_micks:save_label_update' label.id %}" method="post">
-        {% csrf_token %}
+        <form action= "{% url 'crafts_by_micks:save_label_update' label.id %}" method="post">
+            {% csrf_token %}
 
-        <h2>Label Update for: {{label.title}}</h2>
-        <h4>Created on: {{label.creation_date}}</h4>
+            <h2>Label Update for: {{label.title}}</h2>
+            <h4>Created on: {{label.creation_date}}</h4>
 
-        {% if error != 'none' %}
-            <h5>Title already exists. Cannot Update Label</h5>
-        {% endif %}
+            {% if error != 'none' %}
+                <h5>Title already exists. Cannot Update Label</h5>
+            {% endif %}
 
-        <label>{{label.title}}</label>
-        <input type="text" name='title' placeholder="New Title">
-        <br>
+            <label>{{label.title}}</label>
+            <input type="text" name='title' placeholder="New Title">
+            <br>
 
-        <label>Current Discount:</label>
-        <input type="number" name='discount_percentage' min="0" max="100" value="{{label.discount_percentage}}">
-        <br>
+            <label>Current Discount:</label>
+            <input type="number" name='discount_percentage' min="0" max="100" value="{{label.discount_percentage}}">
+            <br>
 
-        <!--Needs to be calculated first, ignore current value-->
-        <label>Days Left for removal:</label>
-        <input type="number" name='removal_days' min="0" placeholder="none" value="{{label.removal_days}}">
-        <br>
+            <!--Needs to be calculated first, ignore current value-->
+            <label>Days Left for removal:</label>
+            {% if label.removal_days == -1 %}
+                <input type="number" name='removal_days' min="0" placeholder="none" value="None">
+            {% else %}
+                <input type="number" name='removal_days' min="0" placeholder="none" value="{{label.removal_days}}">
+            {% endif %}
+            <br>
 
-        <label for="Custom_colour">Label Colour</label>
-        <input type="color" name="custom_colour" id="custom_colour" value="{{label.custom_colour}}"/>
-        <br>
+            <label for="Custom_colour">Label Colour</label>
+            <input type="color" name="custom_colour" id="custom_colour" value="{{label.custom_colour}}"/>
+            <br>
 
-        <input type = 'submit' value="Update">
+            <input type = 'submit' value="Update">
 
-    </form>
+        </form>
 
-</body>
+    </body>
 </html>
