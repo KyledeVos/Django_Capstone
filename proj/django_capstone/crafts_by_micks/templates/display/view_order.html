@@ -1,14 +1,14 @@
-<!-- Administrator Control - View a Customer's Order-->
+<!-- Administrator Control - View a Customer's Order -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Order View</title>
-    <!-- BootStrap Styling-->
+    <!-- BootStrap Styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
-        rel="stylesheet" >
+        rel="stylesheet">
 </head>
-<body class = "container-fluid">
 
+<body class = "container-fluid">
     <!-- Heading Section -->
     <div class = "row"
         style="background-color: rgb(61, 60, 60);">
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Check Order Status - Not Paid -->
-    {% if type == 'not_paid'%}
+    {% if type == 'not_paid' %}
         <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
         col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
             style = " background-color: rgb(241, 40, 40);
@@ -36,9 +36,9 @@
                 <h3>Order Awaiting Payment</h3>
         </div>
 
-        <!-- Display Order Submission Date in Table Form-->
-        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
-            <table class = "table table-striped mx-2 ">
+        <!-- Display Order Submission Date in Table Form -->
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9">
+            <table class = "table table-striped mx-2">
                 <tbody>
                     <!-- Display Order Submisson Date -->
                     <tr >
@@ -54,7 +54,7 @@
             <button class = "btn btn-primary" type = "submit">Payment Made</button>
         </form>
 
-    <!-- Check Order Status - Processing-->
+    <!-- Check Order Status - Processing -->
     {% elif type == 'processing' %}
         <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
             col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
@@ -64,11 +64,11 @@
         </div>
 
         <!-- Display Order Submission and Payment Dates in Table Form -->
-        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
-            <table class = "table table-striped mx-2 ">
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9">
+            <table class = "table table-striped mx-2">
                 <tbody>
                     <!-- Display Order Submisson Date -->
-                    <tr >
+                    <tr>
                         <!-- Submission Date -->
                         <td>Submitted: </td>
                         <td>{{order.submitted_date}}</td>
@@ -86,7 +86,7 @@
             <button class = "btn btn-primary" type = "submit">Order Delivered</button>
         </form>
 
-    <!-- Check Order Status - Completed-->
+    <!-- Check Order Status - Completed -->
     {% else %}
         <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
             col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
@@ -96,11 +96,11 @@
         </div>
 
         <!-- Display Order Submission, Payment and Delivery Dates -->
-        <div class = "col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
-            <table class = "table table-striped mx-2 ">
+        <div class = "col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9">
+            <table class = "table table-striped mx-2">
                 <tbody>
                     <!-- Display Order Submisson Date -->
-                    <tr >
+                    <tr>
                         <!-- Submission Date -->
                         <td>Submitted: </td>
                         <td>{{order.submitted_date}}</td>
@@ -117,49 +117,48 @@
                     </tr>
                 </tbody>
             </table>
-        </div>        
+        </div>
     {% endif %}
 
-    <!-- Display Order Total Value-->
+    <!-- Display Order Total Value -->
     <h3><strong>Total Value: R{{total_value}}</strong></h3>
-    
+
     <!-- Order Items -->
     <div class = "row">
-        <!-- Seperate Each Order Item-->
+        <!-- Seperate Each Order Item -->
         {% for order_item in order_items %}
-        
-        <div class="card my-1 mx-2 rounded" style="width: 20rem;border: 2px solid black">
-            <!-- Product Title-->
-            <h5 class="card-title">{{order_item.product_title}}</h5>
+            <div class="card my-1 mx-2 rounded" style="width: 20rem;border: 2px solid black">
+                <!-- Product Title -->
+                <h5 class="card-title">{{order_item.product_title}}</h5>
 
-            <!-- Search in product_images list for image matching current product id-->
-            {% for image in product_images %}
-                {% if order_item.product_id == image.0 %}
-                    <img class="card-img-top"
-                        style = "width: 100%; height: 15rem; object-fit:cover;"
-                        src="{{image.1.url}}" alt="Card image cap">
-                {% endif  %}
-            {% endfor %}
+                <!-- Search in product_images list for image matching current product id -->
+                {% for image in product_images %}
+                    {% if order_item.product_id == image.0 %}
+                        <img class="card-img-top"
+                            style = "width: 100%; height: 15rem; object-fit:cover;"
+                            src="{{image.1.url}}" alt="Card image cap">
+                    {% endif  %}
+                {% endfor %}
 
-            <div class="card-body">
-                <!-- Quantity Ordered-->
-                <p class="card-text">Quantity: {{order_item.quantity}}</p>
-                <!-- Size Ordered-->
-                <p class="card-text">Size: {{order_item.chosen_size}} </p>
-                <!-- Unit Price -->
-                <p class="card-text">Unit Price: R{{order_item.price}}</p>
+                <div class="card-body">
+                    <!-- Quantity Ordered -->
+                    <p class="card-text">Quantity: {{order_item.quantity}}</p>
+                    <!-- Size Ordered -->
+                    <p class="card-text">Size: {{order_item.chosen_size}} </p>
+                    <!-- Unit Price -->
+                    <p class="card-text">Unit Price: R{{order_item.price}}</p>
 
-                <!-- Display Possible Product Additional Options-->
-                {% if order_item.options %}
-                    <h5 class="card-title"> Additional Options</h5>
-                    {% for option in order_item.options %}
-                        {%if option != ""%}
-                            <p class="card-text">{{option}}</p>
-                        {% endif %}
-                    {% endfor %}  
-                {% endif %}
+                    <!-- Display Possible Product Additional Options -->
+                    {% if order_item.options %}
+                        <h5 class="card-title"> Additional Options</h5>
+                        {% for option in order_item.options %}
+                            {%if option != ""%}
+                                <p class="card-text">{{option}}</p>
+                            {% endif %}
+                        {% endfor %}  
+                    {% endif %}
+                </div>
             </div>
-          </div>
         {% endfor %}
     </div>
 </body>
