@@ -71,14 +71,6 @@ save_update(request, product_id):
 delete_label(request, label_id):
     Retrieve current label and perform deletion from database
 
-initial_product_deletion(request, product_id):
-    Retrieve current product selected by user for deletion and return confirmation
-    page to confirm if deletion is correct
-
-confirmed_product_deletion(request, product_id):
-    Retrieve deletion confirmation from html form used to determine if application is
-    to go ahead with deletion or not. If so, retrieve product and perform deletion
-
 all_customers(request):
     Retrieve All saved customers and their associated orders. Determine order status
         for 'action_required' notification to admin user
