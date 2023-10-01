@@ -88,10 +88,11 @@ class Product(models.Model):
         admin (not superuser) to modify review in any way has not been added.
     product_image: models.ImageField
         main image for product
-    labels: Label 
+    labels: Label
         Associated Label objects for Product
     category: Category
         Associated Category for Product
+
     Methods:
     --------
     __str__(self): str
@@ -140,12 +141,13 @@ class Option(models.Model):
 
     Attributes:
     -----------
-    product: Product 
+    product: Product
         Associated Product Object
     title: str (CharField)
         Name of Product
     description: str (Charfield)
         A short description giving detail of the Option
+
     Methods:
     --------
     __str__(self): str
@@ -158,7 +160,7 @@ class Option(models.Model):
     def __str__(self):
         """return Associated product id and title of Option"""
         return f"Product: {self.product.id}, {self.title}"
-    
+
 
 class Product_Sizes(models.Model):
     """Class modeling Size_Options for a Product with corresponding price.
@@ -167,9 +169,9 @@ class Product_Sizes(models.Model):
 
     Attributes:
     -----------
-    product: Product 
+    product: Product
         Associated Product Object
-    size_options: tupple
+    size_options: tuple
         contains tuples for each product size
     size: str (Charfield)
         selected size for Product
@@ -205,7 +207,7 @@ class Review(models.Model):
 
     Attributes:
     -----------
-    product: Product 
+    product: Product
         Associated Product Object
     author: str (Charfield)
         name of person writing review
@@ -226,10 +228,10 @@ class Review(models.Model):
     def __str__(self):
         """ return author and id of review"""
         return f"{self.author}, Review No: {self.id}"
-    
+
 class Order(models.Model):
     """Class Modelling a Single Order for a customer.
-    
+
     Attributes:
     -----------
     customer: Django User
@@ -307,4 +309,3 @@ class Order_Item(models.Model):
     def __str__(self):
         """ return customer_name and product title selected"""
         return f"Order for Product: {self.product_title}"
-    
