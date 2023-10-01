@@ -876,6 +876,9 @@ def save_update(request, product_id):
             # new image was not added, do nothing
             pass
     
+    # save product changes
+    product.save()
+
     # no errors occured in updating product, return user to display of all products
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
 
