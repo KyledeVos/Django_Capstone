@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <title>Update {{product.title}}</title>
-    <!-- BootStrap Styling-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- BootStrap Styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 </head>
 
 <body class="container-fluid">
@@ -11,13 +12,13 @@
     <!-- Heading Section -->
     <div class = "row pt-1 pb-1"
         style="background-color: rgb(61, 60, 60);">
-        <!-- Return to Admin Home Page-->
+        <!-- Return to Admin Home Page -->
         <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-5 col-sm-7 col-xs-4 my-2">
             <a class = "btn btn-outline-light"
                 href= "{% url 'crafts_by_micks:home_page' %}">
                 Admin Home
             </a>
-            <!-- Return to All Product View-->
+            <!-- Return to All Product View -->
             <a class = "btn btn-outline-light"
                  href="{% url 'crafts_by_micks:view_all_products' %}">
                  Back to Products
@@ -29,31 +30,33 @@
         </div>
     </div>
 
-    <form action= "{% url 'crafts_by_micks:save_update' product.id %}" method="post" enctype="multipart/form-data">
+    <form action= "{% url 'crafts_by_micks:save_update' product.id %}" method="post"
+        enctype="multipart/form-data">
         {% csrf_token %}
 
         <!-- CATEGORY SECTION -->
         <section class = "row">
-            <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-8 my-2 mx-1 rounded"
+            <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-8
+                my-2 mx-1 rounded"
                 style="background-color: blueviolet; color: white;">
                 <h3>Category</h3>
             </div>
         </section>
 
-        <!-- Display Category Titles-->
+        <!-- Display Category Titles -->
         {% for category in all_categories %}
-        <!-- Retrieve Category assigned to Product - show checked radio button-->
+        <!-- Retrieve Category assigned to Product - show checked radio button -->
             {% if category.title == current_category %}
                 <input type="radio" name="category"
                     id="category{{category.title}}" value="{{category.id}}"
-                    checked required />
+                    checked required/>
                 <label for="category {{category.title}}">
                     <h6>{{category.title }}</h6>
                 </label>
             {% else %}
-                <!-- Other Categories - Unchecked-->
+                <!-- Other Categories - Unchecked -->
                 <input type="radio" name="category"
-                    id="category{{category.title}}" value="{{category.id}}" required />
+                    id="category{{category.title}}" value="{{category.id}}" required/>
                 <label for="category {{category.title}}">
                     <h6>{{category.title }}</h6>
                 </label>
@@ -63,15 +66,17 @@
 
         <!-- LABEL SECTION -->
         <section class = "row">
-            <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-8 my-2 mx-1 rounded"
+            <div class = "col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-8
+                my-2 mx-1 rounded"
                 style="background-color: blueviolet; color: white;">
                 <h3>Labels</h3>
             </div>
         </section>
 
-        <!-- Display Labels Currently Assigned to Product-->
-        {% for label in current_labels%}
-            <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}" checked />
+        <!-- Display Labels Currently Assigned to Product -->
+        {% for label in current_labels %}
+            <input type="checkbox" name="labels" id="label{{label.id}}"
+                value="{{label.id}}" checked/>
             <label for="label {{label.title}}">
                 <h6>{{label.title }}</h6>
             </label>
@@ -80,7 +85,7 @@
 
         <!-- Labels not Assigned to Product -->
         {% for label in not_assigned%}
-            <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}" />
+            <input type="checkbox" name="labels" id="label{{label.id}}" value="{{label.id}}"/>
             <label for="label {{label.title}}">
                 <h6>{{label.title }}</h6>
             </label>
@@ -95,7 +100,7 @@
             </div>
         </section>
 
-        <!-- Error Message - Non Unique Product Name-->
+        <!-- Error Message - Non Unique Product Name -->
         {% if error == "Duplicate Name" %}
         <div class = "row">
             <h4 class = " col-xxl-4 col-xl-4 col-lg-8 col-md-9 col-sm-8 col-xs-6
@@ -104,13 +109,14 @@
                 Error Updating Product: {{error}}
             </h4>
         </div>
-        {%endif%}
+        {% endif %}
 
-        <!-- Product Name, Description and Size Pricing Row-->
+        <!-- Product Name, Description and Size Pricing Row -->
         <div class = "row">
-            <!-- Left Vertical Division-->
+            <!-- Left Vertical Division -->
             <div class = "col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class = "col-xxl-10 col-xl-7 col-lg-8 col-md-9 col-md-8 col-sm-7 form-outline mb-2">
+                <div class = "col-xxl-10 col-xl-7 col-lg-8 col-md-9 col-md-8 col-sm-7
+                    form-outline mb-2">
                     <!-- Product Title -->
                     <h4>Product Name</h4>
                     <input class="form-control" style="border: 2px solid black;"
@@ -125,18 +131,18 @@
                 </div>
             </div>
 
-            <!-- Right Vertical Div-->
+            <!-- Right Vertical Div -->
             <div class = "col-xxl-8 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <!-- Sizes and Prices-->
+                <!-- Sizes and Prices -->
                 <div class = "col-xxl-8 col-xl-9 col-lg-10 col-md-12 col-sm-10 col-xs-10 form-outline mb-2">
-                    <!-- Pricing Heading-->
+                    <!-- Pricing Heading -->
                     <div class ="row">
                         <div class = "col-12 mx-auto">
                             <h4>Pricing</h4>
                         </div>
                     </div>
 
-                    <!-- Size and Pricing Table-->
+                    <!-- Size and Pricing Table -->
                     <table class = "table">
                         <!-- Table Headings -->
                         <thead class="text-start" style="background-color: rgb(61, 60, 60);
@@ -148,10 +154,10 @@
                         </thead>
 
                         <tbody>
-                            <!-- Size Description and Price Input-->
+                            <!-- Size Description and Price Input -->
                             {% for size in all_sizes %}
                                 <tr>
-                                    <!-- Size Name-->
+                                    <!-- Size Name -->
                                     <td>{{size.0}}</td>
                                     <!-- Price Input -->
                                     <td><input type="number" min="0.0"
@@ -171,9 +177,9 @@
 
         <!-- Product Additional Options and Main Image -->
         <div class = "row">
-            <!-- Left Vertical Divison -- Main Image-->
+            <!-- Left Vertical Division -- Main Image -->
             <div class = "col-xxl-4 col-xl-6 col-lg-6 col-md-6">
-                <!-- Product Main Image-->
+                <!-- Product Main Image -->
                 <h4 class = " col-10 p-1 border border-1"
                 style="background-color: rgb(73, 73, 73); color:white">
                     Product Main Image
@@ -181,7 +187,7 @@
 
                 <div class="card mx-1 my-1"
                     style="max-width: 20rem; border: 2px solid black;">
-                    <!-- Product Main Image-->
+                    <!-- Product Main Image -->
                     <img class = " my-2 card-img-top rounded product_image"
                         style = "width: 100%; height: 15rem; object-fit:cover;"
                     src="{{product.product_image.url}}">
@@ -192,16 +198,16 @@
                 </div>
             </div>
 
-            <!-- Right Vertical Division-->
+            <!-- Right Vertical Division -->
             <div class = "col-xxl-8 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 my-2">
-                <!-- Product Options Heading-->
+                <!-- Product Options Heading -->
                 <div class ="row">
                     <div class = "col-12 mx-auto">
                         <h4>Product Options - Optional</h4>
                     </div>
                 </div>
 
-                <!-- Option Title and Description Table-->
+                <!-- Option Title and Description Table -->
                 <div class = "col-xxl-8 col-xl-9 col-lg-10 col-md-6 col-sm-10 col-xs-10 form-outline mb-2" >
                     <table class = "table">
                         <!-- Table Headings -->
@@ -216,18 +222,18 @@
 
                         {% if options %}
                             <tbody>
-                                <!-- Size Description and Price Input-->
-                                <!-- Add Current Options-->
+                                <!-- Size Description and Price Input -->
+                                <!-- Add Current Options -->
                                 {% for option in options %}
                                     <tr>
-                                        <!-- Option Title Input-->
+                                        <!-- Option Title Input -->
                                         <td><input
                                                 type="text"
                                                 name="Option{{option.id}} title"
                                                 value="{{option.title}}">
                                         </td>
 
-                                        <!-- Option Description Input-->
+                                        <!-- Option Description Input -->
                                         <td><input
                                             type="text"
                                             name='Option{{option.id}} desc'
@@ -235,27 +241,29 @@
                                         </td>
 
                                         <td>
-                                            <input type="checkbox" name="Option{{option.id}} delete" value="delete">
+                                            <input type="checkbox"
+                                                name="Option{{option.id}} delete"
+                                                value="delete">
                                         </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         {% endif %}
-                    
-                        <!-- Display Inputs for new options-->
+
+                        <!-- Display Inputs for new options -->
                         {% if more_options %}
                             <tbody>
-                                <!-- Add New Options-->
+                                <!-- Add New Options -->
                                 {% for new_option in more_options %}
                                     <tr>
-                                        <!-- Option Title Input-->
+                                        <!-- Option Title Input -->
                                         <td><input
                                                 type="text"
                                                 name='Option{{new_option}} title'
                                                 placeholder="Name">
                                         </td>
 
-                                        <!-- Option Description Input-->
+                                        <!-- Option Description Input -->
                                         <td><input
                                             type="text"
                                             name='Option{{new_option}} desc'
@@ -270,10 +278,10 @@
             </div>
         </div>
 
-        <!-- Product Additional Images-->
+        <!-- Product Additional Images -->
         <div class = "row my-1">
 
-            <!-- Current Images Assigned to Product-->
+            <!-- Current Images Assigned to Product -->
             <h4 class = " col-10 p-1 border border-1"
             style="background-color: rgb(73, 73, 73); color:white">
                 Current Images
@@ -282,7 +290,7 @@
             {% for image in current_images %}
                 <div class="card mx-1 my-1"
                     style="max-width: 16rem; border: 2px solid black;">
-                    <!-- Product Main Image-->
+                    <!-- Product Main Image -->
                     <img class = " my-2 card-img-top rounded product_image"
                         style = "width: 100%; height: 15rem; object-fit:cover;"
                         src="{{image.image.url}}">
@@ -290,15 +298,16 @@
                     <div class="card-body">
                         <label>Change Image</label>
                         <input type="file" name="{{image.id}} new">
-                        <!--Image Deletion-->
-                        <input class = "my-4"  type="checkbox" name="deletion_images" value="{{image.id}}"/>
+                        <!--Image Deletion -->
+                        <input class = "my-4"  type="checkbox" name="deletion_images"
+                            value="{{image.id}}"/>
                         <label">
                             Delete
                         </label>
                     </div>
                 </div>
             {% endfor %}
-            
+
             {% if extra_images %}
                 <!-- Add Additional Images -->
                 <h4 class = "col-10 my-2  p-1 border border-1"
@@ -306,7 +315,7 @@
                     New Images
                 </h4>
 
-                <!-- Input for Additional Image to be uploaded-->
+                <!-- Input for Additional Image to be uploaded -->
                 <div class = "row text-start">
                     {% for new_image in extra_images %}
                         <div class = "text-start">
@@ -317,15 +326,14 @@
             {% endif %}
         </div>
 
-        <!-- Submit Update Button-->
+        <!-- Submit Update Button -->
         <div class = "row my-4">
             <div col = "col-4 mx-auto text-center">
                 <input class = "btn btn-primary"
                 type="submit"
-                value="Update" />
+                value="Update"/>
             </div>
         </div>
     </form>
-
 </body>
 </html>

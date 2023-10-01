@@ -2,8 +2,9 @@
 <html lang="en">
     <head>
         <title>Admin Control - All Categories</title>
-        <!-- BootStrap Styling-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- BootStrap Styling -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
     </head>
 
     <body class="container-fluid">
@@ -11,7 +12,7 @@
         <!-- Heading Section -->
         <div class = "row pt-1 pb-1"
             style="background-color: rgb(61, 60, 60);">
-            <!-- Return to Admin Home Page-->
+            <!-- Return to Admin Home Page -->
             <div class = "col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-4 my-2">
                 <a class = "btn btn-outline-light"
                     href= "{% url 'crafts_by_micks:home_page' %}">
@@ -28,7 +29,7 @@
         <div class = "row">
             <div class = "col-xxl-5 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-xs-12 mx-1 my-2 rounded"
                 style = " background-color: gray; border: 1px solid black; color: white;">
-                {% if not categories%}
+                {% if not categories %}
                     <h4>No Categories</h4>
                 {% else %}
                     <h4>Update/Deletion completed one at a time</h4>
@@ -39,37 +40,41 @@
         <!-- Display Error Message for Non-Unique Category name for Update -->
         {% if error == 'Update Error' %}
             <div class = "row">
-                <div class = "col-xxl-5 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-xs-12 mx-1 my-2 rounded"
+                <div class = "col-xxl-5 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-xs-12
+                        mx-1 my-2 rounded"
                     style = "border: 3px solid red;">
                         <h4>Name was not Unique</h4>
                 </div>
             </div>
         {% endif %}
 
-        <!-- Display Error for attempted Category Deletion with Assigned Products-->
+        <!-- Display Error for attempted Category Deletion with Assigned Products -->
         {% if error == 'Delete Error' %}
-        <div class = "row">
-            <div class = "col-xxl-5 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-xs-12 mx-1 my-2 rounded"
-                style = "border: 3px solid red;">
-                    <h4>
-                        Cannot Delete Category - Products Assigned<br>
-                        Please re-assign products
-                    </h4>
+            <div class = "row">
+                <div class = "col-xxl-5 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-xs-12
+                    mx-1 my-2 rounded"
+                    style = "border: 3px solid red;">
+                        <h4>
+                            Cannot Delete Category - Products Assigned<br>
+                            Please re-assign products
+                        </h4>
+                </div>
             </div>
-        </div>
         {% endif %}
 
-        <!-- Display for Each Category with Update and Deletion Buttons-->
+        <!-- Display for Each Category with Update and Deletion Buttons -->
         {% for category in categories %}
-            <form action= "{% url 'crafts_by_micks:update_delete_category' category.id %}" method="post">
+            <form action= "{% url 'crafts_by_micks:update_delete_category' category.id %}"
+                method="post">
                 {% csrf_token %}
 
-                <!-- Current Category Title and New Title Input-->
+                <!-- Current Category Title and New Title Input -->
                 <div class = "row">
-                    <div class = "col-xxl-3 col-xl-3 col-lg-4 col-md-5 col-sm-7 col-xs-8 form-outline mb-4">
-                        <!-- Current Title-->
+                    <div class = "col-xxl-3 col-xl-3 col-lg-4 col-md-5 col-sm-7 col-xs-8
+                        form-outline mb-4">
+                        <!-- Current Title -->
                         <h4>{{category.title}}</h4>
-                        <!-- New Title Input-->
+                        <!-- New Title Input -->
                         <input class="form-control" style="border: 2px solid black;"
                             type="text", name="title" placeholder="New Title (Optional)">
                     </div>
@@ -77,9 +82,11 @@
                     <!-- Submission Buttons -->
                     <div class = "col-6">
                         <!-- Perform Update -->
-                        <input class = "btn btn-primary" type = "submit" name = "Update" value="Update">
+                        <input class = "btn btn-primary" type = "submit"
+                            name = "Update" value="Update">
                         <!-- Delete Category -->
-                        <input class = "btn btn-danger" type = "submit" name = "Delete" value="Delete">
+                        <input class = "btn btn-danger" type = "submit"
+                            name = "Delete" value="Delete">
                     </div>
                 </div>
             </form>
