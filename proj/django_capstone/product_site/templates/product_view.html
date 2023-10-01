@@ -6,22 +6,26 @@
 {% load static %}
 
 {% block content %}
-    <a class = " my-2 btn btn-outline-dark" href="{%url 'product_site:site_home' %}">All Products</a>
+    <a class = "my-2 btn btn-outline-dark"
+        href="{%url 'product_site:site_home' %}">
+        All Products
+    </a>
     <br>
 
+    <!-- Display Message - Logged-out User cannot place an order -->
     {% if not logged_in %}
         <h4 style = "color: blueviolet;">Login for Order Placement</h4>
     {% endif %}
     <br>
 
     <div class = "row">
-        <!--Product Category, Tile and Main Image-->
+        <!--Product Category, Tile and Main Image -->
         <figure class = "col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 text-center">
             <!-- Title -->
-            <h2 style="font-family:''Arial Narrow', Arial, sans-serif;" >{{product.title}}</h2>
+            <h2 style="font-family:'Arial Narrow', Arial, sans-serif;" >{{product.title}}</h2>
             <!-- Category -->
             <h4 style="font-family: Brush Script MT"> {{product.category}}</h4>
-            <!-- Review Rating-->
+            <!-- Review Rating -->
             {% if product.review_value == 0 %}
                 &nbsp
             {% else %}
@@ -29,7 +33,7 @@
             {% endif %}
             <img class = "my-2 card-img-top rounded"
                 style="width: 80%; max-height: 500px; border: 3px solid goldenrod;"
-                src="{{product.product_image.url}}"> <br>     
+                src="{{product.product_image.url}}"><br>
         </figure>
 
         <!-- Product Labels, Pricing and Options Selection-->
@@ -37,28 +41,29 @@
 
             <!-- Labels -->
             {% for label in labels %}
-                <div class = "text-start my-1 px-1 rounded fw-bold text-truncate "
+                <div class = "text-start my-1 px-1 rounded fw-bold text-truncate"
                     style=" width: 150px; color: white; background-color: {{label.custom_colour}};">
                     {{label}}
                 </div>
             {% endfor %}
 
-            <!-- Discount Notification-->
+            <!-- Discount Notification -->
             {% if discount_bool %}
                 <h4 class = "my-2 text-start" style="color:deepskyblue;">On Discount</h4>
             {% endif %}
 
-            <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS-->
+            <!--LOGGED IN - ALLOW SUBMISSION FOR PRICING, QUANTITY AND OPTIONS -->
             {% if logged_in %}
                 {% if error != 'none' %}
-                <!-- Display Error for Order Submission without price selection-->
+                <!-- Display Error for Order Submission without price selection -->
                     <h5 style="color: red;"><strong>Price was not selected</strong></h5>
                 {% endif %}
                 <h4 style="font-family: Brush Script MT">Size Selection</h4>
-                <form action="{% url 'product_site:create_order_item' product_id=product.id %}" method="post">
+                <form action="{% url 'product_site:create_order_item' product_id=product.id %}"
+                    method="post">
                     {% csrf_token %}
-        
-                    <!--PRICING-->
+
+                    <!-- PRICING -->
                     {% for size_price in price_list %}
                     <div class = "row g-1">
                         <section class = "col-xxl-5 col-xl-5">
@@ -76,34 +81,34 @@
                             {% endif %}
                             <!-- Display Price for Associated Size -->
                             <strong>R{{size_price.price}}</strong>
-                        </section> 
+                        </section>
                         <!-- Quantity input for a selected Size -->
                         <section class = "col-xxl-5 col-xl-5 ">
                                 <input type="number" name="{{size_price.size}} quantity" min="1" placeholder="Quantity">
                         </section>
-                    </div> 
+                    </div>
                     {% endfor %}
-                 
-                    <!--OPTIONS-->
+
+                    <!-- OPTIONS -->
                     <div class="my-3">
                         <h4  style="font-family: Brush Script MT"> Options</h4>
                     </div>
                     {% if options %}
-                    <!-- Display Option Title and Description-->
+                    <!-- Display Option Title and Description -->
                         {% for option in options %}
-                            <input type="checkbox" name="product_options" value="{{option.id}}"/>  
+                            <input type="checkbox" name="product_options" value="{{option.id}}"/>
                                 {{option.title}}: {{option.description}}
                                 <br>
                         {% endfor %}
                     {% endif %}
-        
-                <!--FORM SUBMISSION-->
+
+                <!-- FORM SUBMISSION -->
                     <input class="btn btn-outline-dark" type="submit" value="Add to Order">
                 </form>
 
-            <!--NOT LOGGED IN - SHOW PRICING, QUANTITY AND OPTIONS WITH NO SUBMISSION-->
+            <!-- NOT LOGGED IN - SHOW PRICING, QUANTITY AND OPTIONS WITH NO SUBMISSION -->
             {% else %}
-                <!--PRICING-->
+                <!-- PRICING -->
                 <div class="my-3">
                     <h4  style="font-family: Brush Script MT">Price List</h4>
                 </div>
@@ -124,35 +129,36 @@
                             {% endif %}
                                 <!-- Display Price for Associated Size -->
                                 <strong>R{{size_price.price}}</strong>
-                        </section> 
+                        </section>
                     </div>
                 {% endfor %}
 
-                <!--OPTIONS-->
+                <!-- OPTIONS -->
                 <div class="my-3">
                     <h4  style="font-family: Brush Script MT"> Options</h4>
                 </div>
-                {%if options %}
+                {% if options %}
                     {% for option in options %}
-                        <!-- Display Option Title and Description-->
+                        <!-- Display Option Title and Description -->
                         {{option.title}}: {{option.description}}
                         <br>
                     {% endfor %}
                 {% endif %}
             {% endif %}
 
-            <!-- Product Description-->
+            <!-- Product Description -->
             <div>
                 <pre style=" max-height: 30%; padding: 5px;
                     overflow-y: auto; overflow-x:hidden;
                     white-space: break-spaces;
                     font-family: Cursive; text-align: justify;
-                    border: 2px solid rgb(238, 93, 238);">{{product.description}}
+                    border: 2px solid rgb(238, 93, 238);">
+                    {{product.description}}
                 </pre><br>
             </div>
         </div>
 
-        <!-- Additonal Product Images -->
+        <!-- Additional Product Images -->
         <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-10 text-center">
             {% for image in product_images %}
                 <img class = " my-2 mx-1 card-img-top rounded product_image"

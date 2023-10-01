@@ -9,19 +9,19 @@
     <meta charset="UTF-8">
     <title>Review: {{order_item.product_title}} </title>
     <!-- BootStrap Styling-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
     <style>
-        textarea{  
+        textarea{
             font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            border: 2px solid purple;   
+            border: 2px solid purple;
         }
     </style>
 </head>
 
 <body class = "container-fluid">
-
-    <!-- Return to All Orders-->
+    <!-- Return to All Orders -->
     <div class = "row" style="background-image: linear-gradient(to right, white, purple, black);">
         <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-4">
             <a class = "btn btn-outline-dark"
@@ -36,31 +36,32 @@
         <figure class = "col-xl-3 col-lg-4 col-md-6 col-sm-8 col-10 mx-auto
                     rounded-circle text-center"
             style = "background-color: dr; border: 2px solid white;">
-            <img src = "{% static 'page_base_images/company_logo.jpg' %}" 
-            class = "card-img-top rounded-circle std_img_border"
+            <img src = "{% static 'page_base_images/company_logo.jpg' %}"
+                class = "card-img-top rounded-circle std_img_border"
                 style="height: 99%; border: 2px solid black;">
         </figure>
     </div>
 
-    <!-- Review Content-->
+    <!-- Review Content -->
     <div class = "row">
-        <!-- Product Title and Main Image-->
+        <!-- Product Title and Main Image -->
         <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 my-4 text-center">
             <h4>Review for: {{order_item.product_title}}</h4>
             <img class = " my-2 card-img-top rounded product_image"
                 style = "width: 80%; height: 20rem; object-fit:cover; border: 1px solid gold;"
-                src="{{product_image.url}}"> <br>
+                src="{{product_image.url}}"><br>
         </div>
-        
+
         <!-- Review Body -->
         <div class = "col-xxl-8 col-xl-8 col-lg-7 col-md-8 my-2">
-            <form action="{% url 'product_site:save_review' order_item.product_id order_id %}" method="post">
+            <form action="{% url 'product_site:save_review' order_item.product_id order_id %}"
+                method="post">
                 {% csrf_token %}
 
-                <!--Review Rating Title-->
+                <!--Review Rating Title -->
                 <div class = "row ps-2 my-2">
                     <div class = "col-4 my-3 text-start">
-                        <h4>Rating </h4>
+                        <h4>Rating</h4>
                     </div>
                 </div>
 
@@ -70,18 +71,21 @@
                         style="background-image: linear-gradient(to right, rgb(29, 29, 29), purple);
                             border: 1px solid black;">
                         {% for rating in max_rating %}
+                        <!-- Description showing user 'bad' review value -->
                         {% if rating == "1" %}
                             <span style="color:white;">BAD</span>
                         {%endif %}
+
                         <input class="my-3 mx-4" type="radio" name="review_value" value = "{{rating}}" required>
+                        <!-- Description showing user 'good' review value -->
                         {% if rating == "5" %}
-                        <span style="color:white;">GOOD</span>
-                        {%endif %}
+                            <span style="color:white;">GOOD</span>
+                        {% endif %}
                     {% endfor %}
                     </div>
                 </div>
-                
-                <!-- Allow User to add name to review-->
+
+                <!-- Allow User to add name to review -->
                 <div class = "row">
                     <div class = "col-12 my-2">
                         <input type="checkbox" name="anonymous_review" value = "checked">
@@ -90,7 +94,7 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <!-- Review Description -->
                 <h4>Optional Description</h4>
                 <textarea name="review_description" rows="10" cols="50" style="resize: none;"></textarea>
@@ -100,6 +104,5 @@
             </form>
         </div>
     </div>
-    
 </body>
 </html>
