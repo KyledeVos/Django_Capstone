@@ -6,31 +6,29 @@
 
 <!-- Display Products loaded in system or 'maintenance' message if none are loaded-->
 {% if products %}
-    
+
     {% for category in products %}
         <!--Display Each Product Category - Already Validated to only display Categories
-            with at least one products
-        -->
+            with at least one product-->
         <div class = "row my-2 text-center">
             <h1>{{category.0}}</h1>
         </div>
-            
-        <!--Products Section -->
+
+        <!-- Products Section -->
         <section class = "row my-2 g-1">
             {% for product in category.1 %}
-                <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 
-                            p-0     ">
-                    <!--Display Multiple Sizes Notification for Product with Pricing Options-->
-                    {% if product.multiple_sizes is True%}
+                <div class = "col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 p-0">
+                    <!-- Display Multiple Sizes Notification for Product with Pricing Options -->
+                    {% if product.multiple_sizes is True %}
                         <h6 class = "card-header border-0 text-center fw-bold bg-transparent"
                             style="color: rgb(141, 26, 176);">
                             Multiple Sizes</h6>
                     {% else %}
-                    <!--Spacer-->
+                    <!-- Spacer -->
                         <h6 class = "card-header border-0 text-center bg-transparent">&nbsp</h6>
                     {% endif %}
-                    
-                    <!-- Product Title-->
+
+                    <!-- Product Title -->
                     <h5 class = "card-header border-0 text-center text-truncate bg-transparent">
                         {{product.title}}
                     </h5>
@@ -38,29 +36,29 @@
                     <!-- Product Main Image -->
                     <div class="card border-0">
                         <div class = "text-center">
-                            <!-- Main Image also link to Product View-->
+                            <!-- Main Image also link to Product View -->
                             <a class = "movement zoom" href="{% url 'product_site:product_view' product.id 'none' %}">
                                 <img class = " my-2 card-img-top rounded product_image" style="z-index: 0;"
                                     src="{{product.main_image.url}}">
-                                    <!--Add Labels Over Product Image-->
+                                    <!-- Add Labels Over Product Image -->
                                 <div class="card-img-overlay card-inverse">
                                     {% for label in product.labels %}
-                                        <div class = "text-start my-1 px-1 rounded fw-bold text-truncate "
+                                        <div class = "text-start my-1 px-1 rounded fw-bold text-truncate"
                                             style=" width: 150px; color: white; background-color: {{label.custom_colour}};">
                                             {{label}}
                                         </div>
-                                    {% endfor %}     
+                                    {% endfor %}
                                 </div>
                             </a>
                         </div>
                     </div>
 
-                    <!--Product Price-->
+                    <!-- Product Price -->
                     <h5 class = "card-header border-0 text-center bg-transparent">
                         R{{product.display_price}}
                     </h5>
 
-                    <!-- View Product Button-->
+                    <!-- View Product Button -->
                     <form class="text-center d-grid mx-5"
                             action="{% url 'product_site:product_view' product.id 'none' %}">
                         <button type="submit" class="btn btn-outline-dark">
@@ -72,9 +70,9 @@
         </section>
     {% endfor %}
 
-<!-- No Products Loaded on Site-->
+<!-- No Products Loaded on Site -->
 {% else %}
-    <h2>Site under maintenance - Products will be back soon!</h2>
+    <h2>Site under Maintenance - Products will be back soon!</h2>
 {% endif %}
 
 {% endblock %}

@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
     <title>Completed Orders</title>
-    <!-- BootStrap Styling-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- BootStrap Styling -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 </head>
 
 <body class = "container-fluid">
 
-    <!-- Display Heading-->
+    <!-- Display Heading -->
     <section class = "row ps-1 pt-1 pb-1"
         style = "background-color: rgb(111, 92, 119); color: white;">
-        <!-- Navigation - Return to Site Home-->
+        <!-- Navigation - Return to Site Home -->
         <div class = "col-2">
             <a class = " my-2 btn btn-outline-light"
             style="max-height: 50px; max-width: 200px;"
@@ -29,7 +30,7 @@
         </div>
     </section>
 
-    <!-- Submission, Payment and Delivery Dates-->
+    <!-- Submission, Payment and Delivery Dates -->
     <section class = "row">
         <article class = "col-xxl-4 col-xl-4 col-lg-4 col-md-5 col col-sm-7">
             <ul class="list-group">
@@ -48,8 +49,8 @@
                         style="max-width: 100%;">
                         Payment: {{payment_date}}
                     </li>
-                    
-                <!-- Order Completed-->
+
+                <!-- Order Completed -->
                 {% else %}
                     <li class="list-group-item my-0 border rounded"
                         style="max-width: 100%;">
@@ -59,12 +60,12 @@
                         style="max-width: 100%;">
                         Delivered on: {{order.delivered_date}}
                     </li>
-                {% endif %}     
+                {% endif %}
             </ul>
         </article>
     </section>
 
-    <!-- Order Total Value-->
+    <!-- Order Total Value -->
     <div class = "row">
         <div class = "col-xxl-4 col-xl-4 col-lg-4 col-md-5 col col-sm-7">
             <h5 class = "my-3 p-2"
@@ -83,11 +84,11 @@
             style="background-color: rgb(222, 222, 222); border: 3px solid black;">
 
                 <div class = "row">
-                    <!-- Product Image Div-->
+                    <!-- Product Image Div -->
                     <div class = "col-6">
                         {% for product_image in product_image_list %}
-                        <!-- Find main image matching current product id-->
-                            {%if product_image.0 == order_item.product_id %}
+                        <!-- Find main image matching current product id -->
+                            {% if product_image.0 == order_item.product_id %}
                                 <img  class="card-img-top mx-1 my-2"
                                     style="width: 100%; height: 15rem;
                                     object-fit:cover; border: 2px solid white;"
@@ -95,14 +96,14 @@
                             {% endif %}
                     {% endfor %}
                     </div>
-                    
-                    <!-- Additional Options Div displayed with each option as a list-->
+
+                    <!-- Additional Options Div displayed with each option as a list -->
                     <div class = "col-6">
                         {% if order_item.options %}
                         <ul class="list-group">
                             <h5 class = "my-2">Options:</h5>
                             {% for option in order_item.options %}
-                                {%if option != ""%}
+                                {% if option != "" %}
                                     <li class="list-group-item my-0 border rounded"
                                     style="max-width: 100%;">{{option}}</li>
                                 {% endif %}
@@ -113,21 +114,21 @@
                 </div>
 
                 <div class="card-body">
-                <!-- Title-->
+                    <!-- Title -->
                     <h4 class="card-title">{{order_item.product_title}}</h4>
-                    <!-- Price-->
+                    <!-- Price -->
                     <h5 class="card-title">Unit Price: R{{order_item.price}}</h5>
-                    <!-- Quantity Ordered-->
+                    <!-- Quantity Ordered -->
                     <h5 class="card-title">Quantity: {{order_item.quantity}}</h5>
-                    <!-- Sizing-->
+                    <!-- Sizing -->
                     {% if order_item.chosen_size != 'none' %}
                     <h5 class="card-title">Size: {{order_item.chosen_size}}</h5>
                     {% else %}
-                        <!--Spacer if no size applicable-->
+                        <!-- Spacer if no size applicable -->
                         &nbsp
                     {% endif %}
 
-                    <!-- Allows customer to add a review ONLY for completed orders-->
+                    <!-- Allows customer to add a review ONLY for completed orders -->
                     {% if status == 'c' %}
                         <form action = "{% url 'product_site:product_review' order_item.id order.id %}">
                             <button class = "btn btn-primary" type="submit"> Review Product </button>
