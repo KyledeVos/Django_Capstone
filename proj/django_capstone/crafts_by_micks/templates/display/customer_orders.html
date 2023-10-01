@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Orders for: {{customer.first_name}} {{customer.last_name}}</title>
-    <!-- BootStrap Styling-->
+    <!-- BootStrap Styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
-        rel="stylesheet" >
+        rel="stylesheet">
 </head>
+
 <body class = "container-fluid">
 
     <!-- Heading Section -->
@@ -44,9 +45,9 @@
             <table class = "table table-striped mx-2 ">
                 <!-- Table Headings -->
                 <tbody>
-                    <!-- Display Order Submisson Date and Button to View Order-->
+                    <!-- Display Order Submisson Date and Button to View Order -->
                     {% for order in awaiting_payment_orders %}
-                        <tr >
+                        <tr>
                             <td>{{forloop.counter}}</td>
                             <!-- Submission Date -->
                             <td>Submitted on {{order.submitted_date}}</td>
@@ -62,7 +63,7 @@
             </table>
         </div>
 
-    <!-- No Submitted Orders that require payment-->
+    <!-- No Submitted Orders that require payment -->
     {% else %}
         <h5 style="font-weight: bold; color: rgb(11, 222, 11);">No Orders require payment</h5>
     {% endif %}
@@ -76,12 +77,12 @@
     <!-- Check for Orders being Processed -->
     {% if processing_orders %}
         <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9">
-            <table class = "table table-striped mx-2 ">
+            <table class = "table table-striped mx-2">
                 <!-- Table Headings -->
                 <tbody>
-                    <!-- Display Order Payment Date and Button to View Order-->
+                    <!-- Display Order Payment Date and Button to View Order -->
                     {% for order in processing_orders  %}
-                        <tr >
+                        <tr>
                             <td>{{forloop.counter}}</td>
                             <!-- Payment -->
                             <td>Paid on {{order.payment_received_date}}</td>
@@ -96,8 +97,8 @@
                 </tbody>
             </table>
         </div>
-    
-    <!-- No Orders being Processed-->
+
+    <!-- No Orders being Processed -->
     {% else %}
     <h5 style="font-weight: bold; color: rgb(11, 222, 11);">No Orders being processed</h5>
     {% endif %}
@@ -107,17 +108,17 @@
         style="background-color: blueviolet; color: white;">
         <h3>Completed Orders </h3>
     </div>
-    
+
     <!-- Check for Completed Orders -->
     {% if completed_orders %}
 
         <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9">
-            <table class = "table table-striped mx-2 ">
+            <table class = "table table-striped mx-2">
                 <!-- Table Headings -->
                 <tbody>
-                    <!-- Display Order Delivery Date and Button to View Order-->
+                    <!-- Display Order Delivery Date and Button to View Order -->
                     {% for order in completed_orders  %}
-                        <tr >
+                        <tr>
                             <td>{{forloop.counter}}</td>
                             <!-- Delivery Date -->
                             <td>Delivered On: {{order.delivered_date}}</td>
@@ -133,10 +134,10 @@
             </table>
         </div>
 
-    <!-- No Completed Orders-->
+    <!-- No Completed Orders -->
     {% else %}
         <h5 style="font-weight: bold;">No orders have been completed</h5>
     {% endif %}
-    
+
 </body>
 </html>
