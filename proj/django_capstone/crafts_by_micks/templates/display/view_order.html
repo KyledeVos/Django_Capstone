@@ -51,7 +51,7 @@
         </div>
 
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'paid' %}">
-            <button type = "submit">Payment Made</button>
+            <button class = "btn btn-primary" type = "submit">Payment Made</button>
         </form>
 
     <!-- Check Order Status - Processing-->
@@ -83,7 +83,7 @@
         </div>
 
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'delivered' %}">
-            <button type = "submit">Order Delivered</button>
+            <button class = "btn btn-primary" type = "submit">Order Delivered</button>
         </form>
 
     <!-- Check Order Status - Completed-->
