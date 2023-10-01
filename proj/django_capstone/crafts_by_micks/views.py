@@ -60,13 +60,17 @@ update_label(request, label_id, error):
     Retrieve current label for update and render html page showing current set label attributes.
         Form in page allows user to change label attributes and pass on for save to database.
 
+save_label_update(request, product_id):
+    Retrieve old/new attributes for a current product from html form for product update
+        and perform applicable updates to Product and associated model instances.
+
 update_product(request, product_id, error):
     Retrieve current attributes for a Product and Display to new page allowing
-    user to perform updates to these attributes to update product information
+    user to perform updates to these attributes to update product information        
 
 save_update(request, product_id):
     Retrieve old/new attributes for a current product from html form for product update
-        and perform applicable updates to Product and associated model instances.
+        and perform applicable updates to Product and associated model instances.   
 
 delete_label(request, label_id):
     Retrieve current label and perform deletion from database
@@ -79,12 +83,11 @@ customer_orders(request, customer_id):
     Retrieve and sort customer orders into not paid, processing and completed
 
 view_order(request, order_id, customer_id, type):
-    Retrieve an format an individual customer order for render
+    Retrieve and format an individual customer order for render
 
 change_order_status(request, order_id, customer_id, new_status):
     Allow admin user to change order status after payment received and then after
         product has been delivered
-
 """
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.urls import reverse
@@ -113,7 +116,7 @@ def create_category(request, source, error):
     request: HTTPRequest object
         contains metadata about the request needed for html page render
     source: str
-        Specify name of original view call determing page to return to after new category is added
+        Specify name of original view call determining page to return to after new category is added
         to database.
     error: str
         message to display to user if duplicated category title is received
@@ -123,13 +126,13 @@ def create_category(request, source, error):
 
 def add_category(request, source):
     """Retrieve Category Attributes from html form, create new Category instance and save to database
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
         contains metadata about the request needed for html page render
     source: str
-        Specify name of original view call determing page to return to after new category is added
+        Specify name of original view call determining page to return to after new category is added
         to database
     """
     # attempt to create and save new title unless duplicate title was supplied
@@ -137,16 +140,19 @@ def add_category(request, source):
         title = request.POST['title']
         category = models.Category.objects.create(title=title)
         category.save()
-        # new category was created during product creation, return admin user to 'create_product' page
+        # new category was created during product creation, return admin user to
+        # 'create_product' page
         if source == "new_product":
-            return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("None",)))
+            return HttpResponseRedirect(reverse('crafts_by_micks:create_product',
+                                                args=("None",)))
         # new category was created seperately, return admin user to main admin page
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
-    # duplicate category title 
+    # duplicate category title
     except IntegrityError:
-        return HttpResponseRedirect(reverse('crafts_by_micks:create_category', args=(source, "Duplicate Name",)))
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_category',
+                                            args=(source, "Duplicate Name",)))
 
 def create_label(request, source, error):
     """render html page allowing admin user to create a new Label for Products.
@@ -156,18 +162,18 @@ def create_label(request, source, error):
     request: HTTPRequest object
         contains metadata about the request needed for html page render
     source: str
-        Specify name of original view call determing page to return to after new label is added
+        Specify name of original view call determining page to return to after new label is added
         to database
     error: str
         message to display to user if duplicated label title is received
     """
     return render(request, 'creation/create_label.html',  {'source':source, 'error':error})
-        
+
 
 def add_label(request, source):
     """Retrieve Label Attributes from html form, create new Label instance and save to
     database
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -205,12 +211,13 @@ def add_label(request, source):
         # new category was created seperately, return admin user to main admin page
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
-    
+
     # duplicate category title
     except IntegrityError:
-        return HttpResponseRedirect(reverse('crafts_by_micks:create_label', args=(source, "Duplicate Name",)))
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_label',
+                                            args=(source, "Duplicate Name",)))
 
-    
+
 def create_product(request, error):
     """Render html page allowing admin user to create a new product seeing number of allowed
     product options and passing allowed size options, current product Categories and Labels
@@ -280,7 +287,6 @@ def retrieve_size_pricing(request):
     return size_info
 
 # Helper Method
-
 def retrieve_product_options(request):
     """Retrieve user-defined options for a product from html form, adding each to a list
     of tuples
@@ -290,6 +296,7 @@ def retrieve_product_options(request):
     request: HTTPRequest object
         contains metadata from a request needed for additional options for a product
         from an html form
+
     Return:
     -------
     list of tuples each containing a product option title and description
@@ -308,11 +315,13 @@ def retrieve_product_options(request):
 def retrieve_additional_images(request):
     """Retrieve possible additional product images uploaded by admin user and append
         image file to a list.
+
     Parameter:
     ----------
     request: HTTPRequest object
         contains metadata from a request needed for retrieval of additional image's
          image file from an html form
+
     Return:
     -------
     list containing image files
@@ -330,7 +339,7 @@ def retrieve_additional_images(request):
 
 
 def add_product(request):
-    """Retrieve user-defined attributes from html from from 'create-product',
+    """Retrieve user-defined attributes from html form 'create-product',
         create new product and save to database
 
     Parameter:
@@ -354,7 +363,7 @@ def add_product(request):
         additional_images = retrieve_additional_images(request)
 
         # retrieve unique id for each label that may have been added to a product in html form
-        labels_list = [ models.Label.objects.get(id = label_id) 
+        labels_list = [ models.Label.objects.get(id = label_id)
                         for label_id in request.POST.getlist('labels')]
 
         # create basic product with compulsory fields
@@ -364,7 +373,7 @@ def add_product(request):
                                 description = description,
                                 product_image = product_image
             )
-        
+
         # add possible labels to product
         for label in labels_list:
             product.labels.add(label)
@@ -396,13 +405,14 @@ def add_product(request):
                     product = product,
                     image = current_image
                 ).save()
-                
+
     # duplicate Product title - Return User to Create Product
     except IntegrityError:
-        return HttpResponseRedirect(reverse('crafts_by_micks:create_product', args=("Duplicate Name",)))
+        return HttpResponseRedirect(reverse('crafts_by_micks:create_product',
+                                            args=("Duplicate Name",)))
 
     # return to admin home page
-    return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))   
+    return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
@@ -418,6 +428,7 @@ def view_all_labels(request):
     """
     labels = models.Label.objects.all()
     return render(request, 'display/view_all_labels.html', {'labels': labels})
+
 
 def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
@@ -480,6 +491,7 @@ def view_all_categories(request, error):
     categories = models.Category.objects.all()
     return render(request, 'Update/view_all_categories.html', {'categories': categories, 'error':error})
 
+
 def update_delete_category(request, category_id):
     """Use 'request' to determine action (update or delete) to perform on category specified by
     category_id. Handle possible errors and return error message when reloading update/deletion page
@@ -506,23 +518,27 @@ def update_delete_category(request, category_id):
             return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
     except IntegrityError:
             # user has entered a title that is not unique
-            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Update Error",)))
-            
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories',
+                                                args=("Update Error",)))
+
     # 2) if user has selected to delete the category
     # NOTE - Deletion of a Category cannot be done if any products have been assigned to it
     if 'Delete' in request.POST:
         # retrieve count of all possible products that may assigned to current category
         product_count = len(models.Product.objects.filter(category = category))
         print(f"Products:  {product_count}")
-    
+
         if product_count == 0:
             # if there are no products assigned to the category, deletion may be performed
             category.delete()
-            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("none",)))
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories',
+                                                args=("none",)))
         else:
-            # category has assigned products, display error to user that deletion may not be performed
-            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories', args=("Delete Error",)))
-        
+            # category has assigned products, display error to user that deletion may
+            # not be performed
+            return HttpResponseRedirect(reverse('crafts_by_micks:view_all_categories',
+                                                args=("Delete Error",)))
+
 
 def update_label(request, label_id, error):
     """Retrieve current label for update and render html page showing current set label attributes.
@@ -537,7 +553,6 @@ def update_label(request, label_id, error):
     error: string
         Description of error message to display for user
         Current Implementation is only for updated Label title that is not unique
-        
         """
     label = get_object_or_404(models.Label, pk=label_id)
     return render(request, 'Update/update_label.html', {'label': label, 'error': error})
@@ -579,7 +594,7 @@ def save_label_update(request, label_id):
     if custom_colour != label.custom_colour:
         print("Different Colour")
         label.custom_colour = custom_colour
-    
+
     try:
         # attempt to save changes to label
         label.save()
@@ -588,12 +603,13 @@ def save_label_update(request, label_id):
     except IntegrityError:
         # user has attempted to save with duplicated label title, provide error and return user
         # to update label page
-        return HttpResponseRedirect(reverse('crafts_by_micks:update_label', args=(label.id, "Duplicated Name",)))       
+        return HttpResponseRedirect(reverse('crafts_by_micks:update_label',
+                                            args=(label.id, "Duplicated Name",)))
 
 def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
     user to perform updates to these attributes to update product information
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -615,7 +631,7 @@ def update_product(request, product_id, error):
     options = models.Option.objects.filter(product=product)
     # retrieve all additional product images that may have been added
     current_images = models.Product_Images.objects.filter(product = product)
-    
+
     # if the current number of options for a product is less than the max allowed,
     # determine number of options that can still be added and add each option number
     # to a list
@@ -658,7 +674,7 @@ def update_product(request, product_id, error):
     all_labels = models.Label.objects.all()
     # list to store labels not assigned to the current product
     not_assigned = []
-    
+
     # iterate through all labels in database, checking and adding those not assigned
     # to the current product to 'not_assigned' list
     for label in all_labels:
@@ -713,9 +729,9 @@ def save_update(request, product_id):
 
     # ---- Labels Update ----
     # retrieve unique id for each label that may have been added to a product in html form
-    labels_list = [ models.Label.objects.get(id = label_id) 
+    labels_list = [ models.Label.objects.get(id = label_id)
                     for label_id in request.POST.getlist('labels')]
-    
+
     # clear all labels assigned to product
     product.labels.clear()
     # add Each Label (if present) to the Product
@@ -754,7 +770,7 @@ def save_update(request, product_id):
                 if int(float(new_price[1])) == 0:
                     current_price.delete()
                     break
-                # check if there is a difference on the price, if so 
+                # check if there is a difference on the price, if so
                 # update the price
                 elif current_price.price != new_price[1]:
                     current_price.price = new_price [1]
@@ -789,7 +805,7 @@ def save_update(request, product_id):
 
         # attempt to retrieve option from html page with matching title id
         # to a current option
-        retrieved_option_title = request.POST[f'Option{option.id} title'] 
+        retrieved_option_title = request.POST[f'Option{option.id} title']
         retrieved_option_description = request.POST[f'Option{option.id} desc']
 
         # check the possible new title is not empty nor contains only spaces
@@ -821,7 +837,7 @@ def save_update(request, product_id):
                     description = new_option_desc
                 )
                 prod_option.save()
-        
+
     # ---- Additional Product Images ----
     # retrieve list of product_images that were marked for deletion
     deletion_images_list = request.POST.getlist('deletion_images')
@@ -834,7 +850,7 @@ def save_update(request, product_id):
 
     # retrieve all images currently assigned to product (after deletion above are completed)
     assigned_images = models.Product_Images.objects.filter(product = product)
-        
+
     # if the product has assigned images that could have been changed
     if len(assigned_images) > 0:
         # check each image (id) against any possible image that may been provided
@@ -844,14 +860,14 @@ def save_update(request, product_id):
                 new_image = request.FILES.get(f"{current_image.id} new" , None)
                 if new_image != None:
                     # a new image has been found with a match the current assigned image id
-                    # delete the current image, assign the new image and save the change    
+                    # delete the current image, assign the new image and save the change
                     current_image.image.delete(save=False)
                     current_image.image = new_image
                     current_image.save()
             except:
                 # a new image was not found, do nothing - user did not want to change image
                 pass
-    
+
     # determine number of allowed new images starting from 1 more than those assigned
     # attempt to retrieve any newly added images
     for count in range(len(assigned_images)+1, MAX_IMAGES + 1):
@@ -885,7 +901,7 @@ def save_update(request, product_id):
 
 def delete_label(request, label_id):
     """Retrieve current label and perform deletion from database.
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -906,7 +922,7 @@ def delete_label(request, label_id):
 def all_customers(request):
     """Retrieve All saved customers and their associated orders. Determine order status
         for 'action_required' notification to admin user.
-         
+
     Parameter:
     ----------
     request: HTTPRequest object
@@ -918,7 +934,7 @@ def all_customers(request):
     customer_status = []
     # track action required for a customer
     action_required = False
-    
+
     # for each customer, determine if an order is not yet completed and still requires attention
     for customer in customers:
         # retrieve all orders assigned to customer
@@ -935,7 +951,7 @@ def all_customers(request):
                 # order submitted
                 action_required = True
                 break
-            
+
             else:
                 # order has either not been submitted yet or has been completed
                 customer_status.append([customer, False])
@@ -947,7 +963,7 @@ def all_customers(request):
 
 def customer_orders(request, customer_id):
     """Retrieve and sort customer orders into not paid, processing and completed.
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -961,11 +977,11 @@ def customer_orders(request, customer_id):
     completed_orders = []
 
     # retrieve current customer
-    customer = get_object_or_404(models.User, pk=customer_id )
+    customer = get_object_or_404(models.User, pk=customer_id)
     # retrieve all orders associated with customer
     all_orders = models.Order.objects.filter(customer = customer)
 
-    # sort orders into above lists  
+    # sort orders into above lists
     for order in all_orders:
         # ordered received and awaiting payment
         if order.status == 'r':
@@ -980,7 +996,7 @@ def customer_orders(request, customer_id):
     context = {
         'customer': customer,
         "awaiting_payment_orders": awaiting_payment_orders,
-        'processing_orders': processing_orders, 
+        'processing_orders': processing_orders,
         'completed_orders': completed_orders,
         'customer_id': customer_id
     }
@@ -989,7 +1005,7 @@ def customer_orders(request, customer_id):
 
 
 def view_order(request, order_id, customer_id, type):
-    """Retrieve an format an individual customer order for render.
+    """Retrieve and format an individual customer order for render.
 
     Parameters:
     ----------
@@ -1011,7 +1027,7 @@ def view_order(request, order_id, customer_id, type):
     # list containing product images
     product_images = []
 
-    
+
     for item in order_items:
         # correct decimals in product price
         item.price = f"{(round(item.price, 2)):.2f}"
@@ -1021,7 +1037,7 @@ def view_order(request, order_id, customer_id, type):
         product_image = models.Product.objects.filter(id = item.product_id)[0].product_image
         # append image to list of images
         product_images.append((item.product_id, product_image))
-    
+
     context = {
         'order_items': order_items,
         'order_id': order_id,
@@ -1038,7 +1054,7 @@ def view_order(request, order_id, customer_id, type):
 def change_order_status(request, order_id, customer_id, new_status):
     """Allow admin user to change order status after payment received and then after
         product has been delivered
-        
+
     Parameters:
     -----------
     request: HTTPRequest object
@@ -1058,13 +1074,12 @@ def change_order_status(request, order_id, customer_id, new_status):
         order.status = 'p'
         order.payment_received_date = date.today()
         order.save()
-        return HttpResponseRedirect(reverse('crafts_by_micks:view_order', args=(order_id, customer_id, 'processing')))
-        
+        return HttpResponseRedirect(reverse('crafts_by_micks:view_order',
+                                            args=(order_id, customer_id, 'processing')))
+
     # order has been processed and delivered to customer
     else:
         order.status = 'c'
         order.delivered_date = date.today()
         order.save()
         return HttpResponseRedirect(reverse('crafts_by_micks:view_order', args=(order_id, customer_id, 'completed')))
-
-    
