@@ -943,12 +943,13 @@ def all_customers(request):
                 # order submitted
                 action_required = True
                 break
-        if action_required == False:
-            # order has either not been submitted yet or has been completed
-            customer_status.append([customer, False])
-        else:
-            # reset for next customer loop
-            action_required == False
+            
+            else:
+                # order has either not been submitted yet or has been completed
+                customer_status.append([customer, False])
+
+        # reset for next customer loop
+        action_required == False
 
     return render(request, 'Display/all_customers.html', {'customer_status': customer_status})
 
