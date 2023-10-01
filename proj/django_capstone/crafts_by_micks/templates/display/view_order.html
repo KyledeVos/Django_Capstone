@@ -1,55 +1,166 @@
+<!-- Administrator Control - View a Customer's Order-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <title>Order View</title>
+    <!-- BootStrap Styling-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+        rel="stylesheet" >
 </head>
-<body>
+<body class = "container-fluid">
 
-    <!--Navigation to All Orders for current customer-->
-    <a href="{% url 'crafts_by_micks:customer_orders' customer_id%}">Client Orders</a>
+    <!-- Heading Section -->
+    <div class = "row"
+        style="background-color: rgb(61, 60, 60);">
+        <!-- Navigation Links -->
+        <div class = "col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-6 my-2">
+            <!-- Return to Admin Home Page-->
+            <a class = "btn btn-outline-light"
+                href= "{% url 'crafts_by_micks:customer_orders' customer_id%}">
+                Client Orders
+            </a>
+        </div>
 
+        <!-- Title -->
+        <div class = "col text-start" style="color: white;">
+            <h2>Order View</h2>
+        </div>
+    </div>
+
+    <!-- Check Order Status - Not Paid -->
     {% if type == 'not_paid'%}
-        <h4>Order Awaiting Payment</h4>
-        Submitted on: {{order.submitted_date}}
+        <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
+        col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
+            style = " background-color: rgb(241, 40, 40);
+                border: 1px solid black; color: white;">
+                <h3>Order Awaiting Payment</h3>
+        </div>
+
+        <!-- Display Order Submission Date in Table Form-->
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
+            <table class = "table table-striped mx-2 ">
+                <tbody>
+                    <!-- Display Order Submisson Date -->
+                    <tr >
+                        <!-- Submission Date -->
+                        <td>Submitted: </td>
+                        <td>{{order.submitted_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'paid' %}">
             <button type = "submit">Payment Made</button>
         </form>
+
+    <!-- Check Order Status - Processing-->
     {% elif type == 'processing' %}
-        <h4> Order Being Processed</h4>
-        Submitted on: {{order.submitted_date}}<br>
-        Paid on: {{order.payment_received_date}}
+        <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
+            col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
+            style = " background-color: rgb(241, 40, 40);
+                border: 1px solid black; color: white;">
+                <h3>Order Being Processed</h3>
+        </div>
+
+        <!-- Display Order Submission and Payment Dates in Table Form -->
+        <div class = "col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
+            <table class = "table table-striped mx-2 ">
+                <tbody>
+                    <!-- Display Order Submisson Date -->
+                    <tr >
+                        <!-- Submission Date -->
+                        <td>Submitted: </td>
+                        <td>{{order.submitted_date}}</td>
+                    </tr>
+                    <tr>
+                        <!-- Payment Date -->
+                        <td>Paid:</td>
+                        <td>{{order.payment_received_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <form action = "{% url 'crafts_by_micks:change_order_status' order_id customer_id 'delivered' %}">
             <button type = "submit">Order Delivered</button>
         </form>
+
+    <!-- Check Order Status - Completed-->
     {% else %}
-        <h4> Order Completed and Delivered</h4>
-        Submitted on: {{order.submitted_date}}<br>
-        Paid on: {{order.payment_received_date}}<br>
-        Delivered on: {{order.delivered_date}}
+        <div class = " col-xxl-5 col-xl-5 col-lg-6 col-md-8
+            col-sm-10 col-xs-12 p-1 mx-1 my-2 rounded"
+            style = " background-color: rgb(70, 241, 40);
+                border: 1px solid black;">
+                <h3>Order Completed and Delivered</h3>
+        </div>
+
+        <!-- Display Order Submission, Payment and Delivery Dates -->
+        <div class = "col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-xs-9 ">
+            <table class = "table table-striped mx-2 ">
+                <tbody>
+                    <!-- Display Order Submisson Date -->
+                    <tr >
+                        <!-- Submission Date -->
+                        <td>Submitted: </td>
+                        <td>{{order.submitted_date}}</td>
+                    </tr>
+                    <tr>
+                        <!-- Payment Date -->
+                        <td>Paid:</td>
+                        <td>{{order.payment_received_date}}</td>
+                    </tr>
+                    <tr>
+                        <!-- Delivery Date -->
+                        <td>Delivered:</td>
+                        <td>{{order.delivered_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
     {% endif %}
 
-    <h3>Total Value: R{{total_value}}</h3>
-
-    {% for order_item in order_items %}
-    <h5>----------------------------------------------------</h5>
-    <h4>Item {{forloop.counter}}</h6>
-    Product: <strong>{{order_item.product_title}}</strong> <br>
-    Quantity: {{order_item.quantity}} <br>
-    Size: {{order_item.chosen_size}} <br>
-    Price: R{{order_item.price}}<br>
-    {% if order_item.options %}
-        Additional Options:<br>
-        {% for option in order_item.options %}
-            {%if option != ""%}
-                <ul>
-                    <li>{{option}}</li>
-                </ul> 
-            {% endif %}
-        {% endfor %}  
-    {% endif %}
-
-<h5>----------------------------------------------------</h5>
-    {% endfor %}
+    <!-- Display Order Total Value-->
+    <h3><strong>Total Value: R{{total_value}}</strong></h3>
     
+    <!-- Order Items -->
+    <div class = "row">
+        <!-- Seperate Each Order Item-->
+        {% for order_item in order_items %}
+        
+        <div class="card my-1 mx-2 rounded" style="width: 20rem;border: 2px solid black">
+            <!-- Product Title-->
+            <h5 class="card-title">{{order_item.product_title}}</h5>
+
+            <!-- Search in product_images list for image matching current product id-->
+            {% for image in product_images %}
+                {% if order_item.product_id == image.0 %}
+                    <img class="card-img-top"
+                        style = "width: 100%; height: 15rem; object-fit:cover;"
+                        src="{{image.1.url}}" alt="Card image cap">
+                {% endif  %}
+            {% endfor %}
+
+            <div class="card-body">
+                <!-- Quantity Ordered-->
+                <p class="card-text">Quantity: {{order_item.quantity}}</p>
+                <!-- Size Ordered-->
+                <p class="card-text">Size: {{order_item.chosen_size}} </p>
+                <!-- Unit Price -->
+                <p class="card-text">Unit Price: R{{order_item.price}}</p>
+
+                <!-- Display Possible Product Additional Options-->
+                {% if order_item.options %}
+                    <h5 class="card-title"> Additional Options</h5>
+                    {% for option in order_item.options %}
+                        {%if option != ""%}
+                            <p class="card-text">{{option}}</p>
+                        {% endif %}
+                    {% endfor %}  
+                {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
