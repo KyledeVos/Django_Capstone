@@ -571,8 +571,8 @@ def save_label_update(request, label_id):
         label.title = new_title
 
     # retrieve possible new discount percentage
-    new_discount = request.POST['discount_percentage']
-    if new_discount != '0':
+    new_discount = request.POST.get('discount_percentage', 'none')
+    if new_discount!= "" and new_discount != '0':
         label.discount_percentage = new_discount
 
     # retrieve possible new days until label is to be removed
