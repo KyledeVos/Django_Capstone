@@ -1,7 +1,7 @@
 """URL paths for app 'product-site' serving as django project site home and integrated with
     app 'crafts_by_micks' - admin control.
-    """
-from django.urls import path, include
+"""
+from django.urls import path
 from . import views
 
 app_name='product_site'

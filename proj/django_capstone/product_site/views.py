@@ -48,7 +48,7 @@ remove_item(request, item_id, order_id):
     Delete an Order_Item from an order. Delete order if all Order Items have been removed.
 
 view_order(request, order_id, message):
-    Retreive current order (processing or completed status) details for
+    Retrieve current order (processing or completed status) details for
         display to customer.
 
 submit_order(request, order_id):
@@ -67,16 +67,15 @@ save_review(request, product_id, order_id):
     Retrieve customer review attributes and preferences to create new product
         review and assign to the Product
 """
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
-from datetime import datetime, date
+from datetime import date
 from crafts_by_micks.models import Category, Label, Product, Product_Sizes, Product_Images, Option, Order_Item, Order, Review
-
 
 # Helper Function
 def logincheck(request):
-    """Determine if a current user is authenticated. """
+    """Determine if a current user is authenticated."""
     return True if request.user.is_authenticated else False
 
 
@@ -84,8 +83,8 @@ def logincheck(request):
 def populate_display_products(all_products):
     """validate and sort a list of products for website display - checking at least one price
     has been set.
-        
-    Parameters:
+
+    Parameter:
     -----------
     all_products: list of Product
         list containing unvalidated Products
@@ -155,8 +154,8 @@ def create_product_list():
     # and product to category association is not needed
     if len(all_categories) > 0: 
         for category in all_categories:
-            # retrieve all products  for each category:
-            all_products = Product.objects.filter(category=category).order_by('title')    
+            # retrieve all products for each category:
+            all_products = Product.objects.filter(category=category).order_by('title')
             # refine product list and validate products that may be put on website display
             current_category_products = populate_display_products(all_products)
             # check for no products - if none do not add current category
@@ -172,7 +171,7 @@ def site_home(request):
     """Render main site home page, checking if currently logged-in user is a staff
         member allowing access to admin control functionality. Retrieves validated
         and sorted list of Categories and associated Products for home page display.
-         
+
     Parameter:
     ----------
     request: HTTPRequest object
@@ -188,7 +187,7 @@ def site_home(request):
 
     # retrieve list of product categories and associated products
     category_products_list = create_product_list()
-        
+
     context = {
         'logged_in': logged_in,
         'username': request.user.username,
@@ -219,7 +218,7 @@ def determine_discount_percentage(labels):
     for label in labels:
         if label.discount_percentage > 0 and label.discount_percentage > highest_discount:
             highest_discount = label.discount_percentage
-    
+
     return highest_discount
 
 
@@ -227,7 +226,7 @@ def product_view(request, product_id, error):
     """Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
     showing Product Details, Pricing and validation of customer login for addition of Product
     to an Order.
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -236,7 +235,7 @@ def product_view(request, product_id, error):
         unique Primary Key value for selected Product
     error: str
         description of error to display to user on page - current implementation
-        accounts for addition of Product to Order without selection of Size and 
+        accounts for addition of Product to Order without selection of Size and
         Associated Price
 
     Return:
@@ -265,7 +264,7 @@ def product_view(request, product_id, error):
     # track if a discount has been applied for notification on project page
     discount_bool = True if highest_discount > 0 else False
     # if there is a discount to apply, modify all product prices to show discount
-    
+
     for price_option in product_pricing:
         if highest_discount > 0:
             price_option.price *= (highest_discount/100)
@@ -297,7 +296,7 @@ def product_view(request, product_id, error):
 def create_retrieve_order(request):
     """Determine Order for currently logged in user to add selected Product_Item.
         If no open order is present, create a new open order for user.
-        
+
     Parameter:
     ----------
     request: HTTPRequest object
@@ -309,7 +308,7 @@ def create_retrieve_order(request):
     """
     # retrieve current user (customer)
     customer = request.user
-    
+
     # attempt to retrieve all orders assigned to customer
     current_orders = Order.objects.filter(customer = customer)
     # no assigned orders- create a new order
@@ -326,7 +325,7 @@ def create_retrieve_order(request):
             if order.status == 'ns':
                 # open order exists
                 return order
-        
+
         # no open orders for customer, create and return a new order
         new_order = Order.objects.create(
             customer = customer,
@@ -373,7 +372,7 @@ def create_order_item(request, product_id):
 
         # attempt to retrieve a set quantity
         quantity = request.POST.get(f'{size_choice[0].size} quantity', "1")
-        
+
         # if quantity was not entered, set default to '1'
         if quantity == "":
             quantity = "1"
@@ -394,7 +393,7 @@ def create_order_item(request, product_id):
     # All items get the same product_options
     for size_option in pricing_list:
         Order_Item.objects.create(
-            # retrieve an existing open order or create new order   
+            # retrieve an existing open order or create new order
             order = create_retrieve_order(request),
             product_id = product_id,
             product_title = Product.objects.filter(pk=product_id)[0].title,
@@ -410,7 +409,7 @@ def create_order_item(request, product_id):
 # Helper Function - Construct list of all product main images
 def main_image_control(order_items):
     """Retrieve main image and matching id for products and return as list
-    
+
     Parameters:
     -----------
     order_items: list of Order_Items
@@ -437,12 +436,12 @@ def main_image_control(order_items):
 def customer_orders(request, message):
     """Retrieve current logged in customer info and matching Orders information
         for display to client
-        
+
     Parameters:
     ----------
     request: HTTPRequest object
         Retrieved current logged-in customer and render html page showing order info
-    
+
     message: str
         Message to display to user for successful submission of an order for processing
     """
@@ -487,13 +486,13 @@ def customer_orders(request, message):
         order_total = f"{(round(order_total, 2)):.2f}"
         # retrieve list of product_id and matching main image
         product_image_list = main_image_control(open_order_items)
-            
+
     context = {
         'customer': customer,
         'open_orders': open_orders,
         'open_order_items': open_order_items,
         'order_total': order_total,
-        'processing_orders': processing, 
+        'processing_orders': processing,
         'completed_orders': completed,
         'product_image_list': product_image_list,
         'message': message
@@ -516,7 +515,7 @@ def remove_item(request, item_id, order_id):
     """
     # Retrieve Order_Item for deletion and assigned Order
     order_item = get_object_or_404(Order_Item, pk=item_id)
-    order = get_object_or_404(Order, pk = order_id )
+    order = get_object_or_404(Order, pk = order_id)
     # Delete Order_Item
     order_item.delete()
 
@@ -531,9 +530,9 @@ def remove_item(request, item_id, order_id):
 
 
 def view_order(request, order_id, message):
-    """Retreive current order (processing or completed status) details for
+    """Retrieve current order (processing or completed status) details for
         display to customer.
-    
+
     Parameter:
     ----------
     request: HTTPRequest object
@@ -550,7 +549,7 @@ def view_order(request, order_id, message):
     # list to store product_id and associated main image
     product_image_list = main_image_control(order_items)
 
-    
+
     # Date Checks and Format
     # 1) Payment Date
     if order.payment_received_date == None:
@@ -566,7 +565,7 @@ def view_order(request, order_id, message):
         item.price = f"{(round(item.price, 2)):.2f}"
         # retrieve any product options and seperate each option
         item.options = [split_option for split_option in item.options.split(";")]
-        
+
     context = {
         'order': order,
         'status': status,
@@ -581,7 +580,7 @@ def view_order(request, order_id, message):
 def submit_order(request, order_id):
     """Retrieve an order submitted for processing and change order status
         to received.
-        
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -623,13 +622,13 @@ def product_review(request, order_item_id, order_id):
         primary key for product item to be reviewed
     order_id: int
         primary key of current order needed to return user to order view after
-        review of product is submitted  
+        review of product is submitted
     """
     # retrieve order_item for review
     order_item = get_object_or_404(Order_Item, pk = order_item_id)
     # retrieve product main image
     product_image = get_object_or_404(Product, pk=order_item.product_id).product_image
-    
+
     context = {
         'order_item': order_item,
         'order_id': order_id,
@@ -643,7 +642,7 @@ def product_review(request, order_item_id, order_id):
 def review_rating_update(applied_rating, product):
     """Calculate New Average Review rating for a product after a new review
         has been added for the product
-        
+
     Parameters:
     ----------
     applied_rating: int
@@ -662,12 +661,12 @@ def review_rating_update(applied_rating, product):
     # calculate review average rating and update product
     product.review_value = round(sum/count, 1)
     product.save()
-    
+
 
 def save_review(request, product_id, order_id):
     """Retrieve customer review attributes and preferences to create new product
         review and assign to the Product.
-    
+
     Parameters:
     -----------
     request: HTTPRequest object
