@@ -46,10 +46,6 @@ urlpatterns = [
     # 4) Deletion - Only
     # Delete a Label
     path("<int:label_id>/delete_label", views.delete_label, name='delete_label'),
-    # Product - Initial Deletion
-    path("<int:product_id>/initial_product_deletion", views.initial_product_deletion, name='initial_product_deletion'),
-    # Product Confirmed Deletion Deletion
-    path('<int:product_id>/confirmed_product_deletion', views.confirmed_product_deletion, name='confirmed_product_deletion'),
 
     # 5) Customers and Orders - Details
     # View all Customers

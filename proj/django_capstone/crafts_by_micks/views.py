@@ -907,58 +907,6 @@ def delete_label(request, label_id):
     # return user to view all labels
     return HttpResponseRedirect(reverse('crafts_by_micks:view_all_labels'))
 
-
-def initial_product_deletion(request, product_id):
-    """Retrieve current product selected by user for deletion and return confirmation
-    page to confirm if deletion is correct.
-
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request to display deletion confirmation page
-    product_id: int
-        primary key id for current product selected by user for deletion
-    """
-    # retrieve current product up for deletion
-    product = get_object_or_404(models.Product, pk=product_id)
-    return render(request, 'Deletion/product_initial_deletion.html', {'product':product})
-
-
-def confirmed_product_deletion(request, product_id):
-    """Retrieve deletion confirmation from html form used to determine if application is
-    to go ahead with deletion or not. If so, retrieve product and perform deletion
-    
-    NOTE:
-    Deletion of Product will cascade to deletion of product associated Sizes_Prices and Product Options
-    
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request to retrieve user confirmation for deletion or not
-    product_id: int
-        primary key id for current product selected by user for deletion
-    """
-    # check if deletion of product is correct
-    if 'Delete' in request.POST:
-        # retrieve current product for deletion and perform deletion
-        product = get_object_or_404(models.Product, pk = product_id)
-        # delete product main image seperately
-        product.product_image.delete(save=False)
-
-        # retrieve each additional Product Image
-        additional_images = models.Product_Images.objects.filter(product = product)
-        for current_image in additional_images:
-            # delete image file seperately
-            current_image.image.delete(save=False)
-            # delete product_image instance
-            current_image.delete()
-
-        # delete product
-        product.delete()
-
-    # return user to all products page
-    return HttpResponseRedirect(reverse('crafts_by_micks:view_all_products'))
-
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
 # Views for Customer and Order Details
