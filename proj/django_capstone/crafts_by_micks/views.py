@@ -1008,6 +1008,8 @@ def view_order(request, order_id, customer_id, type):
     order_items = models.Order_Item.objects.filter(order = order)
     # retrieve and format order total:
     total_value = f"{(round(order.total_value, 2)):.2f}"
+    # list containing product images
+    product_images = []
 
     
     for item in order_items:
@@ -1015,6 +1017,10 @@ def view_order(request, order_id, customer_id, type):
         item.price = f"{(round(item.price, 2)):.2f}"
         # retrieve any product options and seperate each option
         item.options = [split_option for split_option in item.options.split(";")]
+       # retrieve product main image
+        product_image = models.Product.objects.filter(id = item.product_id)[0].product_image
+        # append image to list of images
+        product_images.append((item.product_id, product_image))
     
     context = {
         'order_items': order_items,
@@ -1022,7 +1028,8 @@ def view_order(request, order_id, customer_id, type):
         'order' : order,
         'customer_id': customer_id,
         'type': type,
-        'total_value': total_value
+        'total_value': total_value,
+        'product_images': product_images
     }
 
     return render(request, 'Display/view_order.html', context)
