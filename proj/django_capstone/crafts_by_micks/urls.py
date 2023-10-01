@@ -1,5 +1,5 @@
 """URL paths for app: 'crafts_by_micks' within Django project 'django_capstone.
-    Includes Path for site admin control and user usage.'"""
+    Includes Path for site admin control.'"""
 from django.urls import path
 from . import views
 
@@ -56,6 +56,4 @@ urlpatterns = [
     path('<order_id>/<customer_id>/<type>/view_order/', views.view_order, name='view_order'),
     # change an order status
     path("<order_id>/<customer_id>/<new_status>/change_order_status", views.change_order_status, name='change_order_status')
-
-
 ]
