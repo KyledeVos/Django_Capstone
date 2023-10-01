@@ -1,11 +1,11 @@
 """URL paths for user_management app designated to app 'product_site' and
     'crafts_by_micks' - admin control. App handles user creation, login and logout.
-    
+
 NOTE:
 current implementation has one admin user with no functionality to create other staff users as
 was requested by site admin. All created users with the use of this app are designated as 'Active'
 Only.
-Use of the 'crafts_by_micks' - admin control is limited to the admin user only    
+Use of the 'crafts_by_micks' - admin control is limited to the admin user only
 '"""
 from django.urls import path
 from . import views

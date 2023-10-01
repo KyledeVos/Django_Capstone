@@ -19,16 +19,15 @@ add_user(request, source):
     Retrieve username and password from html form, validate inputs and attempt to create
     new user. Successful creation will also log new user in as the current user
 """
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 
-
 def user_login(request, source, error = 'none'):
     """Render Html page to retrieve username and password for attempted login.
-    
+
     Parameters:
     -----------
     request: HTTPRequest object
@@ -44,7 +43,7 @@ def user_login(request, source, error = 'none'):
 
 def authenticate_user(request, source):
     """Retrieve username and password from html form attempting to log user in.
-    
+
     Parameters:
     -----------
     request: HTTPRequest object
@@ -87,7 +86,7 @@ def user_logout(request):
 
 def create_user(request, source, error):
     """render html page to retrieve username and password required for user creation.
-    
+
     Parameters:
     ----------
     request: HTTPRequest object
@@ -125,10 +124,11 @@ def add_user(request, source):
     email = request.POST['email_address']
 
     # check fields above do not contain empty characters
-    if (username.isspace() or password.isspace() 
+    if (username.isspace() or password.isspace()
         or first_name.isspace() or last_name.isspace() or email.isspace()):
         error_message = "Sign Up Failed - An option did not contain any characters"
-        return HttpResponseRedirect(reverse('user_management:create_user', args=(source, error_message,)))
+        return HttpResponseRedirect(reverse('user_management:create_user',
+                                            args=(source, error_message,)))
 
     # attempt to create new user with a unique username and associated fields
     try:
@@ -141,8 +141,9 @@ def add_user(request, source):
     except IntegrityError:
         # error message for display to user for non-unique username
         error_message = "Username is not unique"
-        return HttpResponseRedirect(reverse('user_management:create_user', args=(source, error_message,)))
-    
+        return HttpResponseRedirect(reverse('user_management:create_user',
+                                            args=(source, error_message,)))
+
     # at this point the new user was successfully created. Log user in
     login(request, user)
 
