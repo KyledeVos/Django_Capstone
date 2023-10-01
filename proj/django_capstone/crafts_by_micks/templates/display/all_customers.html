@@ -1,25 +1,81 @@
+<!-- Administrator Control - View All Customers -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <title>Admin Control - All Customers</title>
+    <!-- BootStrap Styling-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
 </head>
-<body>
-    <a href="{% url 'crafts_by_micks:home_page' %}">Admin Home Page</a>
-    <h1>All Customers</h1>
-    {% if customer_status %}
-        {%for customer_log in customer_status %}
 
-            Name: {{customer_log.0.first_name}} {{customer_log.0.last_name}}
+<body class = "container-fluid">
+
+    <!-- Heading Section -->
+    <div class = "row"
+        style="background-color: rgb(61, 60, 60);">
+        <!-- Return to Admin Home Page-->
+        <div class = "col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-4 my-2">
+            <a class = "btn btn-outline-light"
+                href= "{% url 'crafts_by_micks:home_page' %}">
+                Admin Home
+            </a>
+        </div>
+        <!-- Page Title -->
+        <div class = "col text-start" style="color: white;">
+            <h2>All Customers</h2>
+        </div>
+    </div>
+
+    <!-- Check there are customers in the System -->
+    {% if customer_status %}
+    <div class = "row">
+        {% for customer_log in customer_status %}
             {% if customer_log.1  != False %}
-                <strong>Action Required: {{customer_log.1}}</strong> 
+                <div class="card mx-1 my-1"
+                    style="max-width: 14rem; border: 2px solid red;">
+                    <h5 class="card-title mx-2">
+                        {{customer_log.0.first_name}} {{customer_log.0.last_name}}
+                    </h5>
+                    <div class="card-body">
+                        <!-- Product Name -->
+                        <h5 class="card-title">
+                            <strong>Action Required</strong>
+                        </h5>
+                        <!-- View Customer Button -->
+                        <form action="{% url 'crafts_by_micks:customer_orders' customer_log.0.id %}">
+                            <button class = "btn btn-outline-dark" type="submit">View</button>
+                        </form>  
+                    </div>
+                </div>
+            {% else %}
+                <div class="card mx-1 my-1"
+                    style="max-width: 14rem; border: 2px solid green;">
+                    <h5 class="card-title">
+                        {{customer_log.0.first_name}} {{customer_log.0.last_name}}
+                    </h5>
+                    <div class="card-body">
+                        <!-- Product Name -->
+                        <h5 class="card-title">
+                            <strong>No Action Required</strong>
+                        </h5>
+                        <!-- View Customer Button -->
+                        <form action="{% url 'crafts_by_micks:customer_orders' customer_log.0.id %}">
+                            <button class = "btn btn-outline-dark" type="submit">View</button>
+                        </form>  
+                    </div>
+                </div>
             {% endif %}
-            <form action="{% url 'crafts_by_micks:customer_orders' customer_log.0.id %}">
-                <button type="submit">View</button>
-            </form>   
         {% endfor %}
+    </div>
 
     {% else %}
-    There are no customers loaded in the system
+        <!-- Display Message for No Customers in the System -->
+        <div class = "row">
+            <div class = "col-xxl-6 col-xl-7 col-lg-8 col-md-10 col-sm-11 col-xs-12
+                mx-1 my-2 rounded"
+                style = " background-color: gray; border: 1px solid black; color: white;">
+                <h2>There are no customers loaded in the system</h2>
+            </div>
+        </div>
     {% endif%}
 </body>
 </html>
