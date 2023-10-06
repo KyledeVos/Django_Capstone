@@ -1,6 +1,15 @@
 # Django Capstone Project - E Commerce Website
 # Kyle de Vos - HyperionDev Student
 
+### Contents
+- [Description](#description)
+- [Features](#features)
+- [Software and Hardware](#software-and-hardware)
+- [Opening and Running of Project](#opening-and-running-of-project)
+- [Visuals](#visuals)
+- [Program Execution Summary](#program-execution)
+- [Future Development and Improvement](#future-development-and-improvement)
+
 # Description
 The aim of this project was to create the foundation structure for an E Commerce Website to be <br>
 used by a smaller 'Crafts' Business - Crafts By Micks. The project was designed and created to <br>
@@ -9,6 +18,7 @@ have three major components:
 1. An Admin Control Part allowing for Product Creation, Ordering Monitoring, etc
 2. A Product Website to display Products to clients allowing for order placement and tracking
 3. A User Management Part allowing admin, staff and customers to sign up and login to this website
+
 
 # Features
 - Admin Control App
