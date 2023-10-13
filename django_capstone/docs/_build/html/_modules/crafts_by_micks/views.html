@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crafts_by_micks.views &mdash; django_capstone 00.00.01 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            django_capstone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">django_capstone</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">django_capstone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">crafts_by_micks.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for crafts_by_micks.views</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Views Module for Django App &#39;crafts_by_micks&#39; serving as project admin site and control</span>
+
+<span class="sd">Methods:</span>
+<span class="sd">--------</span>
+<span class="sd">:meth:`home_page(request)`</span>
+<span class="sd">        render admin home app of app with SignUp, Login and Product Catalog</span>
+
+<span class="sd">:meth:`create_category(request, source, error)`</span>
+<span class="sd">        render html page allowing admin user to create a Category for Products to belong to.</span>
+<span class="sd">        Pass in source argument determining page to return to after Category addition to database.</span>
+
+<span class="sd">:meth:`add_category(request, source)`</span>
+<span class="sd">    Retrieve Category Attributes from html form, create new Category instance and save to</span>
+<span class="sd">    database. Use &#39;source&#39; determining page to return to after new category is added.</span>
+
+<span class="sd">:meth:`create_label(request, source, error)`</span>
+<span class="sd">    render html page allowing admin user to create a new Label for Products.</span>
+<span class="sd">    Pass in source argument determining page to return to after Label addition to database.</span>
+
+<span class="sd">:meth:`add_label(request, source)`</span>
+<span class="sd">    Retrieve Label Attributes from html form, create new Label instance and save to</span>
+<span class="sd">    database. Use &#39;source&#39; determining page to return to after new label is added.</span>
+
+<span class="sd">:meth:`create_product(request)`</span>
+<span class="sd">    Render html page allowing admin user to create a new product seeing number of allowed</span>
+<span class="sd">    product options and passing allowed size options, current product Categories and Labels.</span>
+
+<span class="sd">:meth:`retrieve_size_pricing(request)`</span>
+<span class="sd">    Retrieve user-defined prices from html form input adding non-empty options</span>
+<span class="sd">    to a list of tuples and return.</span>
+
+<span class="sd">:meth:`retrieve_product_options(request)`</span>
+<span class="sd">    Retrieve user-defined options for a product from html form, adding each to a list</span>
+<span class="sd">    of tuples</span>
+
+<span class="sd">:meth:`retrieve_additional_images(request)`</span>
+<span class="sd">    Retrieve possible additional product images uploaded by admin user and append</span>
+<span class="sd">    image title and image file to a list</span>
+
+<span class="sd">:meth:`add_product(request)`</span>
+<span class="sd">    Retrieve user-defined attributes from html from from &#39;create-product&#39;, create new</span>
+<span class="sd">    product and save to database.</span>
+
+<span class="sd">:meth:`view_all_labels(request)`</span>
+<span class="sd">    Retrieve all labels from database for render to html page</span>
+
+<span class="sd">:meth:`view_all_products(request)`</span>
+<span class="sd">    retrieve and sort all products alphabetically in order of category and then product title</span>
+<span class="sd">    passing list to html page for rendering</span>
+
+<span class="sd">:meth:`view_all_categories(request, error)`</span>
+<span class="sd">    Provide all categories for html page render and pass on possible error message to display during</span>
+<span class="sd">    category update or deletion</span>
+
+<span class="sd">:meth:`update_delete_category(request, category_id)`</span>
+<span class="sd">    Use &#39;request&#39; to determine action (update or delete) to perform on category specified by</span>
+<span class="sd">    category_id. Handle possible errors and return error message when reloading update/deletion page</span>
+
+<span class="sd">:meth:`update_label(request, label_id, error)`</span>
+<span class="sd">    Retrieve current label for update and render html page showing current set label attributes.</span>
+<span class="sd">        Form in page allows user to change label attributes and pass on for save to database.</span>
+
+<span class="sd">:meth:`save_label_update(request, product_id)`</span>
+<span class="sd">    Retrieve old/new attributes for a current product from html form for product update</span>
+<span class="sd">        and perform applicable updates to Product and associated model instances.</span>
+
+<span class="sd">:meth:`update_product(request, product_id, error)`</span>
+<span class="sd">    Retrieve current attributes for a Product and Display to new page allowing</span>
+<span class="sd">    user to perform updates to these attributes to update product information</span>
+
+<span class="sd">:meth:`save_update(request, product_id)`</span>
+<span class="sd">    Retrieve old/new attributes for a current product from html form for product update</span>
+<span class="sd">        and perform applicable updates to Product and associated model instances.</span>
+
+<span class="sd">:meth:`delete_label(request, label_id)`</span>
+<span class="sd">    Retrieve current label and perform deletion from database</span>
+
+<span class="sd">:meth:`all_customers(request)`</span>
+<span class="sd">    Retrieve All saved customers and their associated orders. Determine order status</span>
+<span class="sd">        for &#39;action_required&#39; notification to admin user</span>
+
+<span class="sd">:meth:`customer_orders(request, customer_id)`</span>
+<span class="sd">    Retrieve and sort customer orders into not paid, processing and completed</span>
+
+<span class="sd">:meth:`view_order(request, order_id, customer_id, type)`</span>
+<span class="sd">    Retrieve and format an individual customer order for render</span>
+
+<span class="sd">:meth:`change_order_status(request, order_id, customer_id, new_status)`</span>
+<span class="sd">    Allow admin user to change order status after payment received and then after</span>
+<span class="sd">        product has been delivered</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">IntegrityError</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
+
+<div class="viewcode-block" id="home_page">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.home_page">[docs]</a>
+<span class="k">def</span> <span class="nf">home_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;render admin home app of app with SignUp, Login and Product Catalog.</span>
+<span class="sd">    </span>
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: user to homepage of django project</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;home_page.html&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Views for New Product Creation</span>
+
+<span class="c1"># max allowed desired options for a product</span>
+<span class="n">MAX_OPTIONS</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="c1"># max allowed additional images for a product</span>
+<span class="n">MAX_IMAGES</span> <span class="o">=</span> <span class="mi">10</span>
+
+<div class="viewcode-block" id="create_category">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.create_category">[docs]</a>
+<span class="k">def</span> <span class="nf">create_category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;render html page allowing admin user to create a Category for Products to belong to.</span>
+
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param source: Name of original view call for page to return to</span>
+<span class="sd">    :type source: str</span>
+<span class="sd">    :param error: message to display to user if duplicated category title is received</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: user to original call page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;creation/create_category.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span><span class="n">error</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="add_category">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.add_category">[docs]</a>
+<span class="k">def</span> <span class="nf">add_category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve Category Attributes from html form, create new Category instance and save to database.</span>
+
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param source: Name of original view call determining page to return to after category addition</span>
+<span class="sd">    :type source: str</span>
+
+<span class="sd">    :raises IntegrityError: category title non-unique</span>
+
+<span class="sd">    :return: success - app home page. Error - return to create new category</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># attempt to create and save new title unless duplicate title was supplied</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">category</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># new category was created during product creation, return admin user to</span>
+        <span class="c1"># &#39;create_product&#39; page</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="s2">&quot;new_product&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:create_product&#39;</span><span class="p">,</span>
+                                                <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;None&quot;</span><span class="p">,)))</span>
+        <span class="c1"># new category was created seperately, return admin user to main admin page</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:home_page&#39;</span><span class="p">))</span>
+
+    <span class="c1"># duplicate category title</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:create_category&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s2">&quot;Duplicate Name&quot;</span><span class="p">,)))</span></div>
+
+
+<div class="viewcode-block" id="create_label">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.create_label">[docs]</a>
+<span class="k">def</span> <span class="nf">create_label</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;render html page allowing admin user to create a new Label for Products.</span>
+
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param source: Name of original view call determining page to return to after label addition</span>
+<span class="sd">    :type source: str</span>
+<span class="sd">    :param error: message to display to user if duplicated label title is received</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: user to original call page</span>
+<span class="sd">    :rtype: HTTPResponse </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;creation/create_label.html&#39;</span><span class="p">,</span>  <span class="p">{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span><span class="n">error</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="add_label">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.add_label">[docs]</a>
+<span class="k">def</span> <span class="nf">add_label</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve Label Attributes from html form, create new Label instance and save to</span>
+<span class="sd">    database</span>
+
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param source: Name of original view call determing page to return to after label addition</span>
+<span class="sd">    :type source: str</span>
+
+<span class="sd">    :raises IntegrityError: non-unique label title supplied</span>
+
+<span class="sd">    :return: success - `source` page. Error - return to create new label</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+
+        <span class="c1"># if a discount was not set for this label, set to 0</span>
+        <span class="n">discount_percentage</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;discount_percentage&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">discount_percentage</span><span class="o">==</span><span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">discount_percentage</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">creation_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="n">removal_days</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;removal_days&#39;</span><span class="p">,</span> <span class="s1">&#39;-1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">removal_days</span><span class="o">==</span><span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">removal_days</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># colour retrieved from html &#39;color&#39; input in hexadecimal format</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;custom_colour&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># create and save new label to database</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                                            <span class="n">discount_percentage</span><span class="o">=</span><span class="n">discount_percentage</span><span class="p">,</span>
+                                            <span class="n">creation_date</span><span class="o">=</span><span class="n">creation_date</span><span class="p">,</span>
+                                            <span class="n">removal_days</span><span class="o">=</span><span class="n">removal_days</span><span class="p">,</span>
+                                            <span class="n">custom_colour</span><span class="o">=</span><span class="n">colour</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># new label was created during product creation, return admin user to &#39;create_product&#39; page</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="s1">&#39;new_product&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:create_product&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;None&quot;</span><span class="p">,)))</span>
+        <span class="c1"># new category was created seperately, return admin user to main admin page</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:home_page&#39;</span><span class="p">))</span>
+
+    <span class="c1"># duplicate label title</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:create_label&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s2">&quot;Duplicate Name&quot;</span><span class="p">,)))</span></div>
+
+
+
+<div class="viewcode-block" id="create_product">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.create_product">[docs]</a>
+<span class="k">def</span> <span class="nf">create_product</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render html page allowing admin user to create a new product seeing number of allowed</span>
+<span class="sd">    product options and passing allowed size options, current product Categories and Labels.</span>
+
+<span class="sd">    :param request: contains metadata about the request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param error: message to display to user if duplicated Product title is received</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: create_product html page with attributes for product creation</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create list of option numbers (as strings) used by &#39;create_product.html&#39; for</span>
+    <span class="c1"># Product Options creation</span>
+    <span class="n">options_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPTIONS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">options_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="c1"># create list to specify an additional image number that can be added</span>
+    <span class="c1"># to a product</span>
+    <span class="n">images_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_IMAGES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">images_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="c1"># retrieve current product size options</span>
+    <span class="n">size_choices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">size_options</span><span class="p">:</span>
+        <span class="n">size_choices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># retrieve all currently created product categories and labels</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;size_choices&quot;</span><span class="p">:</span> <span class="n">size_choices</span><span class="p">,</span>
+               <span class="s2">&quot;options_list&quot;</span><span class="p">:</span> <span class="n">options_list</span><span class="p">,</span>
+               <span class="s2">&quot;images_list&quot;</span><span class="p">:</span> <span class="n">images_list</span><span class="p">,</span>
+               <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+               <span class="s2">&quot;labels&quot;</span><span class="p">:</span><span class="n">labels</span><span class="p">,</span>
+               <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s1">&#39;new_product&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;creation/create_product.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Helper Method</span>
+<div class="viewcode-block" id="retrieve_size_pricing">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.retrieve_size_pricing">[docs]</a>
+<span class="k">def</span> <span class="nf">retrieve_size_pricing</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve user-defined prices from html form input (using request).</span>
+<span class="sd">        Add non-empty options to a list of tuples and return</span>
+
+<span class="sd">    :param request: contains metadata from a request needed to retrieve product sizes and products during</span>
+<span class="sd">        new product creation</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: list of tuples each containing a product size and populated price value</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size_info</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">size_options</span><span class="p">:</span>
+        <span class="n">current_size</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1">#attempt to retrieve a possible user input price for current size but set to</span>
+        <span class="c1"># None if user did not input an associated price</span>
+        <span class="n">size_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">current_size</span><span class="p">,</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current_size</span><span class="si">}</span><span class="s2"> price&quot;</span> <span class="p">,</span><span class="kc">None</span><span class="p">),)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">size_info</span></div>
+
+
+<span class="c1"># Helper Method</span>
+<div class="viewcode-block" id="retrieve_product_options">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.retrieve_product_options">[docs]</a>
+<span class="k">def</span> <span class="nf">retrieve_product_options</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve user-defined options for a product from html form, adding each to a list</span>
+<span class="sd">    of tuples</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for additional options for a product</span>
+<span class="sd">        from an html form</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: list of tuples each containing a product option title and description</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">product_options_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPTIONS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># attempt to retrieve an option&#39;s title and description (optional)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> title&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> desc&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> desc&quot;</span><span class="p">)</span>
+            <span class="n">product_options_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">product_options_list</span></div>
+
+
+<div class="viewcode-block" id="retrieve_additional_images">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.retrieve_additional_images">[docs]</a>
+<span class="k">def</span> <span class="nf">retrieve_additional_images</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve possible additional product images uploaded by admin user and append</span>
+<span class="sd">        image file to a list.</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for retrieval of additional image&#39;s</span>
+<span class="sd">         image file from an html form</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: list containing image files</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">additional_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_IMAGES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># attempt to retrieve image</span>
+                <span class="n">new_image</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Image</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> image&quot;</span><span class="p">]</span>
+                <span class="n">additional_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_image</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># If no image has been given, do nothing</span>
+                <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">additional_images</span></div>
+
+
+
+<div class="viewcode-block" id="add_product">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.add_product">[docs]</a>
+<span class="k">def</span> <span class="nf">add_product</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve user-defined attributes from html form &#39;create-product&#39;,</span>
+<span class="sd">        create new product and save to database</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for retrieval of attributes for a new product</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :raises IntegrityError: Duplicate Product Title</span>
+
+<span class="sd">    :return: success - app home page. Error - create product page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># retrieve Product Category, title and description from request</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+
+        <span class="c1"># retrieve product main image</span>
+        <span class="n">product_image</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">[</span><span class="s1">&#39;main_image&#39;</span><span class="p">]</span>
+
+        <span class="c1"># using helper methods above, retrieve product size and associated prices, possible</span>
+        <span class="c1"># additional product options and images as desired and provided by admin user</span>
+        <span class="n">size_info_list</span> <span class="o">=</span> <span class="n">retrieve_size_pricing</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">product_options_list</span> <span class="o">=</span> <span class="n">retrieve_product_options</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">additional_images</span> <span class="o">=</span> <span class="n">retrieve_additional_images</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+        <span class="c1"># retrieve unique id for each label that may have been added to a product in html form</span>
+        <span class="n">labels_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">label_id</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">label_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)]</span>
+
+        <span class="c1"># create basic product with compulsory fields</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                                <span class="n">category</span> <span class="o">=</span> <span class="n">category</span><span class="p">,</span>
+                                <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">,</span>
+                                <span class="n">description</span> <span class="o">=</span> <span class="n">description</span><span class="p">,</span>
+                                <span class="n">product_image</span> <span class="o">=</span> <span class="n">product_image</span>
+            <span class="p">)</span>
+
+        <span class="c1"># add possible labels to product</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_list</span><span class="p">:</span>
+            <span class="n">product</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># add (optional) unique size prices</span>
+        <span class="k">for</span> <span class="n">product_info</span> <span class="ow">in</span> <span class="n">size_info_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">product_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">product_info</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                                    <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+                                    <span class="n">size</span> <span class="o">=</span> <span class="n">product_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                    <span class="n">price</span> <span class="o">=</span> <span class="n">product_info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">product_info</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># add (optional) product options</span>
+        <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">product_options_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">prod_option</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">,</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">description</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">prod_option</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># add optional product additional images and save</span>
+        <span class="k">for</span> <span class="n">current_image</span> <span class="ow">in</span> <span class="n">additional_images</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">current_image</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">,</span>
+                    <span class="n">image</span> <span class="o">=</span> <span class="n">current_image</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># duplicate Product title - Return User to Create Product</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:create_product&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Duplicate Name&quot;</span><span class="p">,)))</span>
+
+    <span class="c1"># return to admin home page</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:home_page&#39;</span><span class="p">))</span></div>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Views for Data Display</span>
+
+<div class="viewcode-block" id="view_all_labels">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.view_all_labels">[docs]</a>
+<span class="k">def</span> <span class="nf">view_all_labels</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve all labels from database for render to html page.</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: user to view all labels page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;display/view_all_labels.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="view_all_products">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.view_all_products">[docs]</a>
+<span class="k">def</span> <span class="nf">view_all_products</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;retrieve and sort all products alphabetically in order of category and then product title</span>
+<span class="sd">    passing list to html page for rendering</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: user to view all products page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+
+<span class="sd">    NOTE:</span>
+<span class="sd">    -----</span>
+<span class="sd">    current implementation will sort categories and products into alphabetical order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve all products, ordering alphabetically by category title and then by product title</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;category__title&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span>
+    <span class="c1"># list to hold lists category name [0] and associated products as remaining elements</span>
+    <span class="n">prod_categories</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># check if there are any saved products</span>
+    <span class="k">if</span> <span class="n">products</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="c1"># first iteration will have no tracking title</span>
+        <span class="n">current_title</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+        <span class="c1"># track current category to which products are being added</span>
+        <span class="n">category_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">products</span><span class="p">:</span>
+
+            <span class="c1"># first iteration with no category title tracking. Add first category name and product</span>
+            <span class="k">if</span> <span class="n">current_title</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+                <span class="n">prod_categories</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">product</span><span class="p">])</span>
+                <span class="n">current_title</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span>
+            <span class="c1"># add current product that belongs to current category</span>
+            <span class="k">elif</span> <span class="n">current_title</span> <span class="o">==</span> <span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+                <span class="n">prod_categories</span><span class="p">[</span><span class="n">category_count</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+            <span class="c1"># new category - increment category count and create new list with new category</span>
+            <span class="c1"># name and product</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">category_count</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">prod_categories</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">product</span><span class="p">])</span>
+                <span class="n">current_title</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="c1"># call html page to display all products to admin</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;display/view_all_products.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;prod_categories&#39;</span><span class="p">:</span> <span class="n">prod_categories</span><span class="p">})</span></div>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Views for Data Update and Possible Deletion</span>
+
+<div class="viewcode-block" id="view_all_categories">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.view_all_categories">[docs]</a>
+<span class="k">def</span> <span class="nf">view_all_categories</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide all categories for html page render and pass on possible error message to display during</span>
+<span class="sd">    category update or deletion</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param error: description of possible error that may occur during category update or deletion</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: user to view all categories page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve all categories in database</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Update/view_all_categories.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;categories&#39;</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span><span class="n">error</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="update_delete_category">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.update_delete_category">[docs]</a>
+<span class="k">def</span> <span class="nf">update_delete_category</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">category_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use &#39;request&#39; to determine action (update or delete) to perform on category specified by</span>
+<span class="sd">    category_id. Handle possible errors and return error message when reloading update/deletion page</span>
+
+<span class="sd">    :param request: contains metadata from a request needed to determine action to undertake.</span>
+<span class="sd">        (Update or delete) and retrieve attributes from html form to perform action</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param category_id: primary key id of category to be updated or deleted</span>
+<span class="sd">    :type category_id: int</span>
+
+<span class="sd">    :raises IntegrityError: Non-unique category title was supplied</span>
+
+<span class="sd">    :return: user to view all categories page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve the current category</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">category_id</span><span class="p">)</span>
+
+    <span class="c1"># 1) if user has selected to update the category title</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;Update&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">new_title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+            <span class="c1"># if a new title was given, change category title to new title and save</span>
+            <span class="k">if</span> <span class="n">new_title</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">category</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">new_title</span>
+                <span class="n">category</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_categories&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">,)))</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+            <span class="c1"># user has entered a title that is not unique</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_categories&#39;</span><span class="p">,</span>
+                                                <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Update Error&quot;</span><span class="p">,)))</span>
+
+    <span class="c1"># 2) if user has selected to delete the category</span>
+    <span class="c1"># NOTE - Deletion of a Category cannot be done if any products have been assigned to it</span>
+    <span class="k">if</span> <span class="s1">&#39;Delete&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+        <span class="c1"># retrieve count of all possible products that may assigned to current category</span>
+        <span class="n">product_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Products:  </span><span class="si">{</span><span class="n">product_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">product_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># if there are no products assigned to the category, deletion may be performed</span>
+            <span class="n">category</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_categories&#39;</span><span class="p">,</span>
+                                                <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">,)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># category has assigned products, display error to user that deletion may</span>
+            <span class="c1"># not be performed</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_categories&#39;</span><span class="p">,</span>
+                                                <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Delete Error&quot;</span><span class="p">,)))</span></div>
+
+
+
+<div class="viewcode-block" id="update_label">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.update_label">[docs]</a>
+<span class="k">def</span> <span class="nf">update_label</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">label_id</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve current label for update and render html page showing current set label attributes.</span>
+<span class="sd">        Form in page allows user to change label attributes and pass on for save to database.</span>
+
+<span class="sd">    :param request: pass current label to page to display attributes</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param label_id: primary key id for current label selected by user for update</span>
+<span class="sd">    :type label_id: int</span>
+<span class="sd">    :param error: Description of error message to display for user.</span>
+<span class="sd">            Current Implementation is only for updated Label title that is not unique</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: user to label update page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve label with matching id</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">label_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Update/update_label.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="save_label_update">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.save_label_update">[docs]</a>
+<span class="k">def</span> <span class="nf">save_label_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">label_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve possible new label attributes from an html form (passed through request) and attempt</span>
+<span class="sd">    to perform updates to current label and save to database</span>
+
+<span class="sd">    :param request: retrieve possible updated label attributes from html form</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param label_id: primary key id for current label selected by user for update</span>
+<span class="sd">    :type label_id: int</span>
+
+<span class="sd">    :raises IntegrityError: duplicated label_id</span>
+
+<span class="sd">    :return: success - view all labels page. Error - update label page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve the current label</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">label_id</span><span class="p">)</span>
+    <span class="c1"># retrieve possible new title</span>
+    <span class="n">new_title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+    <span class="c1"># if user has provided a new title, update label title (duplicate checked during attempted save)</span>
+    <span class="k">if</span> <span class="n">new_title</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">new_title</span>
+
+    <span class="c1"># retrieve possible new discount percentage</span>
+    <span class="n">new_discount</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;discount_percentage&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">new_discount</span><span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">new_discount</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">discount_percentage</span> <span class="o">=</span> <span class="n">new_discount</span>
+
+    <span class="c1"># retrieve possible new days until label is to be removed</span>
+    <span class="n">new_removal</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;removal_days&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">new_removal</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">removal_days</span> <span class="o">=</span> <span class="n">new_removal</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">removal_days</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># retrieve possible new custom_colour for label:</span>
+    <span class="n">custom_colour</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;custom_colour&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">custom_colour</span> <span class="o">!=</span> <span class="n">label</span><span class="o">.</span><span class="n">custom_colour</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Different Colour&quot;</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">custom_colour</span> <span class="o">=</span> <span class="n">custom_colour</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># attempt to save changes to label</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># return user to page of all labels</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_labels&#39;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="c1"># user has attempted to save with duplicated label title, provide error and return user</span>
+        <span class="c1"># to update label page</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:update_label&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;Duplicated Name&quot;</span><span class="p">,)))</span></div>
+
+
+<div class="viewcode-block" id="update_product">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.update_product">[docs]</a>
+<span class="k">def</span> <span class="nf">update_product</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve current attributes for a Product and Display to new page allowing</span>
+<span class="sd">    user to perform updates to these attributes to update product information</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for html page render with</span>
+<span class="sd">        current product attributes</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param product_id: primary key id for current product selected by user for update</span>
+<span class="sd">    :type product_id: int</span>
+<span class="sd">    :param error: Description of error message to display for user</span>
+<span class="sd">        Current Implementation is only for updated Product title that is not unique</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: user to update product page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve current product for update</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">product_id</span><span class="p">)</span>
+    <span class="c1"># retrieve currently set sizes and associated prices for object</span>
+    <span class="n">sizes_prices</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">)</span>
+    <span class="c1"># retrieve names all allowed size options</span>
+    <span class="n">all_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">size_options</span><span class="p">]</span>
+    <span class="c1"># retrieve all product options</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">)</span>
+    <span class="c1"># retrieve all additional product images that may have been added</span>
+    <span class="n">current_images</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="c1"># if the current number of options for a product is less than the max allowed,</span>
+    <span class="c1"># determine number of options that can still be added and add each option number</span>
+    <span class="c1"># to a list</span>
+    <span class="n">more_options</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">MAX_OPTIONS</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">new_option</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPTIONS</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">more_options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_option</span><span class="p">)</span>
+
+    <span class="c1"># determine if there are still extra images that may be added on to a product</span>
+    <span class="n">extra_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_images</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">MAX_IMAGES</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">new_image</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">current_images</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_IMAGES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">extra_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_image</span><span class="p">)</span>
+
+    <span class="c1"># create a new prices_sizes list</span>
+    <span class="n">new_size_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># variable to track for populated size price for Product</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># loop through all sizes checking for a populated size for the product, if</span>
+    <span class="c1"># one is match - add its price. If not, set price to 0</span>
+    <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">all_sizes</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">current</span> <span class="ow">in</span> <span class="n">sizes_prices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="n">current</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">new_size_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="n">current</span><span class="o">.</span><span class="n">price</span><span class="p">])</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">new_size_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+    <span class="c1"># retrieve product currrent category name</span>
+    <span class="n">current_category</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span>
+    <span class="c1"># rerieve all categories</span>
+    <span class="n">all_categories</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1"># retrieve labels associated with product</span>
+    <span class="n">current_labels</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="c1"># retrieve all labels stored in database</span>
+    <span class="n">all_labels</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="c1"># list to store labels not assigned to the current product</span>
+    <span class="n">not_assigned</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># iterate through all labels in database, checking and adding those not assigned</span>
+    <span class="c1"># to the current product to &#39;not_assigned&#39; list</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">all_labels</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">assigned</span> <span class="ow">in</span> <span class="n">current_labels</span><span class="p">:</span>
+            <span class="c1"># label match found, do not add to list</span>
+            <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">assigned</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="c1"># label has not been assigned to product</span>
+            <span class="n">not_assigned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="c1"># reset match for next iteration</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span>
+        <span class="s1">&#39;sizes_prices&#39;</span><span class="p">:</span> <span class="n">sizes_prices</span><span class="p">,</span>
+        <span class="s1">&#39;all_sizes&#39;</span> <span class="p">:</span> <span class="n">new_size_list</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span><span class="n">options</span><span class="p">,</span>
+        <span class="s1">&#39;more_options&#39;</span><span class="p">:</span> <span class="n">more_options</span><span class="p">,</span>
+        <span class="s1">&#39;current_images&#39;</span><span class="p">:</span> <span class="n">current_images</span><span class="p">,</span>
+        <span class="s1">&#39;extra_images&#39;</span><span class="p">:</span> <span class="n">extra_images</span><span class="p">,</span>
+        <span class="s1">&#39;current_category&#39;</span><span class="p">:</span> <span class="n">current_category</span><span class="p">,</span>
+        <span class="s1">&#39;all_categories&#39;</span><span class="p">:</span> <span class="n">all_categories</span><span class="p">,</span>
+        <span class="s1">&#39;current_labels&#39;</span><span class="p">:</span> <span class="n">current_labels</span><span class="p">,</span>
+        <span class="s1">&#39;not_assigned&#39;</span><span class="p">:</span> <span class="n">not_assigned</span><span class="p">,</span>
+        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Update/update_product.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="save_update">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.save_update">[docs]</a>
+<span class="k">def</span> <span class="nf">save_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve old/new attributes for a current product from html form for product update</span>
+<span class="sd">        and perform applicable updates to Product and associated model instances.</span>
+
+<span class="sd">    :param request: contains metadata from a request needed for retrieval of product attributes from</span>
+<span class="sd">        html form</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param product_id: primary key id for current product select by user for update</span>
+<span class="sd">    :type product_id: int</span>
+
+<span class="sd">    :raises IntegrityError: Non-unique Product Title was supplied</span>
+
+<span class="sd">    :return: success - view_all_products page. Error - update_product_page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve current product to be updated</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">product_id</span><span class="p">)</span>
+
+    <span class="c1"># ---- Category Update ----</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Category</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+
+    <span class="c1"># ---- Labels Update ----</span>
+    <span class="c1"># retrieve unique id for each label that may have been added to a product in html form</span>
+    <span class="n">labels_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">label_id</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">label_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)]</span>
+
+    <span class="c1"># clear all labels assigned to product</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="c1"># add Each Label (if present) to the Product</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_list</span><span class="p">:</span>
+        <span class="n">product</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="c1"># ---- Title and Description Update ----</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+
+    <span class="c1"># ---- Main Image Update ----</span>
+    <span class="c1"># attempt to retrieve possible new image, but set to None if image was not changed</span>
+    <span class="n">new_main_image</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;new_main_image&quot;</span> <span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">new_main_image</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">product</span><span class="o">.</span><span class="n">product_image</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">product</span><span class="o">.</span><span class="n">product_image</span> <span class="o">=</span> <span class="n">new_main_image</span>
+
+    <span class="c1"># ---- Size Pricing ----</span>
+    <span class="c1"># retrieve all updated and possible new sizes from html form</span>
+    <span class="n">price_list</span> <span class="o">=</span> <span class="n">retrieve_size_pricing</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="c1"># retrieve all prices currently assigned to product</span>
+    <span class="n">product_pricing</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="c1"># track if match for existing price was found against new/updated price</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># compare each updated/new price from form against current prices assigned to product</span>
+    <span class="c1"># checking for first match on size</span>
+    <span class="k">for</span> <span class="n">new_price</span> <span class="ow">in</span> <span class="n">price_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">current_price</span> <span class="ow">in</span> <span class="n">product_pricing</span><span class="p">:</span>
+            <span class="c1"># if a matching size was found</span>
+            <span class="k">if</span> <span class="n">current_price</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">new_price</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="c1"># check if price was set to 0, delete product_price:</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">new_price</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">current_price</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+                    <span class="k">break</span>
+                <span class="c1"># check if there is a difference on the price, if so</span>
+                <span class="c1"># update the price</span>
+                <span class="k">elif</span> <span class="n">current_price</span><span class="o">.</span><span class="n">price</span> <span class="o">!=</span> <span class="n">new_price</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">current_price</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">new_price</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">current_price</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="k">break</span>
+        <span class="c1"># at this point, no match for a set price was found indicating it is a new price</span>
+        <span class="c1"># for the product</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">new_price</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># create new product_price with size and associated price and save</span>
+            <span class="n">product_size</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                                    <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+                                    <span class="n">size</span> <span class="o">=</span> <span class="n">new_price</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                    <span class="n">price</span> <span class="o">=</span> <span class="n">new_price</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">product_size</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># reset match for next iteration</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># ---- Product Options - Current ----</span>
+    <span class="c1"># retrieve all options currently assigned to product</span>
+    <span class="n">assigned_options</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+    <span class="c1"># determine original number of options assigned to product to determine</span>
+    <span class="c1"># number of additional options user was allowed to add</span>
+    <span class="n">additonal_options_count</span> <span class="o">=</span> <span class="n">MAX_OPTIONS</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">assigned_options</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">assigned_options</span><span class="p">:</span>
+        <span class="c1"># determine if admin has selected option to be removed</span>
+        <span class="n">option_delete</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> delete&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option_delete</span> <span class="o">==</span> <span class="s1">&#39;delete&#39;</span><span class="p">:</span>
+            <span class="c1"># delete option and move to next iteration for next option</span>
+            <span class="n">option</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># attempt to retrieve option from html page with matching title id</span>
+        <span class="c1"># to a current option</span>
+        <span class="n">retrieved_option_title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Option</span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1"> title&#39;</span><span class="p">]</span>
+        <span class="n">retrieved_option_description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Option</span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1"> desc&#39;</span><span class="p">]</span>
+
+        <span class="c1"># check the possible new title is not empty nor contains only spaces</span>
+        <span class="k">if</span> <span class="n">retrieved_option_title</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">retrieved_option_title</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+            <span class="c1"># determine if the title has been changed, if so update title</span>
+            <span class="k">if</span> <span class="n">option</span><span class="o">.</span><span class="n">title</span> <span class="o">!=</span> <span class="n">retrieved_option_title</span><span class="p">:</span>
+                <span class="n">option</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">retrieved_option_title</span>
+                <span class="n">option</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># check the possible new description is not empty nor contains only spaces</span>
+        <span class="k">if</span> <span class="n">retrieved_option_description</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">retrieved_option_description</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+            <span class="c1"># determine if the descripttion has been changed, if so update description</span>
+            <span class="k">if</span> <span class="n">option</span><span class="o">.</span><span class="n">description</span> <span class="o">!=</span> <span class="n">retrieved_option_description</span><span class="p">:</span>
+                <span class="n">option</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">retrieved_option_description</span>
+                <span class="n">option</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># ---- Product Options - New ----</span>
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">additonal_options_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># attempt to retrieve a posssible new option title and description</span>
+        <span class="n">new_option_title</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> title&quot;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">new_option_desc</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> desc&quot;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="c1"># check if new title and description was recieved and non_empty</span>
+        <span class="k">if</span> <span class="n">new_option_title</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">new_option_title</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">new_option_desc</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">new_option_desc</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+                <span class="c1"># valid Title and Description gives, create new product option</span>
+                <span class="n">prod_option</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">,</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="n">new_option_title</span><span class="p">,</span>
+                    <span class="n">description</span> <span class="o">=</span> <span class="n">new_option_desc</span>
+                <span class="p">)</span>
+                <span class="n">prod_option</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># ---- Additional Product Images ----</span>
+    <span class="c1"># retrieve list of product_images that were marked for deletion</span>
+    <span class="n">deletion_images_list</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;deletion_images&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">image_delete</span> <span class="ow">in</span> <span class="n">deletion_images_list</span><span class="p">:</span>
+        <span class="c1"># using id&#39;s of images recieved from form, find matching</span>
+        <span class="c1"># product_image, delete image file seperately and then delete the instance</span>
+        <span class="n">image_object</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span> <span class="o">=</span> <span class="n">image_delete</span><span class="p">)</span>
+        <span class="n">image_object</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">image_object</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="c1"># retrieve all images currently assigned to product (after deletion above are completed)</span>
+    <span class="n">assigned_images</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="c1"># if the product has assigned images that could have been changed</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">assigned_images</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># check each image (id) against any possible image that may been provided</span>
+        <span class="c1"># as a replacement</span>
+        <span class="k">for</span> <span class="n">current_image</span> <span class="ow">in</span> <span class="n">assigned_images</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">new_image</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current_image</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> new&quot;</span> <span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">new_image</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># a new image has been found with a match the current assigned image id</span>
+                    <span class="c1"># delete the current image, assign the new image and save the change</span>
+                    <span class="n">current_image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">current_image</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">new_image</span>
+                    <span class="n">current_image</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># a new image was not found, do nothing - user did not want to change image</span>
+                <span class="k">pass</span>
+
+    <span class="c1"># determine number of allowed new images starting from 1 more than those assigned</span>
+    <span class="c1"># attempt to retrieve any newly added images</span>
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">assigned_images</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_IMAGES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_image</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> new_image&quot;</span> <span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_image</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># a new image has been found with a match the current assigned image id</span>
+                <span class="c1"># delete the current image, assign the new image and save the change    </span>
+                <span class="n">models</span><span class="o">.</span><span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">,</span>
+                    <span class="n">image</span> <span class="o">=</span> <span class="n">new_image</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># new image was not added, do nothing</span>
+            <span class="k">pass</span>
+    
+    <span class="c1"># attempt to save product changes</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="c1"># non-unique Product Title was set</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:update_product&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;Duplicate Name&quot;</span><span class="p">,)))</span>
+
+    <span class="c1"># no errors occured in updating product, return user to display of all products</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_products&#39;</span><span class="p">))</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Views for Data Deletion (only)</span>
+
+<div class="viewcode-block" id="delete_label">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.delete_label">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_label</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">label_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve current label and perform deletion from database.</span>
+
+<span class="sd">    :param request: contains metadata from a request to render all_labels page after label deletion</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param label_id: primary key id for current label selected by user for deletion</span>
+<span class="sd">    :type label_id: int</span>
+
+<span class="sd">    :return: user to view all labels page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve label for deletion</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">label_id</span><span class="p">)</span>
+    <span class="c1"># perform deletion</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="c1"># return user to view all labels</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_all_labels&#39;</span><span class="p">))</span></div>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># --------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Views for Customer and Order Details</span>
+
+<div class="viewcode-block" id="all_customers">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.all_customers">[docs]</a>
+<span class="k">def</span> <span class="nf">all_customers</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve All saved customers and their associated orders. Determine order status</span>
+<span class="sd">        for &#39;action_required&#39; notification to admin user.</span>
+
+<span class="sd">    :param request: used to render page displaying all customer orders and their status</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: user to view all customers page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve all customers</span>
+    <span class="n">customers</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_staff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># list to store customer and &#39;action_required&#39; boolean</span>
+    <span class="n">customer_status</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># track action required for a customer</span>
+    <span class="n">action_required</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># for each customer, determine if an order is not yet completed and still requires attention</span>
+    <span class="k">for</span> <span class="n">customer</span> <span class="ow">in</span> <span class="n">customers</span><span class="p">:</span>
+        <span class="c1"># retrieve all orders assigned to customer</span>
+        <span class="n">customer_orders</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">customer_orders</span><span class="p">:</span>
+            <span class="c1"># determine if order recieved but no payment yet</span>
+            <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+                <span class="n">action_required</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">customer_status</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">customer</span><span class="p">,</span> <span class="s2">&quot;Awaiting Payment&quot;</span><span class="p">])</span>
+                <span class="k">break</span>
+            <span class="c1"># payment recieved - order being processed</span>
+            <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span>
+                <span class="n">customer_status</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">customer</span><span class="p">,</span> <span class="s2">&quot;Payment Received - Processing&quot;</span><span class="p">])</span>
+                <span class="c1"># order submitted</span>
+                <span class="n">action_required</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># order has either not been submitted yet or has been completed</span>
+                <span class="n">customer_status</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">customer</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+
+        <span class="c1"># reset for next customer loop</span>
+        <span class="n">action_required</span> <span class="o">==</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Display/all_customers.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;customer_status&#39;</span><span class="p">:</span> <span class="n">customer_status</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="customer_orders">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.customer_orders">[docs]</a>
+<span class="k">def</span> <span class="nf">customer_orders</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve and sort customer orders into not paid, processing and completed.</span>
+
+<span class="sd">    :param request: used to render page displaying seperated customer orders</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param customer_id: Customer primary key</span>
+<span class="sd">    :type customer_id: int</span>
+
+<span class="sd">    :return: user to display of customer orders page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Lists to sort customer orders:</span>
+    <span class="n">awaiting_payment_orders</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">processing_orders</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">completed_orders</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># retrieve current customer</span>
+    <span class="n">customer</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">User</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">customer_id</span><span class="p">)</span>
+    <span class="c1"># retrieve all orders associated with customer</span>
+    <span class="n">all_orders</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">)</span>
+
+    <span class="c1"># sort orders into above lists</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">all_orders</span><span class="p">:</span>
+        <span class="c1"># ordered received and awaiting payment</span>
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">awaiting_payment_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="c1"># order paid and being processed</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span>
+            <span class="n">processing_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="c1"># order delivered and completed</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+            <span class="n">completed_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;customer&#39;</span><span class="p">:</span> <span class="n">customer</span><span class="p">,</span>
+        <span class="s2">&quot;awaiting_payment_orders&quot;</span><span class="p">:</span> <span class="n">awaiting_payment_orders</span><span class="p">,</span>
+        <span class="s1">&#39;processing_orders&#39;</span><span class="p">:</span> <span class="n">processing_orders</span><span class="p">,</span>
+        <span class="s1">&#39;completed_orders&#39;</span><span class="p">:</span> <span class="n">completed_orders</span><span class="p">,</span>
+        <span class="s1">&#39;customer_id&#39;</span><span class="p">:</span> <span class="n">customer_id</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;display/customer_orders.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="view_order">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.view_order">[docs]</a>
+<span class="k">def</span> <span class="nf">view_order</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve and format an individual customer order for render.</span>
+
+<span class="sd">    :param request: used to render page displaying order details</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param order_id: primary key to retrieve specific order</span>
+<span class="sd">    :type order_id: int</span>
+<span class="sd">    :param customer_id: primary key for customer to whom order is assigned</span>
+<span class="sd">    :type customer_id: int</span>
+<span class="sd">    :param type: description of order type (not_paid, processing or completed)</span>
+<span class="sd">    :type type: str</span>
+
+<span class="sd">    :return: view order page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve the current order</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Order</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span>
+    <span class="c1"># retrieve all items associated with this order</span>
+    <span class="n">order_items</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">)</span>
+    <span class="c1"># retrieve and format order total:</span>
+    <span class="n">total_value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># list containing product images</span>
+    <span class="n">product_images</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">order_items</span><span class="p">:</span>
+        <span class="c1"># correct decimals in product price</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># retrieve any product options and seperate each option</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_option</span> <span class="k">for</span> <span class="n">split_option</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)]</span>
+       <span class="c1"># retrieve product main image</span>
+        <span class="n">product_image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">product_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product_image</span>
+        <span class="c1"># append image to list of images</span>
+        <span class="n">product_images</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">product_id</span><span class="p">,</span> <span class="n">product_image</span><span class="p">))</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order_items&#39;</span><span class="p">:</span> <span class="n">order_items</span><span class="p">,</span>
+        <span class="s1">&#39;order_id&#39;</span><span class="p">:</span> <span class="n">order_id</span><span class="p">,</span>
+        <span class="s1">&#39;order&#39;</span> <span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+        <span class="s1">&#39;customer_id&#39;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+        <span class="s1">&#39;total_value&#39;</span><span class="p">:</span> <span class="n">total_value</span><span class="p">,</span>
+        <span class="s1">&#39;product_images&#39;</span><span class="p">:</span> <span class="n">product_images</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Display/view_order.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="change_order_status">
+<a class="viewcode-back" href="../../crafts_by_micks.html#crafts_by_micks.views.change_order_status">[docs]</a>
+<span class="k">def</span> <span class="nf">change_order_status</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">new_status</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow admin user to change order status after payment received and then after</span>
+<span class="sd">        product has been delivered</span>
+
+<span class="sd">    :param request: used to return customer to view_order page</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param order_id: primary key for order whose status is to changed</span>
+<span class="sd">    :type order_id: int</span>
+<span class="sd">    :param customer_id: primary key of current customer needed for return to view_order page</span>
+<span class="sd">    :type customer_id: int</span>
+<span class="sd">    :param new_status: description of new status to be applied to order</span>
+<span class="sd">    :type new_status: str</span>
+
+<span class="sd">    :return: view order page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Retrieve the current order</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Order</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">order_id</span><span class="p">)</span>
+
+    <span class="c1"># payment recieved - order status must be changed to paid</span>
+    <span class="k">if</span> <span class="n">new_status</span> <span class="o">==</span> <span class="s2">&quot;paid&quot;</span><span class="p">:</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;p&#39;</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">payment_received_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_order&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="s1">&#39;processing&#39;</span><span class="p">)))</span>
+
+    <span class="c1"># order has been processed and delivered to customer</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">delivered_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;crafts_by_micks:view_order&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="s1">&#39;completed&#39;</span><span class="p">)))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Kyle de Vos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

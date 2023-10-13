@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>product_site.views &mdash; django_capstone 00.00.01 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            django_capstone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">django_capstone</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">django_capstone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">product_site.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for product_site.views</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Views Module for Django App &#39;product_site&#39;. App serves as central site</span>
+<span class="sd">for web application.</span>
+
+<span class="sd">Methods:</span>
+<span class="sd">--------</span>
+<span class="sd">:meth:`logincheck(request)`</span>
+<span class="sd">    Determine if a current user is authenticated</span>
+
+<span class="sd">:meth:`populate_display_products(all_products)`</span>
+<span class="sd">    validate and sort a list of products for website display - checking at least one price</span>
+<span class="sd">    has been set</span>
+
+<span class="sd">:meth:`create_product_list()`</span>
+<span class="sd">    Retrieve all Categories and Products from database, Sort Products into their</span>
+<span class="sd">    categories - sorting Products and Categories in Alphabetical order according to title.</span>
+<span class="sd">    Performs product validation for website display</span>
+
+<span class="sd">:meth:`site_home(request)`</span>
+<span class="sd">    Render main site home page, checking if currently logged-in user is a staff</span>
+<span class="sd">        member allowing access to admin control functionality</span>
+
+<span class="sd">:meth:`determine_discount_percentage(labels)`</span>
+<span class="sd">    Using QuerySet of associated Labels for a Product, determine highest</span>
+<span class="sd">    assigned label percentage discount to apply a Product</span>
+
+<span class="sd">:meth:`product_view(request, product_id, error)`</span>
+<span class="sd">    Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage</span>
+<span class="sd">    showing Product Details, Pricing and validation of customer login for addition of Product</span>
+<span class="sd">    to an Order.</span>
+
+<span class="sd">:meth:`create_retrieve_order(request)`</span>
+<span class="sd">    Determine Order for currently logged in user to add selected Product_Item.</span>
+<span class="sd">        If no open order is present, create a new open order for user.</span>
+
+<span class="sd">:meth:`create_order_item(request, product_id)`</span>
+<span class="sd">    Retrieve Product Attributes and user selected Attributes for a Selected Product.</span>
+<span class="sd">        Validate against chosen price(s) and size(s) and add Product to open Order</span>
+<span class="sd">        for User.</span>
+
+<span class="sd">:meth:`main_image_control(order_items)`</span>
+<span class="sd">    Retrieve main image and matching id for products and return as list</span>
+
+<span class="sd">:meth:`customer_orders(request, message)`</span>
+<span class="sd">    Retrieve current logged in customer info and matching Orders information</span>
+<span class="sd">        for display to client</span>
+
+<span class="sd">:meth:`remove_item(request, item_id, order_id)`</span>
+<span class="sd">    Delete an Order_Item from an order. Delete order if all Order Items have been removed.</span>
+
+<span class="sd">:meth:`view_order(request, order_id, message)`</span>
+<span class="sd">    Retrieve current order (processing or completed status) details for</span>
+<span class="sd">        display to customer.</span>
+
+<span class="sd">:meth:`submit_order(request, order_id)`</span>
+<span class="sd">    Retrieve an order submitted for processing and change order status</span>
+<span class="sd">        to received</span>
+
+<span class="sd">:meth:`product_review(request, order_item_id, order_id)`</span>
+<span class="sd">    Allow logged-in user to submit a review for a product that has been paid for</span>
+<span class="sd">        and delivered</span>
+
+<span class="sd">:meth:`review_rating_update(applied_rating, product)`</span>
+<span class="sd">    Calculate New Average Review rating for a product after a new review</span>
+<span class="sd">        has been added for the product</span>
+
+<span class="sd">:meth:`save_review(request, product_id, order_id)`</span>
+<span class="sd">    Retrieve customer review attributes and preferences to create new product</span>
+<span class="sd">        review and assign to the Product</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">crafts_by_micks.models</span> <span class="kn">import</span> <span class="n">Category</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Product_Sizes</span><span class="p">,</span> <span class="n">Product_Images</span><span class="p">,</span> <span class="n">Option</span><span class="p">,</span> <span class="n">Order_Item</span><span class="p">,</span> <span class="n">Order</span><span class="p">,</span> <span class="n">Review</span>
+
+<span class="c1"># Helper Function</span>
+<div class="viewcode-block" id="logincheck">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.logincheck">[docs]</a>
+<span class="k">def</span> <span class="nf">logincheck</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine if a current user is authenticated.</span>
+
+<span class="sd">    :param request: needed to authenticate current user</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: True for authenticated user, False if not</span>
+<span class="sd">    :rtype: boolean</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+
+
+<span class="c1"># Business Logic - Product Site Validity for Display based on price presence</span>
+<div class="viewcode-block" id="populate_display_products">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.populate_display_products">[docs]</a>
+<span class="k">def</span> <span class="nf">populate_display_products</span><span class="p">(</span><span class="n">all_products</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;validate and sort a list of products for website display - checking at least one price</span>
+<span class="sd">    has been set.</span>
+
+<span class="sd">    :param all_products: list containing unvalidated Products</span>
+<span class="sd">    :type all_products: list</span>
+
+<span class="sd">    :return: validated list of Products</span>
+<span class="sd">    :rtype: list</span>
+
+<span class="sd">    NOTE:</span>
+<span class="sd">     Products without prices are allowed in system (in creation process by admin),</span>
+<span class="sd">    but may not be displayed on the product site</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># list to hold each product</span>
+    <span class="n">product_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">all_products</span><span class="p">:</span>
+        <span class="c1"># Retrieve All associated prices for the current product.</span>
+        <span class="n">product_pricing</span> <span class="o">=</span> <span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+        <span class="c1"># no associated prices, move to next product</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">product_pricing</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># product attributes stored in a dictionary</span>
+        <span class="n">current_product</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># retrieve compulsory fields for product with pricing options</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;main_image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">product_image</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;review_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">review_value</span>
+
+        <span class="c1"># retrieve all labels associated with a product</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">Label</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+
+        <span class="c1"># -- PRICING --</span>
+        <span class="c1"># Product will have at least one price assigned to it (various sizes).</span>
+        <span class="c1"># Logic - use &#39;no&#39; size or smallest product size price as default</span>
+        <span class="c1"># 1) Check if price of no-size was set, acts as default:</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;display_price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">product_pricing</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">price</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># track if there are multiple sizes available for a product</span>
+        <span class="n">current_product</span><span class="p">[</span><span class="s1">&#39;multiple_sizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">product_pricing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+
+        <span class="c1"># add current product to list</span>
+        <span class="n">product_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_product</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">product_list</span></div>
+
+
+
+<span class="c1"># Helper Function</span>
+<div class="viewcode-block" id="create_product_list">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.create_product_list">[docs]</a>
+<span class="k">def</span> <span class="nf">create_product_list</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve all Categories and Products from database, Sort Products into their</span>
+<span class="sd">    categories - sorting Products and Categories in Alphabetical order according to title.</span>
+<span class="sd">    Performs product validation for website display.</span>
+
+<span class="sd">    :return: list containing tuples as: (category_name, list of valid Products)</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve all product categories - in alphabetical order</span>
+    <span class="n">all_categories</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+    <span class="c1"># list to hold all categories and their associated, valid products for main site display</span>
+    <span class="n">category_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># confirm there are categories loaded, if not there cannot be any products</span>
+    <span class="c1"># and product to category association is not needed</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_categories</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">all_categories</span><span class="p">:</span>
+            <span class="c1"># retrieve all products for each category:</span>
+            <span class="n">all_products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+            <span class="c1"># refine product list and validate products that may be put on website display</span>
+            <span class="n">current_category_products</span> <span class="o">=</span> <span class="n">populate_display_products</span><span class="p">(</span><span class="n">all_products</span><span class="p">)</span>
+            <span class="c1"># check for no products - if none do not add current category</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_category_products</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># add found products to category list for display on main page</span>
+            <span class="n">category_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">category</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">current_category_products</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">category_list</span></div>
+
+
+
+<div class="viewcode-block" id="site_home">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.site_home">[docs]</a>
+<span class="k">def</span> <span class="nf">site_home</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render main site home page, checking if currently logged-in user is a staff</span>
+<span class="sd">        member allowing access to admin control functionality. Retrieves validated</span>
+<span class="sd">        and sorted list of Categories and associated Products for home page display.</span>
+
+<span class="sd">    :param request: required for user authentication, status check and html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: site home page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Determine if the user has been logged in</span>
+    <span class="n">logged_in</span> <span class="o">=</span> <span class="n">logincheck</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="c1"># if the user has been checked in, check if they are staff; giving access to admin control</span>
+    <span class="c1"># of the site</span>
+    <span class="n">staff</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">logged_in</span><span class="p">:</span>
+        <span class="n">staff</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_staff</span> <span class="k">else</span> <span class="kc">False</span>
+
+    <span class="c1"># retrieve list of product categories and associated products</span>
+    <span class="n">category_products_list</span> <span class="o">=</span> <span class="n">create_product_list</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;logged_in&#39;</span><span class="p">:</span> <span class="n">logged_in</span><span class="p">,</span>
+        <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+        <span class="s1">&#39;source&#39;</span> <span class="p">:</span> <span class="s1">&#39;site_home&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span> <span class="p">:</span> <span class="n">staff</span><span class="p">,</span>
+        <span class="s1">&#39;products&#39;</span><span class="p">:</span> <span class="n">category_products_list</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;site_home.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="determine_discount_percentage">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.determine_discount_percentage">[docs]</a>
+<span class="k">def</span> <span class="nf">determine_discount_percentage</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Using QuerySet of associated Labels for a Product, determine highest</span>
+<span class="sd">    assigned label percentage discount to apply a Product.</span>
+
+<span class="sd">    :param labels: QuerySet containing Labels that have been assigned to a Product.</span>
+<span class="sd">    :type labels: QuerySet `Label`</span>
+
+<span class="sd">    :return: Highest Percentage Discount applicable to Product Prices</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># track highest percentage discount applied</span>
+    <span class="n">highest_discount</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># iterate through all labels checking for a new, highest discount to apply</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">discount_percentage</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">discount_percentage</span> <span class="o">&gt;</span> <span class="n">highest_discount</span><span class="p">:</span>
+            <span class="n">highest_discount</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">discount_percentage</span>
+
+    <span class="k">return</span> <span class="n">highest_discount</span></div>
+
+
+
+<div class="viewcode-block" id="product_view">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.product_view">[docs]</a>
+<span class="k">def</span> <span class="nf">product_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage</span>
+<span class="sd">    showing Product Details, Pricing and validation of customer login for addition of Product</span>
+<span class="sd">    to an Order.</span>
+
+<span class="sd">    :param request: required for user authentication, status check and html page render</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param product_id: unique Primary Key value for selected Product</span>
+<span class="sd">    :type product_id: int</span>
+<span class="sd">    :param error: description of error to display to user on page - current implementation</span>
+<span class="sd">        accounts for addition of Product to Order without selection of Size and</span>
+<span class="sd">        Associated Price</span>
+<span class="sd">    :type error: str</span>
+
+<span class="sd">    :return: page displaying selected Product Attributes for addition to an order or view</span>
+<span class="sd">            of Product details by user</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Determine if the user has been logged in</span>
+    <span class="n">logged_in</span> <span class="o">=</span> <span class="n">logincheck</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="c1"># if the user has been checked in, check if they are staff; giving access to admin control</span>
+    <span class="c1"># of the site</span>
+    <span class="n">staff</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">logged_in</span><span class="p">:</span>
+        <span class="n">staff</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_staff</span> <span class="k">else</span> <span class="kc">False</span>
+
+    <span class="c1"># Retrieve product</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span> <span class="o">=</span> <span class="n">product_id</span><span class="p">)</span>
+    <span class="c1"># Retrieve all labels associated with the product</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="c1"># Retrieve all associated sizes and prices for the product</span>
+    <span class="n">product_pricing</span> <span class="o">=</span> <span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="c1"># labels can apply discounts to a product price</span>
+    <span class="n">highest_discount</span> <span class="o">=</span> <span class="n">determine_discount_percentage</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="c1"># track if a discount has been applied for notification on project page</span>
+    <span class="n">discount_bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">highest_discount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span>
+    <span class="c1"># if there is a discount to apply, modify all product prices to show discount</span>
+
+    <span class="k">for</span> <span class="n">price_option</span> <span class="ow">in</span> <span class="n">product_pricing</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">highest_discount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">price_option</span><span class="o">.</span><span class="n">price</span> <span class="o">*=</span> <span class="p">(</span><span class="n">highest_discount</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+        <span class="c1"># correct decimals for price</span>
+        <span class="n">price_option</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">price_option</span><span class="o">.</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># retrive all possible product additonal images</span>
+    <span class="n">product_images</span> <span class="o">=</span> <span class="n">Product_Images</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="c1"># retrieve all additional product options</span>
+    <span class="n">product_options</span> <span class="o">=</span> <span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span>
+        <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+        <span class="s1">&#39;discount_bool&#39;</span><span class="p">:</span> <span class="n">discount_bool</span><span class="p">,</span>
+        <span class="s1">&#39;price_list&#39;</span><span class="p">:</span> <span class="n">product_pricing</span><span class="p">,</span>
+        <span class="s1">&#39;product_images&#39;</span><span class="p">:</span> <span class="n">product_images</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="n">product_options</span><span class="p">,</span>
+        <span class="s1">&#39;logged_in&#39;</span><span class="p">:</span> <span class="n">logged_in</span><span class="p">,</span>
+        <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+        <span class="s1">&#39;source&#39;</span> <span class="p">:</span> <span class="s1">&#39;site_home&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;staff&#39;</span> <span class="p">:</span> <span class="n">staff</span><span class="p">,</span>
+        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;product_view.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_retrieve_order">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.create_retrieve_order">[docs]</a>
+<span class="k">def</span> <span class="nf">create_retrieve_order</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine Order for currently logged in user to add selected Product_Item.</span>
+<span class="sd">        If no open order is present, create a new open order for user.</span>
+
+<span class="sd">    :param request: needed to determine current logged-in user</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+
+<span class="sd">    :return: open order to add a Product Item to or new open Order</span>
+<span class="sd">    :rtype: Class `Order` instance    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve current user (customer)</span>
+    <span class="n">customer</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="c1"># attempt to retrieve all orders assigned to customer</span>
+    <span class="n">current_orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">)</span>
+    <span class="c1"># no assigned orders- create a new order</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_orders</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">new_order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">,</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;ns&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_order</span>
+    <span class="c1"># existing orders do exist</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># check for current, non-submitted order</span>
+        <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">current_orders</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;ns&#39;</span><span class="p">:</span>
+                <span class="c1"># open order exists</span>
+                <span class="k">return</span> <span class="n">order</span>
+
+        <span class="c1"># no open orders for customer, create and return a new order</span>
+        <span class="n">new_order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">,</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;ns&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_order</span></div>
+
+
+
+<div class="viewcode-block" id="create_order_item">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.create_order_item">[docs]</a>
+<span class="k">def</span> <span class="nf">create_order_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve Product Attributes and user selected Attributes for a Selected Product.</span>
+<span class="sd">        Validate against chosen price(s) and size(s) and add Product to open Order</span>
+<span class="sd">        for User.</span>
+
+<span class="sd">    :param request: used to retrieve Product and Selected Attributes from Product_Page</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param product_id: unique Primary Key value for selected Product</span>
+<span class="sd">    :type product_id: int</span>
+
+<span class="sd">    :return: user to site home page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># list of tuples holding a size, price and quantity</span>
+    <span class="n">pricing_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># retrieve list of selected sizes from html form and use to retrieve</span>
+    <span class="c1"># Product_Size instance</span>
+    <span class="n">selected_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Product_Sizes</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span> <span class="o">=</span> <span class="nb">id</span><span class="p">)</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;selected_sizes&#39;</span><span class="p">)]</span>
+
+    <span class="c1"># check if user selected at least one price:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_sizes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># a price was not selected - order item invalid</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;product_site:product_view&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="s2">&quot;No Price&quot;</span><span class="p">,)))</span>
+
+    <span class="c1"># Retrieve all labels associated with the product</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span> <span class="o">=</span> <span class="n">product_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="c1"># determine highest discount percentage that may be applied to a product</span>
+    <span class="n">highest_discount</span> <span class="o">=</span> <span class="n">determine_discount_percentage</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="c1"># for each selected price, retrieve the quantity ordered</span>
+    <span class="k">for</span> <span class="n">size_choice</span> <span class="ow">in</span> <span class="n">selected_sizes</span><span class="p">:</span>
+        <span class="c1"># determine if a discount has been applied</span>
+        <span class="k">if</span> <span class="n">highest_discount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">price</span> <span class="o">=</span> <span class="n">size_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="p">(</span><span class="n">highest_discount</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">price</span> <span class="o">=</span> <span class="n">size_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">price</span>
+
+        <span class="c1"># attempt to retrieve a set quantity</span>
+        <span class="n">quantity</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">size_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s1"> quantity&#39;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if quantity was not entered, set default to &#39;1&#39;</span>
+        <span class="k">if</span> <span class="n">quantity</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">quantity</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+        <span class="c1"># create tuple of size, price and quantity and add to list</span>
+        <span class="n">pricing_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">size_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">quantity</span><span class="p">))</span>
+
+    <span class="c1"># string to store chosen options as text</span>
+    <span class="n">product_options</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># retrieve each option id from request that was selected by user</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;product_options&#39;</span><span class="p">):</span>
+        <span class="c1"># retrieve the matching option from database</span>
+        <span class="n">current_option</span> <span class="o">=</span> <span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span> <span class="o">=</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="c1"># append each option title and description</span>
+        <span class="n">product_options</span> <span class="o">+=</span> <span class="n">current_option</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+        <span class="n">product_options</span> <span class="o">+=</span> <span class="n">current_option</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span>
+
+    <span class="c1"># Create Order item - Each unique size and price set as individual item</span>
+    <span class="c1"># All items get the same product_options</span>
+    <span class="k">for</span> <span class="n">size_option</span> <span class="ow">in</span> <span class="n">pricing_list</span><span class="p">:</span>
+        <span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="c1"># retrieve an existing open order or create new order</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">create_retrieve_order</span><span class="p">(</span><span class="n">request</span><span class="p">),</span>
+            <span class="n">product_id</span> <span class="o">=</span> <span class="n">product_id</span><span class="p">,</span>
+            <span class="n">product_title</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">chosen_size</span> <span class="o">=</span> <span class="n">size_option</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">price</span> <span class="o">=</span> <span class="n">size_option</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">quantity</span> <span class="o">=</span> <span class="n">size_option</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="n">product_options</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Return User to All Products Page</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;product_site:site_home&#39;</span><span class="p">))</span></div>
+
+
+<span class="c1"># Helper Function - Construct list of all product main images</span>
+<div class="viewcode-block" id="main_image_control">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.main_image_control">[docs]</a>
+<span class="k">def</span> <span class="nf">main_image_control</span><span class="p">(</span><span class="n">order_items</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve main image and matching id for products and return as list.</span>
+
+<span class="sd">    :param order_items: list containg selected Order_Items to retrieve product id and main image from</span>
+<span class="sd">    :type order_items: list</span>
+
+<span class="sd">    :return: list containing product id&#39;s and matching main images</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># list to hold product_id and its matching image</span>
+    <span class="n">product_image_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># make order_items list contain unique values based on product id</span>
+    <span class="n">unique_items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">item</span><span class="o">.</span><span class="n">product_id</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">order_items</span><span class="p">)])</span>
+    
+    <span class="k">for</span> <span class="n">product_id</span> <span class="ow">in</span> <span class="n">unique_items</span><span class="p">:</span>
+        <span class="c1"># Retrieve matching product main image</span>
+        <span class="n">product_image</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span><span class="o">.</span><span class="n">product_image</span>
+        <span class="n">product_image_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">product_id</span><span class="p">,</span> <span class="n">product_image</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">product_image_list</span></div>
+
+
+
+<div class="viewcode-block" id="customer_orders">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.customer_orders">[docs]</a>
+<span class="k">def</span> <span class="nf">customer_orders</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve current logged in customer info and matching Orders information</span>
+<span class="sd">        for display to client</span>
+
+<span class="sd">    :param request: Retrieved current logged-in customer and render html page showing order info</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param message: Message to display to user for successful submission of an order for processing</span>
+<span class="sd">    :type message: str</span>
+
+<span class="sd">    :return: user to view customer orders page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve current logged in customer (user)</span>
+    <span class="n">customer</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="c1">#retrieve all orders assigned to a customer</span>
+    <span class="n">all_orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span> <span class="o">=</span> <span class="n">customer</span><span class="p">)</span>
+    <span class="c1"># lists to store each order type</span>
+    <span class="n">open_orders</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">processing</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">completed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># list to store product images for orders not submitted</span>
+    <span class="n">product_image_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># seperate orders</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">all_orders</span><span class="p">:</span>
+        <span class="c1"># order not yet submitted</span>
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;ns&#39;</span><span class="p">:</span>
+            <span class="n">open_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="c1"># order completed and delivered</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+            <span class="n">completed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="c1"># order awaiting payment, manufacture or delivery</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">processing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="c1"># if there is an open order, retrieve all order items</span>
+    <span class="n">open_order_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># track order total value</span>
+    <span class="n">order_total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_orders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">):</span>
+            <span class="c1"># add item total value to order total value</span>
+            <span class="n">order_total</span> <span class="o">+=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">item</span><span class="o">.</span><span class="n">quantity</span>
+            <span class="c1"># retrieve current item and correct price decimals</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="c1"># retrieve any product options and seperate each option</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_option</span> <span class="k">for</span> <span class="n">split_option</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)]</span>
+            <span class="n">open_order_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="c1"># format order total value to two decimal places</span>
+        <span class="n">order_total</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">order_total</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># retrieve list of product_id and matching main image</span>
+        <span class="n">product_image_list</span> <span class="o">=</span> <span class="n">main_image_control</span><span class="p">(</span><span class="n">open_order_items</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;customer&#39;</span><span class="p">:</span> <span class="n">customer</span><span class="p">,</span>
+        <span class="s1">&#39;open_orders&#39;</span><span class="p">:</span> <span class="n">open_orders</span><span class="p">,</span>
+        <span class="s1">&#39;open_order_items&#39;</span><span class="p">:</span> <span class="n">open_order_items</span><span class="p">,</span>
+        <span class="s1">&#39;order_total&#39;</span><span class="p">:</span> <span class="n">order_total</span><span class="p">,</span>
+        <span class="s1">&#39;processing_orders&#39;</span><span class="p">:</span> <span class="n">processing</span><span class="p">,</span>
+        <span class="s1">&#39;completed_orders&#39;</span><span class="p">:</span> <span class="n">completed</span><span class="p">,</span>
+        <span class="s1">&#39;product_image_list&#39;</span><span class="p">:</span> <span class="n">product_image_list</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">message</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;customer_orders.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="remove_item">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.remove_item">[docs]</a>
+<span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an Order_Item from an order. Delete order if all Order Items have been removed.</span>
+
+<span class="sd">    :param request: render Orders Display page</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param item_id: primary key field for Order_Time to be deleted</span>
+<span class="sd">    :type item_id: int</span>
+<span class="sd">    :param order_id: primary key field for Order holding selecting Order Item</span>
+<span class="sd">    :type order_id: int</span>
+
+<span class="sd">    :return: customer to view orders page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Retrieve Order_Item for deletion and assigned Order</span>
+    <span class="n">order_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order_Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">order_id</span><span class="p">)</span>
+    <span class="c1"># Delete Order_Item</span>
+    <span class="n">order_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="c1"># Determine if a non-submitted order has all order_items removed,</span>
+    <span class="c1"># if so, delete this order</span>
+    <span class="n">remaining_items</span> <span class="o">=</span> <span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="c1"># Return customer to Order Display Page</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;product_site:customer_orders&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Item Successfully Removed&quot;</span><span class="p">,)))</span></div>
+
+
+
+<div class="viewcode-block" id="view_order">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.view_order">[docs]</a>
+<span class="k">def</span> <span class="nf">view_order</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve current order (processing or completed status) details for</span>
+<span class="sd">        display to customer.</span>
+
+<span class="sd">    :param request: render html page displaying order info</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param order_id: primary key for order details being requested</span>
+<span class="sd">    :type order_id: int</span>
+<span class="sd">    :param message: informative message to display to customer</span>
+<span class="sd">    :type message: str</span>
+
+<span class="sd">    :return: user to view order page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve order, status and order_items</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">status</span>
+    <span class="n">order_items</span> <span class="o">=</span> <span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">)</span>
+    <span class="c1"># list to store product_id and associated main image</span>
+    <span class="n">product_image_list</span> <span class="o">=</span> <span class="n">main_image_control</span><span class="p">(</span><span class="n">order_items</span><span class="p">)</span>
+
+
+    <span class="c1"># Date Checks and Format</span>
+    <span class="c1"># 1) Payment Date</span>
+    <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">payment_received_date</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">payment_date</span> <span class="o">=</span> <span class="s2">&quot;Not Recieved / Processing&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">payment_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Received on: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">payment_received_date</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="c1"># Correct Total Value Decimals</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">total_value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">order_items</span><span class="p">:</span>
+        <span class="c1"># retrieve current item and correct price decimals</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># retrieve any product options and seperate each option</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_option</span> <span class="k">for</span> <span class="n">split_option</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)]</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">,</span>
+        <span class="s1">&#39;payment_date&#39;</span><span class="p">:</span> <span class="n">payment_date</span><span class="p">,</span>
+        <span class="s1">&#39;order_items&#39;</span><span class="p">:</span> <span class="n">order_items</span><span class="p">,</span>
+        <span class="s1">&#39;product_image_list&#39;</span><span class="p">:</span> <span class="n">product_image_list</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">message</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;view_order.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="submit_order">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.submit_order">[docs]</a>
+<span class="k">def</span> <span class="nf">submit_order</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve an order submitted for processing and change order status</span>
+<span class="sd">        to received.</span>
+
+<span class="sd">    :param request: Used to return customer to view orders page</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param order_id: primary key of order being submitted for processing</span>
+<span class="sd">    :type order_id: int</span>
+
+<span class="sd">    :return: user to view orders page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve current order</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">order_id</span><span class="p">)</span>
+
+    <span class="c1"># retrieve order_items for order</span>
+    <span class="n">order_items</span> <span class="o">=</span> <span class="n">Order_Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">)</span>
+    <span class="n">total_value</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">order_items</span><span class="p">:</span>
+        <span class="n">total_value</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">price</span><span class="p">)</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span>
+
+    <span class="c1"># change status to recieved (displayed as processing on webpage) and save</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
+    <span class="c1"># update submission date</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">submitted_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="c1"># update order total_value</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">total_value</span> <span class="o">=</span> <span class="n">total_value</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># return user to orders pages</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;product_site:customer_orders&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Order Received&#39;</span><span class="p">,</span> <span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="product_review">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.product_review">[docs]</a>
+<span class="k">def</span> <span class="nf">product_review</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_item_id</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow logged-in user to submit a review for a product that has been paid for</span>
+<span class="sd">        and delivered.</span>
+
+<span class="sd">        :param request: used to render product review page</span>
+<span class="sd">        :type request: HTTPRequest object</span>
+<span class="sd">        :param order_item_id: primary key for product item to be reviewed</span>
+<span class="sd">        :type order_item_id: int</span>
+<span class="sd">        :param order_id: primary key of current order needed to return user to order view after</span>
+<span class="sd">            review of product is submitted</span>
+<span class="sd">        :type order_id: int</span>
+
+<span class="sd">        :return: user to product review page</span>
+<span class="sd">        :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># retrieve order_item for review</span>
+    <span class="n">order_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order_Item</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">order_item_id</span><span class="p">)</span>
+    <span class="c1"># retrieve product main image</span>
+    <span class="n">product_image</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">order_item</span><span class="o">.</span><span class="n">product_id</span><span class="p">)</span><span class="o">.</span><span class="n">product_image</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order_item&#39;</span><span class="p">:</span> <span class="n">order_item</span><span class="p">,</span>
+        <span class="s1">&#39;order_id&#39;</span><span class="p">:</span> <span class="n">order_id</span><span class="p">,</span>
+        <span class="s1">&#39;product_image&#39;</span><span class="p">:</span> <span class="n">product_image</span><span class="p">,</span>
+        <span class="s1">&#39;max_rating&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;product_review.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Helper Function - Update Overall Review Rating of Product</span>
+<div class="viewcode-block" id="review_rating_update">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.review_rating_update">[docs]</a>
+<span class="k">def</span> <span class="nf">review_rating_update</span><span class="p">(</span><span class="n">applied_rating</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate New Average Review rating for a product after a new review</span>
+<span class="sd">        has been added for the product</span>
+
+<span class="sd">    :param applied_rating: value of review_rating added to a product</span>
+<span class="sd">    :type applied_rating: int</span>
+<span class="sd">    :param product: product whose review rating needs to be re-calculated</span>
+<span class="sd">    :type product: class `Product` instance</span>
+
+<span class="sd">    :return: no return        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># track number of reviews for a product and sum of all ratings</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># iterate through all product reviews</span>
+    <span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">review</span><span class="o">.</span><span class="n">rating</span>
+
+    <span class="c1"># calculate review average rating and update product</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">review_value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="o">/</span><span class="n">count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="save_review">
+<a class="viewcode-back" href="../../product_site.html#product_site.views.save_review">[docs]</a>
+<span class="k">def</span> <span class="nf">save_review</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve customer review attributes and preferences to create new product</span>
+<span class="sd">        review and assign to the Product.</span>
+<span class="sd">    </span>
+<span class="sd">    :param request: used to render product review page</span>
+<span class="sd">    :type request: HTTPRequest object</span>
+<span class="sd">    :param product_id: primary key of product to which review is to be added</span>
+<span class="sd">    :type product_id: int</span>
+<span class="sd">    :param order_id: primary key of current order with product being reviewed</span>
+<span class="sd">    :type order_id: int</span>
+
+<span class="sd">    :return: user to view order page</span>
+<span class="sd">    :rtype: HTTPResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># determine if customer wants anonymous review</span>
+    <span class="n">anonymous</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;anonymous_review&#39;</span><span class="p">,</span> <span class="s1">&#39;Anonymous&#39;</span><span class="p">)</span>
+    <span class="c1"># customer chose to revew with name</span>
+    <span class="k">if</span> <span class="n">anonymous</span> <span class="o">!=</span> <span class="s1">&#39;checked&#39;</span><span class="p">:</span>
+        <span class="c1"># retrieve current logged_in user - only logged in user would be able to review</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># customer wants review to be anonymous</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">anonymous</span>
+
+    <span class="c1"># Retrieve Review Rating</span>
+    <span class="n">rating</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;review_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Retrieve Review Description - No description provided will have value of &#39;Optional&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;review_description&#39;</span><span class="p">]</span>
+
+    <span class="c1"># retrieve current product</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+
+    <span class="c1"># Create New Review</span>
+    <span class="n">review</span> <span class="o">=</span> <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">product</span><span class="p">,</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">author</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">description</span><span class="p">,</span>
+        <span class="n">rating</span> <span class="o">=</span> <span class="n">rating</span>
+    <span class="p">)</span>
+
+    <span class="c1"># updating product review rating</span>
+    <span class="n">review_rating_update</span><span class="p">(</span><span class="n">rating</span><span class="p">,</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;product_site:view_order&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="s1">&#39;Review Submitted&#39;</span> <span class="p">)))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Kyle de Vos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>product_site package &mdash; django_capstone 00.00.01 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="user_management package" href="user_management.html" />
+    <link rel="prev" title="manage module" href="manage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            django_capstone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">django_capstone</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crafts_by_micks.html">crafts_by_micks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_capstone.html">django_capstone package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">product_site package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.admin">product_site.admin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.apps">product_site.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.apps.ProductSiteConfig"><code class="docutils literal notranslate"><span class="pre">ProductSiteConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.models">product_site.models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.tests">product_site.tests module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.urls">product_site.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site.views">product_site.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.create_order_item"><code class="docutils literal notranslate"><span class="pre">create_order_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.create_product_list"><code class="docutils literal notranslate"><span class="pre">create_product_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.create_retrieve_order"><code class="docutils literal notranslate"><span class="pre">create_retrieve_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.customer_orders"><code class="docutils literal notranslate"><span class="pre">customer_orders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.determine_discount_percentage"><code class="docutils literal notranslate"><span class="pre">determine_discount_percentage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.logincheck"><code class="docutils literal notranslate"><span class="pre">logincheck()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.main_image_control"><code class="docutils literal notranslate"><span class="pre">main_image_control()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.populate_display_products"><code class="docutils literal notranslate"><span class="pre">populate_display_products()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.product_review"><code class="docutils literal notranslate"><span class="pre">product_review()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.product_view"><code class="docutils literal notranslate"><span class="pre">product_view()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.remove_item"><code class="docutils literal notranslate"><span class="pre">remove_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.review_rating_update"><code class="docutils literal notranslate"><span class="pre">review_rating_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.save_review"><code class="docutils literal notranslate"><span class="pre">save_review()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.site_home"><code class="docutils literal notranslate"><span class="pre">site_home()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.submit_order"><code class="docutils literal notranslate"><span class="pre">submit_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#product_site.views.view_order"><code class="docutils literal notranslate"><span class="pre">view_order()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-product_site">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_management.html">user_management package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">django_capstone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">django_capstone</a></li>
+      <li class="breadcrumb-item active">product_site package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/product_site.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="product-site-package">
+<h1>product_site package<a class="headerlink" href="#product-site-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-product_site.admin">
+<span id="product-site-admin-module"></span><h2>product_site.admin module<a class="headerlink" href="#module-product_site.admin" title="Link to this heading"></a></h2>
+</section>
+<section id="module-product_site.apps">
+<span id="product-site-apps-module"></span><h2>product_site.apps module<a class="headerlink" href="#module-product_site.apps" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="product_site.apps.ProductSiteConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">product_site.apps.</span></span><span class="sig-name descname"><span class="pre">ProductSiteConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/apps.html#ProductSiteConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.apps.ProductSiteConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="product_site.apps.ProductSiteConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#product_site.apps.ProductSiteConfig.default_auto_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="product_site.apps.ProductSiteConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'product_site'</span></em><a class="headerlink" href="#product_site.apps.ProductSiteConfig.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-product_site.models">
+<span id="product-site-models-module"></span><h2>product_site.models module<a class="headerlink" href="#module-product_site.models" title="Link to this heading"></a></h2>
+</section>
+<section id="module-product_site.tests">
+<span id="product-site-tests-module"></span><h2>product_site.tests module<a class="headerlink" href="#module-product_site.tests" title="Link to this heading"></a></h2>
+</section>
+<section id="module-product_site.urls">
+<span id="product-site-urls-module"></span><h2>product_site.urls module<a class="headerlink" href="#module-product_site.urls" title="Link to this heading"></a></h2>
+<p>URL paths for app ‘product-site’ serving as django project site home and integrated with
+app ‘crafts_by_micks’ - admin control.</p>
+</section>
+<section id="module-product_site.views">
+<span id="product-site-views-module"></span><h2>product_site.views module<a class="headerlink" href="#module-product_site.views" title="Link to this heading"></a></h2>
+<p>Views Module for Django App ‘product_site’. App serves as central site
+for web application.</p>
+<section id="methods">
+<h3>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">logincheck(request)()</span></code></dt><dd><p>Determine if a current user is authenticated</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate_display_products(all_products)()</span></code></dt><dd><p>validate and sort a list of products for website display - checking at least one price
+has been set</p>
+</dd>
+<dt><a class="reference internal" href="#product_site.views.create_product_list" title="product_site.views.create_product_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_product_list()</span></code></a></dt><dd><p>Retrieve all Categories and Products from database, Sort Products into their
+categories - sorting Products and Categories in Alphabetical order according to title.
+Performs product validation for website display</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">site_home(request)()</span></code></dt><dd><dl class="simple">
+<dt>Render main site home page, checking if currently logged-in user is a staff</dt><dd><p>member allowing access to admin control functionality</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">determine_discount_percentage(labels)()</span></code></dt><dd><p>Using QuerySet of associated Labels for a Product, determine highest
+assigned label percentage discount to apply a Product</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">product_view(request,</span> <span class="pre">product_id,</span> <span class="pre">error)()</span></code></dt><dd><p>Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
+showing Product Details, Pricing and validation of customer login for addition of Product
+to an Order.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_retrieve_order(request)()</span></code></dt><dd><dl class="simple">
+<dt>Determine Order for currently logged in user to add selected Product_Item.</dt><dd><p>If no open order is present, create a new open order for user.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_order_item(request,</span> <span class="pre">product_id)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve Product Attributes and user selected Attributes for a Selected Product.</dt><dd><p>Validate against chosen price(s) and size(s) and add Product to open Order
+for User.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">main_image_control(order_items)()</span></code></dt><dd><p>Retrieve main image and matching id for products and return as list</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">customer_orders(request,</span> <span class="pre">message)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve current logged in customer info and matching Orders information</dt><dd><p>for display to client</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_item(request,</span> <span class="pre">item_id,</span> <span class="pre">order_id)()</span></code></dt><dd><p>Delete an Order_Item from an order. Delete order if all Order Items have been removed.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">view_order(request,</span> <span class="pre">order_id,</span> <span class="pre">message)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve current order (processing or completed status) details for</dt><dd><p>display to customer.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit_order(request,</span> <span class="pre">order_id)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve an order submitted for processing and change order status</dt><dd><p>to received</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">product_review(request,</span> <span class="pre">order_item_id,</span> <span class="pre">order_id)()</span></code></dt><dd><dl class="simple">
+<dt>Allow logged-in user to submit a review for a product that has been paid for</dt><dd><p>and delivered</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">review_rating_update(applied_rating,</span> <span class="pre">product)()</span></code></dt><dd><dl class="simple">
+<dt>Calculate New Average Review rating for a product after a new review</dt><dd><p>has been added for the product</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_review(request,</span> <span class="pre">product_id,</span> <span class="pre">order_id)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve customer review attributes and preferences to create new product</dt><dd><p>review and assign to the Product</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.create_order_item">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">create_order_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#create_order_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.create_order_item" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve Product Attributes and user selected Attributes for a Selected Product.</dt><dd><p>Validate against chosen price(s) and size(s) and add Product to open Order
+for User.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to retrieve Product and Selected Attributes from Product_Page</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – unique Primary Key value for selected Product</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to site home page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.create_product_list">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">create_product_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#create_product_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.create_product_list" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all Categories and Products from database, Sort Products into their
+categories - sorting Products and Categories in Alphabetical order according to title.
+Performs product validation for website display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list containing tuples as: (category_name, list of valid Products)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.create_retrieve_order">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">create_retrieve_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#create_retrieve_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.create_retrieve_order" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Determine Order for currently logged in user to add selected Product_Item.</dt><dd><p>If no open order is present, create a new open order for user.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – needed to determine current logged-in user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>open order to add a Product Item to or new open Order</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class <cite>Order</cite> instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.customer_orders">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">customer_orders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#customer_orders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.customer_orders" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve current logged in customer info and matching Orders information</dt><dd><p>for display to client</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – Retrieved current logged-in customer and render html page showing order info</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – Message to display to user for successful submission of an order for processing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view customer orders page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.determine_discount_percentage">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">determine_discount_percentage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#determine_discount_percentage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.determine_discount_percentage" title="Link to this definition"></a></dt>
+<dd><p>Using QuerySet of associated Labels for a Product, determine highest
+assigned label percentage discount to apply a Product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>labels</strong> (QuerySet <cite>Label</cite>) – QuerySet containing Labels that have been assigned to a Product.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Highest Percentage Discount applicable to Product Prices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.logincheck">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">logincheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#logincheck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.logincheck" title="Link to this definition"></a></dt>
+<dd><p>Determine if a current user is authenticated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – needed to authenticate current user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True for authenticated user, False if not</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.main_image_control">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">main_image_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#main_image_control"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.main_image_control" title="Link to this definition"></a></dt>
+<dd><p>Retrieve main image and matching id for products and return as list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>order_items</strong> (<em>list</em>) – list containg selected Order_Items to retrieve product id and main image from</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list containing product id’s and matching main images</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.populate_display_products">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">populate_display_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_products</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#populate_display_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.populate_display_products" title="Link to this definition"></a></dt>
+<dd><p>validate and sort a list of products for website display - checking at least one price
+has been set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>all_products</strong> (<em>list</em>) – list containing unvalidated Products</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>validated list of Products</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Products without prices are allowed in system (in creation process by admin),</p>
+</div>
+<p>but may not be displayed on the product site</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.product_review">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">product_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_item_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#product_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.product_review" title="Link to this definition"></a></dt>
+<dd><p>Allow logged-in user to submit a review for a product that has been paid for
+and delivered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to render product review page</p></li>
+<li><p><strong>order_item_id</strong> (<em>int</em>) – primary key for product item to be reviewed</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key of current order needed to return user to order view after
+review of product is submitted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to product review page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.product_view">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">product_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#product_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.product_view" title="Link to this definition"></a></dt>
+<dd><p>Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
+showing Product Details, Pricing and validation of customer login for addition of Product
+to an Order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – required for user authentication, status check and html page render</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – unique Primary Key value for selected Product</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – description of error to display to user on page - current implementation
+accounts for addition of Product to Order without selection of Size and
+Associated Price</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>page displaying selected Product Attributes for addition to an order or view
+of Product details by user</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.remove_item">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">remove_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#remove_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.remove_item" title="Link to this definition"></a></dt>
+<dd><p>Delete an Order_Item from an order. Delete order if all Order Items have been removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – render Orders Display page</p></li>
+<li><p><strong>item_id</strong> (<em>int</em>) – primary key field for Order_Time to be deleted</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key field for Order holding selecting Order Item</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>customer to view orders page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.review_rating_update">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">review_rating_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">applied_rating</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#review_rating_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.review_rating_update" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Calculate New Average Review rating for a product after a new review</dt><dd><p>has been added for the product</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>applied_rating</strong> (<em>int</em>) – value of review_rating added to a product</p></li>
+<li><p><strong>product</strong> (class <cite>Product</cite> instance) – product whose review rating needs to be re-calculated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>no return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.save_review">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">save_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#save_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.save_review" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve customer review attributes and preferences to create new product</dt><dd><p>review and assign to the Product.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to render product review page</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – primary key of product to which review is to be added</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key of current order with product being reviewed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view order page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.site_home">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">site_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#site_home"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.site_home" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Render main site home page, checking if currently logged-in user is a staff</dt><dd><p>member allowing access to admin control functionality. Retrieves validated
+and sorted list of Categories and associated Products for home page display.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – required for user authentication, status check and html page render</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>site home page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.submit_order">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">submit_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#submit_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.submit_order" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve an order submitted for processing and change order status</dt><dd><p>to received.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – Used to return customer to view orders page</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key of order being submitted for processing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view orders page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="product_site.views.view_order">
+<span class="sig-prename descclassname"><span class="pre">product_site.views.</span></span><span class="sig-name descname"><span class="pre">view_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/product_site/views.html#view_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#product_site.views.view_order" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve current order (processing or completed status) details for</dt><dd><p>display to customer.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – render html page displaying order info</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key for order details being requested</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – informative message to display to customer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view order page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-product_site">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-product_site" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manage.html" class="btn btn-neutral float-left" title="manage module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user_management.html" class="btn btn-neutral float-right" title="user_management package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Kyle de Vos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

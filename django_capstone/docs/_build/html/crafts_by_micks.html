@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crafts_by_micks package &mdash; django_capstone 00.00.01 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="django_capstone package" href="django_capstone.html" />
+    <link rel="prev" title="django_capstone" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            django_capstone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">django_capstone</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">crafts_by_micks package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.admin">crafts_by_micks.admin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.apps">crafts_by_micks.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.apps.CraftsByMicksConfig"><code class="docutils literal notranslate"><span class="pre">CraftsByMicksConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.models">crafts_by_micks.models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Category"><code class="docutils literal notranslate"><span class="pre">Category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Label"><code class="docutils literal notranslate"><span class="pre">Label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Option"><code class="docutils literal notranslate"><span class="pre">Option</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Order"><code class="docutils literal notranslate"><span class="pre">Order</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Order_Item"><code class="docutils literal notranslate"><span class="pre">Order_Item</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Product_Images"><code class="docutils literal notranslate"><span class="pre">Product_Images</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Product_Sizes"><code class="docutils literal notranslate"><span class="pre">Product_Sizes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.models.Review"><code class="docutils literal notranslate"><span class="pre">Review</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.tests">crafts_by_micks.tests module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.urls">crafts_by_micks.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks.views">crafts_by_micks.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Methods:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.add_category"><code class="docutils literal notranslate"><span class="pre">add_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.add_label"><code class="docutils literal notranslate"><span class="pre">add_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.add_product"><code class="docutils literal notranslate"><span class="pre">add_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.all_customers"><code class="docutils literal notranslate"><span class="pre">all_customers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.change_order_status"><code class="docutils literal notranslate"><span class="pre">change_order_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.create_category"><code class="docutils literal notranslate"><span class="pre">create_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.create_label"><code class="docutils literal notranslate"><span class="pre">create_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.create_product"><code class="docutils literal notranslate"><span class="pre">create_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.customer_orders"><code class="docutils literal notranslate"><span class="pre">customer_orders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.delete_label"><code class="docutils literal notranslate"><span class="pre">delete_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.home_page"><code class="docutils literal notranslate"><span class="pre">home_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.retrieve_additional_images"><code class="docutils literal notranslate"><span class="pre">retrieve_additional_images()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.retrieve_product_options"><code class="docutils literal notranslate"><span class="pre">retrieve_product_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.retrieve_size_pricing"><code class="docutils literal notranslate"><span class="pre">retrieve_size_pricing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.save_label_update"><code class="docutils literal notranslate"><span class="pre">save_label_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.save_update"><code class="docutils literal notranslate"><span class="pre">save_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.update_delete_category"><code class="docutils literal notranslate"><span class="pre">update_delete_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.update_label"><code class="docutils literal notranslate"><span class="pre">update_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.update_product"><code class="docutils literal notranslate"><span class="pre">update_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.view_all_categories"><code class="docutils literal notranslate"><span class="pre">view_all_categories()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.view_all_labels"><code class="docutils literal notranslate"><span class="pre">view_all_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.view_all_products"><code class="docutils literal notranslate"><span class="pre">view_all_products()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crafts_by_micks.views.view_order"><code class="docutils literal notranslate"><span class="pre">view_order()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crafts_by_micks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="django_capstone.html">django_capstone package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_site.html">product_site package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_management.html">user_management package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">django_capstone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">django_capstone</a></li>
+      <li class="breadcrumb-item active">crafts_by_micks package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/crafts_by_micks.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="crafts-by-micks-package">
+<h1>crafts_by_micks package<a class="headerlink" href="#crafts-by-micks-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-crafts_by_micks.admin">
+<span id="crafts-by-micks-admin-module"></span><h2>crafts_by_micks.admin module<a class="headerlink" href="#module-crafts_by_micks.admin" title="Link to this heading"></a></h2>
+</section>
+<section id="module-crafts_by_micks.apps">
+<span id="crafts-by-micks-apps-module"></span><h2>crafts_by_micks.apps module<a class="headerlink" href="#module-crafts_by_micks.apps" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.apps.CraftsByMicksConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.apps.</span></span><span class="sig-name descname"><span class="pre">CraftsByMicksConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/apps.html#CraftsByMicksConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.apps.CraftsByMicksConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.apps.CraftsByMicksConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#crafts_by_micks.apps.CraftsByMicksConfig.default_auto_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.apps.CraftsByMicksConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'crafts_by_micks'</span></em><a class="headerlink" href="#crafts_by_micks.apps.CraftsByMicksConfig.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-crafts_by_micks.models">
+<span id="crafts-by-micks-models-module"></span><h2>crafts_by_micks.models module<a class="headerlink" href="#module-crafts_by_micks.models" title="Link to this heading"></a></h2>
+<p>Models for Django App ‘crafts_by_micks’ for Product, Order and associated Attributes Creation</p>
+<section id="classes">
+<h3>Classes:<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">class<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Label</cite></p>
+</dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>Category</cite></p>
+</dd>
+<dt class="field-odd">class<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Product</cite></p>
+</dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>Product_Images</cite></p>
+</dd>
+<dt class="field-odd">class<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Option</cite></p>
+</dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>Product_Sizes</cite></p>
+</dd>
+<dt class="field-odd">class<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Review</cite></p>
+</dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>Order</cite></p>
+</dd>
+<dt class="field-odd">class<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Order_Item</cite></p>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Category" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class modeling a Product Category.</dt><dd><p>‘create_product.html’ set to maintain One-To-One Relationship.</p>
+</dd>
+</dl>
+<section id="attributes">
+<h3>Attributes:<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>title: str (CharField)</dt><dd><p>title (name) of Category</p>
+</dd>
+</dl>
+</section>
+<section id="methods">
+<h3>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Category</cite> title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Category.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Category.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Category.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Category.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.product_set">
+<span class="sig-name descname"><span class="pre">product_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Category.product_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Category.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#crafts_by_micks.models.Category.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Label" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class modeling a Product Label (‘new’, ‘discount’, etc).</dt><dd><p>Many-To-One relationship with class <cite>Product</cite>.</p>
+</dd>
+</dl>
+<section id="id1">
+<h3>Attributes:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>title: str (CharField)</dt><dd><p>title (name) of label</p>
+</dd>
+<dt>discount_percentage: int (IntegerField)</dt><dd><p>percentage of discount to be applied to a product (applied to all sizes)</p>
+</dd>
+<dt>creation_date: DateField()</dt><dd><p>Date of Product Creation</p>
+</dd>
+<dt>removal_days: int (IntegerField)</dt><dd><p>optional number of days after which label must be removed from a product</p>
+</dd>
+<dt>custom_colour: str (Charfield)</dt><dd><p>user chosen colour (default light blue) for label background</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Methods:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Label</cite> title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.creation_date">
+<span class="sig-name descname"><span class="pre">creation_date</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.creation_date" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.custom_colour">
+<span class="sig-name descname"><span class="pre">custom_colour</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.custom_colour" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.discount_percentage">
+<span class="sig-name descname"><span class="pre">discount_percentage</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.discount_percentage" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.get_next_by_creation_date">
+<span class="sig-name descname"><span class="pre">get_next_by_creation_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">creation_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crafts_by_micks.models.Label.get_next_by_creation_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.get_previous_by_creation_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_creation_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">creation_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crafts_by_micks.models.Label.get_previous_by_creation_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Label.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.product_set">
+<span class="sig-name descname"><span class="pre">product_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.product_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.removal_days">
+<span class="sig-name descname"><span class="pre">removal_days</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.removal_days" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Label.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#crafts_by_micks.models.Label.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Option"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Option" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class modeling Options for a Product.</dt><dd><p>Any design variation or detailed product execution such as a
+style change, scented, material variation, etc.
+Cascading Deletion with associated Product.</p>
+</dd>
+</dl>
+<section id="id3">
+<h3>Attributes:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>product: Product</dt><dd><p>Associated Product Object</p>
+</dd>
+<dt>title: str (CharField)</dt><dd><p>Name of Product</p>
+</dd>
+<dt>description: str (Charfield)</dt><dd><p>A short description giving detail of the Option</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Methods:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Associated <cite>Product</cite> id and <cite>Option</cite> title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.description" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Option.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.product">
+<span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.product" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.product_id">
+<span class="sig-name descname"><span class="pre">product_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.product_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Option.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#crafts_by_micks.models.Option.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Order" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Class Modelling a Single Order for a customer.</p>
+<section id="id5">
+<h3>Attributes:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>customer: Django User</dt><dd><p>Authenticated and Logged-In Customer placing order</p>
+</dd>
+<dt>submitted_date: DateTimeField</dt><dd><p>date for order submission to be processed</p>
+</dd>
+<dt>payment_received_date: DateTimeField</dt><dd><p>date payment was received for order</p>
+</dd>
+<dt>delivered_date: DateTimeField</dt><dd><p>date order was delivered to customer</p>
+</dd>
+<dt>total_value: FloatField</dt><dd><p>tracked total value for order</p>
+</dd>
+<dt>status: CharField (str)</dt><dd><p>description of order status from not yet completed by
+customer to completed and delivered</p>
+</dd>
+</dl>
+</section>
+<section id="method">
+<h3>Method:<a class="headerlink" href="#method" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Order</cite> id, customer name and <cite>Order</cite> status</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.customer">
+<span class="sig-name descname"><span class="pre">customer</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.customer" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.customer_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.delivered_date">
+<span class="sig-name descname"><span class="pre">delivered_date</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.delivered_date" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.get_status_display">
+<span class="sig-name descname"><span class="pre">get_status_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">status&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crafts_by_micks.models.Order.get_status_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Order.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.order_item_set">
+<span class="sig-name descname"><span class="pre">order_item_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.order_item_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.payment_received_date">
+<span class="sig-name descname"><span class="pre">payment_received_date</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.payment_received_date" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.status" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.status_options">
+<span class="sig-name descname"><span class="pre">status_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('ns',</span> <span class="pre">'not_submitted'),</span> <span class="pre">('r',</span> <span class="pre">'receieved'),</span> <span class="pre">('p',</span> <span class="pre">'paid'),</span> <span class="pre">('c',</span> <span class="pre">'completed'))</span></em><a class="headerlink" href="#crafts_by_micks.models.Order.status_options" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.submitted_date">
+<span class="sig-name descname"><span class="pre">submitted_date</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.submitted_date" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order.total_value">
+<span class="sig-name descname"><span class="pre">total_value</span></span><a class="headerlink" href="#crafts_by_micks.models.Order.total_value" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Order_Item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Order_Item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Order_Item" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Class modeling an Item to be added to an Order.</p>
+<section id="id6">
+<h3>Attributes:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>order: Order</dt><dd><p>assigned order for this product Item</p>
+</dd>
+<dt>product_id: IntegerField</dt><dd><p>unique id of product being added to an order</p>
+</dd>
+<dt>product_title: TextField (str)</dt><dd><p>title of product being added to an order</p>
+</dd>
+<dt>quantity: IntegerField</dt><dd><p>quantity of a product being ordered</p>
+</dd>
+<dt>chosen_size: TextField</dt><dd><p>description of the size being chosen</p>
+</dd>
+<dt>price: FloatField</dt><dd><p>price of product matching a chosen size</p>
+</dd>
+<dt>options: TextField (str)</dt><dd><p>description of specified options for a product</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Methods:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Product</cite> title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.chosen_size">
+<span class="sig-name descname"><span class="pre">chosen_size</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.chosen_size" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Order_Item.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.options">
+<span class="sig-name descname"><span class="pre">options</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.options" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.order">
+<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.order" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.order_id">
+<span class="sig-name descname"><span class="pre">order_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.order_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.price">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.price" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.product_id">
+<span class="sig-name descname"><span class="pre">product_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.product_id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.product_title">
+<span class="sig-name descname"><span class="pre">product_title</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.product_title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Order_Item.quantity">
+<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#crafts_by_micks.models.Order_Item.quantity" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Product" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class modeling a Product.</dt><dd><p>Size Variations handled within Product and should not form part of name.</p>
+</dd>
+</dl>
+<section id="id8">
+<h3>Attributes:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>title - str (CharField)</dt><dd><p>title (name) of Product</p>
+</dd>
+<dt>description: str (TextField):</dt><dd><p>A description of the current Product</p>
+</dd>
+<dt>review_vaue: int (IntegerField)</dt><dd><p>review rating of product - default value set to 0. Functionality allowing
+admin (not superuser) to modify review in any way has not been added.</p>
+</dd>
+<dt>product_image: models.ImageField</dt><dd><p>main image for product</p>
+</dd>
+<dt>labels: Label</dt><dd><p>Associated Label objects for Product</p>
+</dd>
+<dt>category: Category</dt><dd><p>Associated Category for Product</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h3>Methods:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Product</cite> title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.category">
+<span class="sig-name descname"><span class="pre">category</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.category" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.category_id">
+<span class="sig-name descname"><span class="pre">category_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.category_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.description" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.labels">
+<span class="sig-name descname"><span class="pre">labels</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.labels" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Product.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.option_set">
+<span class="sig-name descname"><span class="pre">option_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.option_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.product_image">
+<span class="sig-name descname"><span class="pre">product_image</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.product_image" title="Link to this definition"></a></dt>
+<dd><p>Just like the FileDescriptor, but for ImageFields. The only difference is
+assigning the width/height to the width_field/height_field, if appropriate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.product_images_set">
+<span class="sig-name descname"><span class="pre">product_images_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.product_images_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.product_sizes_set">
+<span class="sig-name descname"><span class="pre">product_sizes_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.product_sizes_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.review_set">
+<span class="sig-name descname"><span class="pre">review_set</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.review_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.review_value">
+<span class="sig-name descname"><span class="pre">review_value</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.review_value" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#crafts_by_micks.models.Product.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Product_Images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Product_Images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Product_Images" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class to hold instances containing images assigned to a Product.</dt><dd><p>Set to delete the image upon deletion of the product</p>
+</dd>
+</dl>
+<section id="id10">
+<h3>Attributes:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>product: Product</dt><dd><p>Associated Product Object</p>
+</dd>
+<dt>image: ImageField</dt><dd><p>admin user desired product image (formats currently set to .gif, .png and .jpg
+in html form to create_product)</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Methods:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Image Primary Key and Assigned <cite>Product</cite> Title</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.image" title="Link to this definition"></a></dt>
+<dd><p>Just like the FileDescriptor, but for ImageFields. The only difference is
+assigning the width/height to the width_field/height_field, if appropriate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Product_Images.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.product">
+<span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.product" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Images.product_id">
+<span class="sig-name descname"><span class="pre">product_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Images.product_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Product_Sizes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Product_Sizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="simple">
+<dt>Class modeling Size_Options for a Product with corresponding price.</dt><dd><p>No size option taken as ‘none’.
+Cascading Deletion from associated Product.</p>
+</dd>
+</dl>
+<section id="id12">
+<h3>Attributes:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>product: Product</dt><dd><p>Associated Product Object</p>
+</dd>
+<dt>size_options: tuple</dt><dd><p>contains tuples for each product size</p>
+</dd>
+<dt>size: str (Charfield)</dt><dd><p>selected size for Product</p>
+</dd>
+<dt>price: float</dt><dd><p>price for Product according to size</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Methods:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>Product</cite> id, size and price</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.get_size_display">
+<span class="sig-name descname"><span class="pre">get_size_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">size&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.get_size_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.price">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.price" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.product">
+<span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.product" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.product_id">
+<span class="sig-name descname"><span class="pre">product_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.product_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.size" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Product_Sizes.size_options">
+<span class="sig-name descname"><span class="pre">size_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('n',</span> <span class="pre">'none'),</span> <span class="pre">('xs',</span> <span class="pre">'extra-small'),</span> <span class="pre">('sm',</span> <span class="pre">'small'),</span> <span class="pre">('m',</span> <span class="pre">'medium'),</span> <span class="pre">('lg',</span> <span class="pre">'large'),</span> <span class="pre">('xl-large',</span> <span class="pre">'extra-large'),</span> <span class="pre">('xxl',</span> <span class="pre">'XXL'))</span></em><a class="headerlink" href="#crafts_by_micks.models.Product_Sizes.size_options" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crafts_by_micks.models.</span></span><span class="sig-name descname"><span class="pre">Review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/models.html#Review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.models.Review" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Class modeling a Review for a Product.</p>
+<section id="id14">
+<h3>Attributes:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>product: Product</dt><dd><p>Associated Product Object</p>
+</dd>
+<dt>author: str (Charfield)</dt><dd><p>name of person writing review</p>
+</dd>
+<dt>description: str (TextField)</dt><dd><p>review content</p>
+</dd>
+<dt>rating: int (IntegerField)</dt><dd><p>review rating</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h3>Methods:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__(self)()</span></code></dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>author and review id</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.author" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.description" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#crafts_by_micks.models.Review.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.product">
+<span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.product" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.product_id">
+<span class="sig-name descname"><span class="pre">product_id</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.product_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crafts_by_micks.models.Review.rating">
+<span class="sig-name descname"><span class="pre">rating</span></span><a class="headerlink" href="#crafts_by_micks.models.Review.rating" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-crafts_by_micks.tests">
+<span id="crafts-by-micks-tests-module"></span><h2>crafts_by_micks.tests module<a class="headerlink" href="#module-crafts_by_micks.tests" title="Link to this heading"></a></h2>
+</section>
+<section id="module-crafts_by_micks.urls">
+<span id="crafts-by-micks-urls-module"></span><h2>crafts_by_micks.urls module<a class="headerlink" href="#module-crafts_by_micks.urls" title="Link to this heading"></a></h2>
+<p>URL paths for app: ‘crafts_by_micks’ within Django project ‘django_capstone.
+Includes Path for site admin control.’</p>
+</section>
+<section id="module-crafts_by_micks.views">
+<span id="crafts-by-micks-views-module"></span><h2>crafts_by_micks.views module<a class="headerlink" href="#module-crafts_by_micks.views" title="Link to this heading"></a></h2>
+<p>Views Module for Django App ‘crafts_by_micks’ serving as project admin site and control</p>
+<section id="id16">
+<h3>Methods:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">home_page(request)()</span></code></dt><dd><p>render admin home app of app with SignUp, Login and Product Catalog</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_category(request,</span> <span class="pre">source,</span> <span class="pre">error)()</span></code></dt><dd><p>render html page allowing admin user to create a Category for Products to belong to.
+Pass in source argument determining page to return to after Category addition to database.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_category(request,</span> <span class="pre">source)()</span></code></dt><dd><p>Retrieve Category Attributes from html form, create new Category instance and save to
+database. Use ‘source’ determining page to return to after new category is added.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_label(request,</span> <span class="pre">source,</span> <span class="pre">error)()</span></code></dt><dd><p>render html page allowing admin user to create a new Label for Products.
+Pass in source argument determining page to return to after Label addition to database.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_label(request,</span> <span class="pre">source)()</span></code></dt><dd><p>Retrieve Label Attributes from html form, create new Label instance and save to
+database. Use ‘source’ determining page to return to after new label is added.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_product(request)()</span></code></dt><dd><p>Render html page allowing admin user to create a new product seeing number of allowed
+product options and passing allowed size options, current product Categories and Labels.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_size_pricing(request)()</span></code></dt><dd><p>Retrieve user-defined prices from html form input adding non-empty options
+to a list of tuples and return.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_product_options(request)()</span></code></dt><dd><p>Retrieve user-defined options for a product from html form, adding each to a list
+of tuples</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_additional_images(request)()</span></code></dt><dd><p>Retrieve possible additional product images uploaded by admin user and append
+image title and image file to a list</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_product(request)()</span></code></dt><dd><p>Retrieve user-defined attributes from html from from ‘create-product’, create new
+product and save to database.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">view_all_labels(request)()</span></code></dt><dd><p>Retrieve all labels from database for render to html page</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">view_all_products(request)()</span></code></dt><dd><p>retrieve and sort all products alphabetically in order of category and then product title
+passing list to html page for rendering</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">view_all_categories(request,</span> <span class="pre">error)()</span></code></dt><dd><p>Provide all categories for html page render and pass on possible error message to display during
+category update or deletion</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_delete_category(request,</span> <span class="pre">category_id)()</span></code></dt><dd><p>Use ‘request’ to determine action (update or delete) to perform on category specified by
+category_id. Handle possible errors and return error message when reloading update/deletion page</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_label(request,</span> <span class="pre">label_id,</span> <span class="pre">error)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve current label for update and render html page showing current set label attributes.</dt><dd><p>Form in page allows user to change label attributes and pass on for save to database.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_label_update(request,</span> <span class="pre">product_id)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve old/new attributes for a current product from html form for product update</dt><dd><p>and perform applicable updates to Product and associated model instances.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_product(request,</span> <span class="pre">product_id,</span> <span class="pre">error)()</span></code></dt><dd><p>Retrieve current attributes for a Product and Display to new page allowing
+user to perform updates to these attributes to update product information</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_update(request,</span> <span class="pre">product_id)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve old/new attributes for a current product from html form for product update</dt><dd><p>and perform applicable updates to Product and associated model instances.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">delete_label(request,</span> <span class="pre">label_id)()</span></code></dt><dd><p>Retrieve current label and perform deletion from database</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">all_customers(request)()</span></code></dt><dd><dl class="simple">
+<dt>Retrieve All saved customers and their associated orders. Determine order status</dt><dd><p>for ‘action_required’ notification to admin user</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">customer_orders(request,</span> <span class="pre">customer_id)()</span></code></dt><dd><p>Retrieve and sort customer orders into not paid, processing and completed</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">view_order(request,</span> <span class="pre">order_id,</span> <span class="pre">customer_id,</span> <span class="pre">type)()</span></code></dt><dd><p>Retrieve and format an individual customer order for render</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">change_order_status(request,</span> <span class="pre">order_id,</span> <span class="pre">customer_id,</span> <span class="pre">new_status)()</span></code></dt><dd><dl class="simple">
+<dt>Allow admin user to change order status after payment received and then after</dt><dd><p>product has been delivered</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.add_category">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">add_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#add_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.add_category" title="Link to this definition"></a></dt>
+<dd><p>Retrieve Category Attributes from html form, create new Category instance and save to database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – Name of original view call determining page to return to after category addition</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – category title non-unique</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success - app home page. Error - return to create new category</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.add_label">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">add_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#add_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.add_label" title="Link to this definition"></a></dt>
+<dd><p>Retrieve Label Attributes from html form, create new Label instance and save to
+database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – Name of original view call determing page to return to after label addition</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – non-unique label title supplied</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success - <cite>source</cite> page. Error - return to create new label</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.add_product">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">add_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#add_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.add_product" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve user-defined attributes from html form ‘create-product’,</dt><dd><p>create new product and save to database</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for retrieval of attributes for a new product</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – Duplicate Product Title</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success - app home page. Error - create product page</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.all_customers">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">all_customers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#all_customers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.all_customers" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve All saved customers and their associated orders. Determine order status</dt><dd><p>for ‘action_required’ notification to admin user.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to render page displaying all customer orders and their status</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view all customers page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.change_order_status">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">change_order_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#change_order_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.change_order_status" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Allow admin user to change order status after payment received and then after</dt><dd><p>product has been delivered</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to return customer to view_order page</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key for order whose status is to changed</p></li>
+<li><p><strong>customer_id</strong> (<em>int</em>) – primary key of current customer needed for return to view_order page</p></li>
+<li><p><strong>new_status</strong> (<em>str</em>) – description of new status to be applied to order</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>view order page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.create_category">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">create_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#create_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.create_category" title="Link to this definition"></a></dt>
+<dd><p>render html page allowing admin user to create a Category for Products to belong to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – Name of original view call for page to return to</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – message to display to user if duplicated category title is received</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to original call page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.create_label">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">create_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#create_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.create_label" title="Link to this definition"></a></dt>
+<dd><p>render html page allowing admin user to create a new Label for Products.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – Name of original view call determining page to return to after label addition</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – message to display to user if duplicated label title is received</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to original call page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.create_product">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">create_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#create_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.create_product" title="Link to this definition"></a></dt>
+<dd><p>Render html page allowing admin user to create a new product seeing number of allowed
+product options and passing allowed size options, current product Categories and Labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – message to display to user if duplicated Product title is received</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>create_product html page with attributes for product creation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.customer_orders">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">customer_orders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#customer_orders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.customer_orders" title="Link to this definition"></a></dt>
+<dd><p>Retrieve and sort customer orders into not paid, processing and completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to render page displaying seperated customer orders</p></li>
+<li><p><strong>customer_id</strong> (<em>int</em>) – Customer primary key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to display of customer orders page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.delete_label">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">delete_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#delete_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.delete_label" title="Link to this definition"></a></dt>
+<dd><p>Retrieve current label and perform deletion from database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request to render all_labels page after label deletion</p></li>
+<li><p><strong>label_id</strong> (<em>int</em>) – primary key id for current label selected by user for deletion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view all labels page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.home_page">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">home_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#home_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.home_page" title="Link to this definition"></a></dt>
+<dd><p>render admin home app of app with SignUp, Login and Product Catalog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata about the request needed for html page render</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to homepage of django project</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.retrieve_additional_images">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">retrieve_additional_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#retrieve_additional_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.retrieve_additional_images" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve possible additional product images uploaded by admin user and append</dt><dd><p>image file to a list.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for retrieval of additional image’s
+image file from an html form</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list containing image files</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.retrieve_product_options">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">retrieve_product_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#retrieve_product_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.retrieve_product_options" title="Link to this definition"></a></dt>
+<dd><p>Retrieve user-defined options for a product from html form, adding each to a list
+of tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for additional options for a product
+from an html form</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of tuples each containing a product option title and description</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.retrieve_size_pricing">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">retrieve_size_pricing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#retrieve_size_pricing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.retrieve_size_pricing" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve user-defined prices from html form input (using request).</dt><dd><p>Add non-empty options to a list of tuples and return</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed to retrieve product sizes and products during
+new product creation</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of tuples each containing a product size and populated price value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.save_label_update">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">save_label_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#save_label_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.save_label_update" title="Link to this definition"></a></dt>
+<dd><p>Retrieve possible new label attributes from an html form (passed through request) and attempt
+to perform updates to current label and save to database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – retrieve possible updated label attributes from html form</p></li>
+<li><p><strong>label_id</strong> (<em>int</em>) – primary key id for current label selected by user for update</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – duplicated label_id</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success - view all labels page. Error - update label page</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.save_update">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">save_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#save_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.save_update" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve old/new attributes for a current product from html form for product update</dt><dd><p>and perform applicable updates to Product and associated model instances.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for retrieval of product attributes from
+html form</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – primary key id for current product select by user for update</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – Non-unique Product Title was supplied</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success - view_all_products page. Error - update_product_page</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.update_delete_category">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">update_delete_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#update_delete_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.update_delete_category" title="Link to this definition"></a></dt>
+<dd><p>Use ‘request’ to determine action (update or delete) to perform on category specified by
+category_id. Handle possible errors and return error message when reloading update/deletion page</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed to determine action to undertake.
+(Update or delete) and retrieve attributes from html form to perform action</p></li>
+<li><p><strong>category_id</strong> (<em>int</em>) – primary key id of category to be updated or deleted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IntegrityError</strong> – Non-unique category title was supplied</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>user to view all categories page</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.update_label">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">update_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#update_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.update_label" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve current label for update and render html page showing current set label attributes.</dt><dd><p>Form in page allows user to change label attributes and pass on for save to database.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – pass current label to page to display attributes</p></li>
+<li><p><strong>label_id</strong> (<em>int</em>) – primary key id for current label selected by user for update</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – Description of error message to display for user.
+Current Implementation is only for updated Label title that is not unique</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to label update page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.update_product">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">update_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#update_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.update_product" title="Link to this definition"></a></dt>
+<dd><p>Retrieve current attributes for a Product and Display to new page allowing
+user to perform updates to these attributes to update product information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for html page render with
+current product attributes</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – primary key id for current product selected by user for update</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – Description of error message to display for user
+Current Implementation is only for updated Product title that is not unique</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to update product page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.view_all_categories">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">view_all_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#view_all_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.view_all_categories" title="Link to this definition"></a></dt>
+<dd><p>Provide all categories for html page render and pass on possible error message to display during
+category update or deletion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for html page render</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – description of possible error that may occur during category update or deletion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view all categories page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.view_all_labels">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">view_all_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#view_all_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.view_all_labels" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all labels from database for render to html page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for html page render</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view all labels page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.view_all_products">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">view_all_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#view_all_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.view_all_products" title="Link to this definition"></a></dt>
+<dd><p>retrieve and sort all products alphabetically in order of category and then product title
+passing list to html page for rendering</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HTTPRequest object</em>) – contains metadata from a request needed for html page render</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>user to view all products page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+<section id="note">
+<h3>NOTE:<a class="headerlink" href="#note" title="Link to this heading"></a></h3>
+<p>current implementation will sort categories and products into alphabetical order</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crafts_by_micks.views.view_order">
+<span class="sig-prename descclassname"><span class="pre">crafts_by_micks.views.</span></span><span class="sig-name descname"><span class="pre">view_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crafts_by_micks/views.html#view_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crafts_by_micks.views.view_order" title="Link to this definition"></a></dt>
+<dd><p>Retrieve and format an individual customer order for render.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HTTPRequest object</em>) – used to render page displaying order details</p></li>
+<li><p><strong>order_id</strong> (<em>int</em>) – primary key to retrieve specific order</p></li>
+<li><p><strong>customer_id</strong> (<em>int</em>) – primary key for customer to whom order is assigned</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – description of order type (not_paid, processing or completed)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>view order page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTTPResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crafts_by_micks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crafts_by_micks" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="django_capstone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="django_capstone.html" class="btn btn-neutral float-right" title="django_capstone package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Kyle de Vos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
