@@ -2,90 +2,90 @@
 
 Methods:
 --------
-home_page(request):
-    render admin home app of app with SignUp, Login and Product Catalog
+:meth:`home_page(request)`
+        render admin home app of app with SignUp, Login and Product Catalog
 
-create_category(request, source, error):
-    render html page allowing admin user to create a Category for Products to belong to.
-    Pass in source argument determining page to return to after Category addition to database.
+:meth:`create_category(request, source, error)`
+        render html page allowing admin user to create a Category for Products to belong to.
+        Pass in source argument determining page to return to after Category addition to database.
 
-add_category(request, source):
+:meth:`add_category(request, source)`
     Retrieve Category Attributes from html form, create new Category instance and save to
     database. Use 'source' determining page to return to after new category is added.
 
-create_label(request, source, error):
+:meth:`create_label(request, source, error)`
     render html page allowing admin user to create a new Label for Products.
     Pass in source argument determining page to return to after Label addition to database.
 
-add_label(request, source):
+:meth:`add_label(request, source)`
     Retrieve Label Attributes from html form, create new Label instance and save to
     database. Use 'source' determining page to return to after new label is added.
 
-create_product(request):
+:meth:`create_product(request)`
     Render html page allowing admin user to create a new product seeing number of allowed
     product options and passing allowed size options, current product Categories and Labels.
 
-retrieve_size_pricing(request):
+:meth:`retrieve_size_pricing(request)`
     Retrieve user-defined prices from html form input adding non-empty options
     to a list of tuples and return.
 
-retrieve_product_options(request):
+:meth:`retrieve_product_options(request)`
     Retrieve user-defined options for a product from html form, adding each to a list
     of tuples
 
-retrieve_additional_images(request):
+:meth:`retrieve_additional_images(request)`
     Retrieve possible additional product images uploaded by admin user and append
     image title and image file to a list
 
-add_product(request):
+:meth:`add_product(request)`
     Retrieve user-defined attributes from html from from 'create-product', create new
     product and save to database.
 
-view_all_labels(request):
+:meth:`view_all_labels(request)`
     Retrieve all labels from database for render to html page
 
-view_all_products(request):
+:meth:`view_all_products(request)`
     retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
 
-view_all_categories(request, error):
+:meth:`view_all_categories(request, error)`
     Provide all categories for html page render and pass on possible error message to display during
     category update or deletion
 
-update_delete_category(request, category_id):
+:meth:`update_delete_category(request, category_id)`
     Use 'request' to determine action (update or delete) to perform on category specified by
     category_id. Handle possible errors and return error message when reloading update/deletion page
 
-update_label(request, label_id, error):
+:meth:`update_label(request, label_id, error)`
     Retrieve current label for update and render html page showing current set label attributes.
         Form in page allows user to change label attributes and pass on for save to database.
 
-save_label_update(request, product_id):
+:meth:`save_label_update(request, product_id)`
     Retrieve old/new attributes for a current product from html form for product update
         and perform applicable updates to Product and associated model instances.
 
-update_product(request, product_id, error):
+:meth:`update_product(request, product_id, error)`
     Retrieve current attributes for a Product and Display to new page allowing
-    user to perform updates to these attributes to update product information        
+    user to perform updates to these attributes to update product information
 
-save_update(request, product_id):
+:meth:`save_update(request, product_id)`
     Retrieve old/new attributes for a current product from html form for product update
-        and perform applicable updates to Product and associated model instances.   
+        and perform applicable updates to Product and associated model instances.
 
-delete_label(request, label_id):
+:meth:`delete_label(request, label_id)`
     Retrieve current label and perform deletion from database
 
-all_customers(request):
+:meth:`all_customers(request)`
     Retrieve All saved customers and their associated orders. Determine order status
         for 'action_required' notification to admin user
 
-customer_orders(request, customer_id):
+:meth:`customer_orders(request, customer_id)`
     Retrieve and sort customer orders into not paid, processing and completed
 
-view_order(request, order_id, customer_id, type):
+:meth:`view_order(request, order_id, customer_id, type)`
     Retrieve and format an individual customer order for render
 
-change_order_status(request, order_id, customer_id, new_status):
+:meth:`change_order_status(request, order_id, customer_id, new_status)`
     Allow admin user to change order status after payment received and then after
         product has been delivered
 """
@@ -96,7 +96,14 @@ from datetime import date
 from . import models
 
 def home_page(request):
-    """render admin home app of app with SignUp, Login and Product Catalog"""
+    """render admin home app of app with SignUp, Login and Product Catalog.
+    
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+
+    :return: user to homepage of django project
+    :rtype: HTTPResponse
+    """
     return render(request, 'home_page.html')
 
 # --------------------------------------------------------------------------------------------------
@@ -111,29 +118,31 @@ MAX_IMAGES = 10
 def create_category(request, source, error):
     """render html page allowing admin user to create a Category for Products to belong to.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata about the request needed for html page render
-    source: str
-        Specify name of original view call determining page to return to after new category is added
-        to database.
-    error: str
-        message to display to user if duplicated category title is received
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+    :param source: Name of original view call for page to return to
+    :type source: str
+    :param error: message to display to user if duplicated category title is received
+    :type error: str
+
+    :return: user to original call page
+    :rtype: HTTPResponse
     """
     return render(request, 'creation/create_category.html', {'source':source, 'error':error})
 
 
 def add_category(request, source):
-    """Retrieve Category Attributes from html form, create new Category instance and save to database
+    """Retrieve Category Attributes from html form, create new Category instance and save to database.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata about the request needed for html page render
-    source: str
-        Specify name of original view call determining page to return to after new category is added
-        to database
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+    :param source: Name of original view call determining page to return to after category addition
+    :type source: str
+
+    :raises IntegrityError: category title non-unique
+
+    :return: success - app home page. Error - return to create new category
+    :rtype: HTTPResponse
     """
     # attempt to create and save new title unless duplicate title was supplied
     try:
@@ -157,15 +166,15 @@ def add_category(request, source):
 def create_label(request, source, error):
     """render html page allowing admin user to create a new Label for Products.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata about the request needed for html page render
-    source: str
-        Specify name of original view call determining page to return to after new label is added
-        to database
-    error: str
-        message to display to user if duplicated label title is received
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+    :param source: Name of original view call determining page to return to after label addition
+    :type source: str
+    :param error: message to display to user if duplicated label title is received
+    :type error: str
+
+    :return: user to original call page
+    :rtype: HTTPResponse 
     """
     return render(request, 'creation/create_label.html',  {'source':source, 'error':error})
 
@@ -174,13 +183,15 @@ def add_label(request, source):
     """Retrieve Label Attributes from html form, create new Label instance and save to
     database
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata about the request needed for html page render
-    source: str
-        Specify name of original view call determing page to return to after new label is added
-        to database
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+    :param source: Name of original view call determing page to return to after label addition
+    :type source: str
+
+    :raises IntegrityError: non-unique label title supplied
+
+    :return: success - `source` page. Error - return to create new label
+    :rtype: HTTPResponse
     """
     try:
         title = request.POST['title']
@@ -212,7 +223,7 @@ def add_label(request, source):
         else:
             return HttpResponseRedirect(reverse('crafts_by_micks:home_page'))
 
-    # duplicate category title
+    # duplicate label title
     except IntegrityError:
         return HttpResponseRedirect(reverse('crafts_by_micks:create_label',
                                             args=(source, "Duplicate Name",)))
@@ -220,14 +231,15 @@ def add_label(request, source):
 
 def create_product(request, error):
     """Render html page allowing admin user to create a new product seeing number of allowed
-    product options and passing allowed size options, current product Categories and Labels
+    product options and passing allowed size options, current product Categories and Labels.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata about the request needed for html page render
-    error: str
-        message to display to user if duplicated Product title is received
+    :param request: contains metadata about the request needed for html page render
+    :type request: HTTPRequest object
+    :param error: message to display to user if duplicated Product title is received
+    :type error: str
+
+    :return: create_product html page with attributes for product creation
+    :rtype: HTTPResponse
     """
     # create list of option numbers (as strings) used by 'create_product.html' for
     # Product Options creation
@@ -262,18 +274,15 @@ def create_product(request, error):
 
 # Helper Method
 def retrieve_size_pricing(request):
-    """Retrieve user-defined prices from html form input (using request) adding non-empty options
-        to a list of tuples and return
+    """Retrieve user-defined prices from html form input (using request).
+        Add non-empty options to a list of tuples and return
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed to retrieve product sizes and products during
+    :param request: contains metadata from a request needed to retrieve product sizes and products during
         new product creation
+    :type request: HTTPRequest object
 
-    Return:
-    -------
-    list of tuples each containing a product size and populated price value
+    :return: list of tuples each containing a product size and populated price value
+    :rtype: list
     """
     size_info = []
     for tup in models.Product_Sizes.size_options:
@@ -291,15 +300,12 @@ def retrieve_product_options(request):
     """Retrieve user-defined options for a product from html form, adding each to a list
     of tuples
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for additional options for a product
+    :param request: contains metadata from a request needed for additional options for a product
         from an html form
+    :type request: HTTPRequest object
 
-    Return:
-    -------
-    list of tuples each containing a product option title and description
+    :return: list of tuples each containing a product option title and description
+    :rtype: list
     """
     product_options_list = []
     for i in range(1, MAX_OPTIONS + 1):
@@ -316,15 +322,12 @@ def retrieve_additional_images(request):
     """Retrieve possible additional product images uploaded by admin user and append
         image file to a list.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for retrieval of additional image's
+    :param request: contains metadata from a request needed for retrieval of additional image's
          image file from an html form
+    :type request: HTTPRequest object
 
-    Return:
-    -------
-    list containing image files
+    :return: list containing image files
+    :rtype: list
     """
     additional_images = []
     for i in range(1, MAX_IMAGES + 1):
@@ -342,10 +345,13 @@ def add_product(request):
     """Retrieve user-defined attributes from html form 'create-product',
         create new product and save to database
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for retrieval of attributes for a new product
+    :param request: contains metadata from a request needed for retrieval of attributes for a new product
+    :type request: HTTPRequest object
+
+    :raises IntegrityError: Duplicate Product Title
+
+    :return: success - app home page. Error - create product page
+    :rtype: HTTPResponse
     """
     try:
         # retrieve Product Category, title and description from request
@@ -421,10 +427,11 @@ def add_product(request):
 def view_all_labels(request):
     """Retrieve all labels from database for render to html page.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for html page render
+    :param request: contains metadata from a request needed for html page render
+    :type request: HTTPRequest object
+
+    :return: user to view all labels page
+    :rtype: HTTPResponse
     """
     labels = models.Label.objects.all()
     return render(request, 'display/view_all_labels.html', {'labels': labels})
@@ -434,10 +441,11 @@ def view_all_products(request):
     """retrieve and sort all products alphabetically in order of category and then product title
     passing list to html page for rendering
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for html page render
+    :param request: contains metadata from a request needed for html page render
+    :type request: HTTPRequest object
+
+    :return: user to view all products page
+    :rtype: HTTPResponse
 
     NOTE:
     -----
@@ -481,13 +489,15 @@ def view_all_categories(request, error):
     """Provide all categories for html page render and pass on possible error message to display during
     category update or deletion
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for html page render
-    error: string
-        description of possible error that may occur that during category update or deletion
+    :param request: contains metadata from a request needed for html page render
+    :type request: HTTPRequest object
+    :param error: description of possible error that may occur during category update or deletion
+    :type error: str
+
+    :return: user to view all categories page
+    :rtype: HTTPResponse
     """
+    # retrieve all categories in database
     categories = models.Category.objects.all()
     return render(request, 'Update/view_all_categories.html', {'categories': categories, 'error':error})
 
@@ -496,13 +506,16 @@ def update_delete_category(request, category_id):
     """Use 'request' to determine action (update or delete) to perform on category specified by
     category_id. Handle possible errors and return error message when reloading update/deletion page
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed to determine action to undertake (update or delete) and
-        retrieve attributes from html form to perform action
-    category_id: int
-        primary key id of category to be updated or deleted
+    :param request: contains metadata from a request needed to determine action to undertake.
+        (Update or delete) and retrieve attributes from html form to perform action
+    :type request: HTTPRequest object
+    :param category_id: primary key id of category to be updated or deleted
+    :type category_id: int
+
+    :raises IntegrityError: Non-unique category title was supplied
+
+    :return: user to view all categories page
+    :rtype: HTTPResponse
     """
     # retrieve the current category
     category = get_object_or_404(models.Category, pk = category_id)
@@ -544,16 +557,18 @@ def update_label(request, label_id, error):
     """Retrieve current label for update and render html page showing current set label attributes.
         Form in page allows user to change label attributes and pass on for save to database.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        pass current label to page to display attributes
-    label_id: int
-        primary key id for current label selected by user for update
-    error: string
-        Description of error message to display for user
-        Current Implementation is only for updated Label title that is not unique
-        """
+    :param request: pass current label to page to display attributes
+    :type request: HTTPRequest object
+    :param label_id: primary key id for current label selected by user for update
+    :type label_id: int
+    :param error: Description of error message to display for user.
+            Current Implementation is only for updated Label title that is not unique
+    :type error: str
+
+    :return: user to label update page
+    :rtype: HTTPResponse
+    """
+    # retrieve label with matching id
     label = get_object_or_404(models.Label, pk=label_id)
     return render(request, 'Update/update_label.html', {'label': label, 'error': error})
 
@@ -562,12 +577,15 @@ def save_label_update(request, label_id):
     """Retrieve possible new label attributes from an html form (passed through request) and attempt
     to perform updates to current label and save to database
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        retrieve possible updated label attributes from html form
-    label_id: int
-        primary key id for current label selected by user for update
+    :param request: retrieve possible updated label attributes from html form
+    :type request: HTTPRequest object
+    :param label_id: primary key id for current label selected by user for update
+    :type label_id: int
+
+    :raises IntegrityError: duplicated label_id
+
+    :return: success - view all labels page. Error - update label page
+    :rtype: HTTPResponse
     """
     # retrieve the current label
     label = get_object_or_404(models.Label, pk=label_id)
@@ -610,16 +628,17 @@ def update_product(request, product_id, error):
     """Retrieve current attributes for a Product and Display to new page allowing
     user to perform updates to these attributes to update product information
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for html page render with
+    :param request: contains metadata from a request needed for html page render with
         current product attributes
-    product_id: int
-        primary key id for current product selected by user for update
-    error: string
-        Description of error message to display for user
+    :type request: HTTPRequest object
+    :param product_id: primary key id for current product selected by user for update
+    :type product_id: int
+    :param error: Description of error message to display for user
         Current Implementation is only for updated Product title that is not unique
+    :type error: str
+
+    :return: user to update product page
+    :rtype: HTTPResponse
     """
     # retrieve current product for update
     product = get_object_or_404(models.Product, pk = product_id)
@@ -712,13 +731,16 @@ def save_update(request, product_id):
     """Retrieve old/new attributes for a current product from html form for product update
         and perform applicable updates to Product and associated model instances.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed for retrieval of product attributes from
+    :param request: contains metadata from a request needed for retrieval of product attributes from
         html form
-    product_id: int
-        primary key id for current product select by user for update
+    :type request: HTTPRequest object
+    :param product_id: primary key id for current product select by user for update
+    :type product_id: int
+
+    :raises IntegrityError: Non-unique Product Title was supplied
+
+    :return: success - view_all_products page. Error - update_product_page
+    :rtype: HTTPResponse
     """
     # retrieve current product to be updated
     product = get_object_or_404(models.Product, pk = product_id)
@@ -902,12 +924,14 @@ def save_update(request, product_id):
 def delete_label(request, label_id):
     """Retrieve current label and perform deletion from database.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        contains metadata from a request needed to render all labels page after label deletion
-    label_id: int
-        primary key id for current label selected by user for deletion"""
+    :param request: contains metadata from a request to render all_labels page after label deletion
+    :type request: HTTPRequest object
+    :param label_id: primary key id for current label selected by user for deletion
+    :type label_id: int
+
+    :return: user to view all labels page
+    :rtype: HTTPResponse
+    """
     # retrieve label for deletion
     label = get_object_or_404(models.Label, pk = label_id)
     # perform deletion
@@ -923,10 +947,11 @@ def all_customers(request):
     """Retrieve All saved customers and their associated orders. Determine order status
         for 'action_required' notification to admin user.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        used to render page displaying all customer orders and their status
+    :param request: used to render page displaying all customer orders and their status
+    :type request: HTTPRequest object
+
+    :return: user to view all customers page
+    :rtype: HTTPResponse
     """
     # retrieve all customers
     customers = models.User.objects.filter(is_staff=False)
@@ -964,12 +989,13 @@ def all_customers(request):
 def customer_orders(request, customer_id):
     """Retrieve and sort customer orders into not paid, processing and completed.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        used to render page displaying seperated customer orders
-    customer_id: int
-        Customer primary key
+    :param request: used to render page displaying seperated customer orders
+    :type request: HTTPRequest object
+    :param customer_id: Customer primary key
+    :type customer_id: int
+
+    :return: user to display of customer orders page
+    :rtype: HTTPResponse
     """
     #Lists to sort customer orders:
     awaiting_payment_orders = []
@@ -1007,16 +1033,17 @@ def customer_orders(request, customer_id):
 def view_order(request, order_id, customer_id, type):
     """Retrieve and format an individual customer order for render.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        used to render page displaying order details
-    order_id: int
-        primary key to retrieve specific order
-    customer_id: int
-        primary key for customer to whom order is assigned
-    type: str
-        description of order type (not_paid, processing or completed)
+    :param request: used to render page displaying order details
+    :type request: HTTPRequest object
+    :param order_id: primary key to retrieve specific order
+    :type order_id: int
+    :param customer_id: primary key for customer to whom order is assigned
+    :type customer_id: int
+    :param type: description of order type (not_paid, processing or completed)
+    :type type: str
+
+    :return: view order page
+    :rtype: HTTPResponse
     """
     # retrieve the current order
     order = get_object_or_404(models.Order, pk=order_id)
@@ -1055,16 +1082,17 @@ def change_order_status(request, order_id, customer_id, new_status):
     """Allow admin user to change order status after payment received and then after
         product has been delivered
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        used to return customer to view_order page
-    order_id: int
-        primary key for order whose status is to changed
-    customer_id: int
-        primary key of current customer needed for return to view_order page
-    new_status: str
-        description of new status to be applied to order
+    :param request: used to return customer to view_order page
+    :type request: HTTPRequest object
+    :param order_id: primary key for order whose status is to changed
+    :type order_id: int
+    :param customer_id: primary key of current customer needed for return to view_order page
+    :type customer_id: int
+    :param new_status: description of new status to be applied to order
+    :type new_status: str
+
+    :return: view order page
+    :rtype: HTTPResponse
     """
     #Retrieve the current order
     order = get_object_or_404(models.Order, pk = order_id)
