@@ -1,21 +1,21 @@
 """Views Module for Django App 'user_management' controlling user creation, login
-    and logout functionality
+    and logout functionality.
 
 Methods:
 --------
-user_login(request, source, error = 'none'):
+:meth:`user_login(request, source, error = 'none')`
     Render Html page to retrieve username and password for attempted login
 
-authenticate_user(request, source):
+:meth:`authenticate_user(request, source)`
     Retrieve username and password from html form attempting to log user in
 
-user_logout(request):
+:meth:`user_logout(request)`
     log current user out and return user to app homepage
 
-create_user(request, source, error):
+:meth:`create_user(request, source, error)`
     render html page to retrieve username and password required for user creation
 
-add_user(request, source):
+:meth:`add_user(request, source)`
     Retrieve username and password from html form, validate inputs and attempt to create
     new user. Successful creation will also log new user in as the current user
 """
@@ -28,15 +28,16 @@ from django.db import IntegrityError
 def user_login(request, source, error = 'none'):
     """Render Html page to retrieve username and password for attempted login.
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        required for rendering of html page
-    source: str
-        description of page source where call for user login was made allowing return
+    :param request: required for rendering of html page
+    :type request: HTTPRequest object
+    :param source: description of page source where call for user login was made allowing return
         of user to the same page after successful login
-    error: string
-        description of error to display to user for failed login
+    :type source: str
+    :param error: description of error to display to user for failed login
+    :type error: str
+
+    :return: user to login page
+    :rtype: HTTPResponse
     """
     return render(request, 'user_login.html', {'error': error, 'source':source})
 
@@ -44,13 +45,14 @@ def user_login(request, source, error = 'none'):
 def authenticate_user(request, source):
     """Retrieve username and password from html form attempting to log user in.
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        used to retrieve user inputs from html form and attempt to log user in
-    source: str
-        description of page source where call for user login was made allowing return
+    :param request: used to retrieve user inputs from html form and attempt to log user in
+    :type request: HTTPRequest object
+    :param source: description of page source where call for user login was made allowing return
         of user to the same page after successful login
+    :type source: str
+
+    :return: Successful Login - `source` page. Unsuccessful Login - login page
+    :rtype: HTTPRespons
     """
     # retrieve username and password from login attempt
     username= request.POST['username']
@@ -77,7 +79,14 @@ def authenticate_user(request, source):
 
 
 def user_logout(request):
-    """log current user out and return user to app homepage"""
+    """log current user out and return user to app homepage
+
+    :param request: needed to perform user logout
+    :type request: HTTPRequest object
+
+    :return: user to product site home page
+    :rtype: HTTPResponse
+    """
     # perform logout
     logout(request)
     # return user to app homepage after logout
@@ -87,15 +96,16 @@ def user_logout(request):
 def create_user(request, source, error):
     """render html page to retrieve username and password required for user creation.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        used to retrieve user inputs from html form
-    source: str
-        description of page source where call for user creation was made allowing return
+    :param request: used to retrieve user inputs from html form
+    :type request: HTTPRequest object
+    :param source: description of page source where call for user creation was made allowing return
         of user to the same page after successful new user creation
-    error: string
-        description of error to display to user for failed sign up
+    :type source: str
+    :param error: description of error to display to user for failed sign up
+    :type error: str
+
+    :return: user to create user page
+    :rtype: HTTPResponse
     """
     context = {
         'source': source,
@@ -107,13 +117,16 @@ def add_user(request, source):
     """Retrieve username and password from html form, validate inputs and attempt to create
     new user. Successful creation will also log new user in as the current user.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        used to retrieve user inputs from html form
-    source: str
-        description of page source where call for user creation was made allowing return
+    :param request: used to retrieve user inputs from html form
+    :type request: HTTPRequest object
+    :param source: description of page source where call for user creation was made allowing return
         of user to the same page after successful new user creation
+    :type source: str
+
+    :raises IntegrityError: Non-unique username was supplied
+
+    :return: Success - site home page. Error - Create new user page
+    :rtype: HTTPResponse
     """
     # attempt to retrieve username and password
     username = request.POST['username']
