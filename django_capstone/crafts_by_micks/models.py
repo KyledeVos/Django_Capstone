@@ -2,24 +2,23 @@
 
 Classes:
 --------
-Label
-Category
-Product
-Product_Images
-Option
-ProductSizes
-Review
-Order
-Order_Item
+:class: `Label`
+:class: `Category`
+:class: `Product`
+:class: `Product_Images`
+:class: `Option`
+:class: `Product_Sizes`
+:class: `Review`
+:class: `Order`
+:class: `Order_Item`
 """
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
 class Label(models.Model):
-    """Class modeling a Product Label ('new', 'discount', etc). Product to have Many-To-One
-        Relationship allowing one Product to have many Labels.
-    Child class of django models.Model.
+    """Class modeling a Product Label ('new', 'discount', etc).
+        Many-To-One relationship with class `Product`.
 
     Attributes:
     -----------
@@ -36,8 +35,9 @@ class Label(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return title of label
+    :meth:`__str__(self)`
+        :return: `Label` title
+        :rtype: str
     """
     title = models.CharField(max_length=20, unique=True)
     discount_percentage = models.IntegerField(null=True)
@@ -47,14 +47,16 @@ class Label(models.Model):
     custom_colour = models.CharField(max_length=10, null = True, default="#89CFF0")
 
     def __str__(self):
-        """Return title of Label"""
+        """Return title of Label.
+            :return: `Label` title
+            :rtype: str
+        """
         return self.title
 
 
 class Category(models.Model):
-    """Class modeling a Product Category. Each Product should belong to one Category, however
-        Many-To-One Relationship set instead for possible future changes. 'create_product.html'
-        currently set to maintain One-To-One Relationship. Child class of django models.Model.
+    """Class modeling a Product Category.
+        'create_product.html' set to maintain One-To-One Relationship.
 
     Attributes:
     -----------
@@ -63,19 +65,24 @@ class Category(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return title of Category
+    :meth:`__str__(self)`
+        :return: `Category` title
+        :rtype: str
     """
     title = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        "Return Title of Category"
+        """Return Title of Category.
+        
+            :return: `Category` title
+            :rtype: str
+        """
         return self.title
 
 
 class Product(models.Model):
-    """Class modeling a Product . Size Variations are handled within Product and should
-        not form part of name. Child class of django models.Model.
+    """Class modeling a Product.
+        Size Variations handled within Product and should not form part of name.
 
     Attributes:
     -----------
@@ -95,8 +102,9 @@ class Product(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return title of Product
+    :meth:`__str__(self)`
+        :return: `Product` title
+        :rtype: str
     """
     title = models.TextField(unique = True)
     description = models.TextField()
@@ -106,13 +114,16 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        """Return Title of Product"""
+        """Return Title of Product.
+            :return: `Product` title
+            :rtype: str
+        """
         return self.title
 
 
 class Product_Images(models.Model):
-    """Class to hold instances containing images assigned to a Product, set to delete the
-    image upon deletion of the product
+    """Class to hold instances containing images assigned to a Product.
+        Set to delete the image upon deletion of the product
 
     Attributes:
     -----------
@@ -124,20 +135,25 @@ class Product_Images(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return primary key of image and name of product assigned to
+    :meth:`__str__(self)`
+        :return: Image Primary Key and Assigned `Product` Title
+        :rtype: int
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to= 'products_images/', default=None)
 
     def __str__(self):
+        """
+        :return: Image Primary Key and Assigned `Product` Title
+        :rtype: int
+        """
         return str(f"id: {self.id}, product: {self.product.title}")
 
 class Option(models.Model):
     """Class modeling Options for a Product.
-        An Option is consider as any design variation or detailed product execution
-        such as a style change, scented, material variatoion, etc. Cascading Deletion with
-        associated Product.
+        Any design variation or detailed product execution such as a
+        style change, scented, material variation, etc.
+        Cascading Deletion with associated Product.
 
     Attributes:
     -----------
@@ -150,22 +166,26 @@ class Option(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return Associated product id and title of Option
+    :meth:`__str__(self)`
+        :return: Associated `Product` id and `Option` title
+        :rtype: str
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        """return Associated product id and title of Option"""
+        """
+        :return: Associated `Product` id and `Option` title
+        :rtype: str
+        """
         return f"Product: {self.product.id}, {self.title}"
 
 
 class Product_Sizes(models.Model):
     """Class modeling Size_Options for a Product with corresponding price.
-        Products with no size option take size as 'none'. Cascading Deletion
-        from associated Product.
+        No size option taken as 'none'.
+        Cascading Deletion from associated Product.
 
     Attributes:
     -----------
@@ -180,8 +200,9 @@ class Product_Sizes(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return Product id and size
+    :meth:`__str__(self)`
+        :return: `Product` id, size and price
+        :rtype: str
     """
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     size_options = (
@@ -198,8 +219,11 @@ class Product_Sizes(models.Model):
     price = models.FloatField(default=0.0)
 
     def __str__(self):
-        """return Product id and size"""
-        return f"Product: {self.product.id} {self.size} {self.price}"
+        """
+        :return: `Product` id, size and price
+        :rtype: str
+        """
+        return f"Product: {self.product.id}, {self.size}, {self.price}"
 
 
 class Review(models.Model):
@@ -215,10 +239,12 @@ class Review(models.Model):
         review content
     rating: int (IntegerField)
         review rating
+
     Methods:
     --------
-    __str__(self): str
-        return author and id of review
+    :meth:`__str__(self)`
+        :return: author and review id
+        :rtype: str
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     author = models.TextField(max_length=200)
@@ -226,7 +252,10 @@ class Review(models.Model):
     rating = models.IntegerField()
 
     def __str__(self):
-        """ return author and id of review"""
+        """
+        :return: author and review id
+        :rtype: str
+        """
         return f"{self.author}, Review No: {self.id}"
 
 class Order(models.Model):
@@ -250,8 +279,9 @@ class Order(models.Model):
 
     Method:
     -------
-    def __str__(self):
-        "Return Description of Order"
+    :meth:`__str__(self)`
+        :return: `Order` id, customer name and `Order` status
+        :rtype: str
     """
     customer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     submitted_date = models.DateField(null=True, blank=True)
@@ -269,12 +299,15 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=status_options)
 
     def __str__(self):
-        "Return Description of Order"
+        """
+        :return: `Order` id, customer name and `Order` status
+        :rtype: str
+        """
         return str(f'Order: {self.id}, Customer: {self.customer.first_name}, status: {self.status}')
 
 
 class Order_Item(models.Model):
-    """Class modeling an Item to be added to an Order for a customer (user).
+    """Class modeling an Item to be added to an Order.
 
     Attributes:
     -----------
@@ -295,8 +328,9 @@ class Order_Item(models.Model):
 
     Methods:
     --------
-    __str__(self): str
-        return author and id of review
+    :meth:`__str__(self)`
+        :return: `Product` title
+        :rtype: str
     """
     order = models.ForeignKey('Order', on_delete=models.CASCADE, default=None)
     product_id = models.IntegerField()
@@ -307,5 +341,8 @@ class Order_Item(models.Model):
     options = models.TextField(default=None)
 
     def __str__(self):
-        """ return customer_name and product title selected"""
+        """
+        :return: `Product` title
+        :rtype: str
+        """
         return f"Order for Product: {self.product_title}"
