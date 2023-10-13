@@ -3,67 +3,67 @@ for web application.
 
 Methods:
 --------
-logincheck(request):
+:meth:`logincheck(request)`
     Determine if a current user is authenticated
 
-populate_display_products(all_products):
+:meth:`populate_display_products(all_products)`
     validate and sort a list of products for website display - checking at least one price
     has been set
 
-create_product_list():
+:meth:`create_product_list()`
     Retrieve all Categories and Products from database, Sort Products into their
     categories - sorting Products and Categories in Alphabetical order according to title.
     Performs product validation for website display
 
-site_home(request):
+:meth:`site_home(request)`
     Render main site home page, checking if currently logged-in user is a staff
         member allowing access to admin control functionality
 
-determine_discount_percentage(labels):
+:meth:`determine_discount_percentage(labels)`
     Using QuerySet of associated Labels for a Product, determine highest
     assigned label percentage discount to apply a Product
 
-product_view(request, product_id, error):
+:meth:`product_view(request, product_id, error)`
     Retrieve Attributes and Selected Pricing for rendering of Individual Product Webpage
     showing Product Details, Pricing and validation of customer login for addition of Product
     to an Order.
 
-create_retrieve_order(request):
+:meth:`create_retrieve_order(request)`
     Determine Order for currently logged in user to add selected Product_Item.
         If no open order is present, create a new open order for user.
 
-create_order_item(request, product_id):
+:meth:`create_order_item(request, product_id)`
     Retrieve Product Attributes and user selected Attributes for a Selected Product.
         Validate against chosen price(s) and size(s) and add Product to open Order
         for User.
 
-main_image_control(order_items):
+:meth:`main_image_control(order_items)`
     Retrieve main image and matching id for products and return as list
 
-customer_orders(request, message):
+:meth:`customer_orders(request, message)`
     Retrieve current logged in customer info and matching Orders information
         for display to client
 
-remove_item(request, item_id, order_id):
+:meth:`remove_item(request, item_id, order_id)`
     Delete an Order_Item from an order. Delete order if all Order Items have been removed.
 
-view_order(request, order_id, message):
+:meth:`view_order(request, order_id, message)`
     Retrieve current order (processing or completed status) details for
         display to customer.
 
-submit_order(request, order_id):
+:meth:`submit_order(request, order_id)`
     Retrieve an order submitted for processing and change order status
         to received
 
-product_review(request, order_item_id, order_id):
+:meth:`product_review(request, order_item_id, order_id)`
     Allow logged-in user to submit a review for a product that has been paid for
         and delivered
 
-review_rating_update(applied_rating, product):
+:meth:`review_rating_update(applied_rating, product)`
     Calculate New Average Review rating for a product after a new review
         has been added for the product
 
-save_review(request, product_id, order_id):
+:meth:`save_review(request, product_id, order_id)`
     Retrieve customer review attributes and preferences to create new product
         review and assign to the Product
 """
@@ -75,7 +75,14 @@ from crafts_by_micks.models import Category, Label, Product, Product_Sizes, Prod
 
 # Helper Function
 def logincheck(request):
-    """Determine if a current user is authenticated."""
+    """Determine if a current user is authenticated.
+
+    :param request: needed to authenticate current user
+    :type request: HTTPRequest object
+
+    :return: True for authenticated user, False if not
+    :rtype: boolean
+    """
     return True if request.user.is_authenticated else False
 
 
@@ -84,18 +91,15 @@ def populate_display_products(all_products):
     """validate and sort a list of products for website display - checking at least one price
     has been set.
 
-    Parameter:
-    -----------
-    all_products: list of Product
-        list containing unvalidated Products
+    :param all_products: list containing unvalidated Products
+    :type all_products: list
+
+    :return: validated list of Products
+    :rtype: list
 
     NOTE:
      Products without prices are allowed in system (in creation process by admin),
     but may not be displayed on the product site
-
-    Return:
-    -------
-    validated list of Products
     """
     # list to hold each product
     product_list = []
@@ -141,9 +145,8 @@ def create_product_list():
     categories - sorting Products and Categories in Alphabetical order according to title.
     Performs product validation for website display.
 
-    Return:
-    -------
-    list containing tuples as: (category_name, list of valid Products )
+    :return: list containing tuples as: (category_name, list of valid Products)
+    :rtype: list
     """
     # retrieve all product categories - in alphabetical order
     all_categories = Category.objects.order_by('title')
@@ -172,10 +175,11 @@ def site_home(request):
         member allowing access to admin control functionality. Retrieves validated
         and sorted list of Categories and associated Products for home page display.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        required for user authentication, status check and html page render
+    :param request: required for user authentication, status check and html page render
+    :type request: HTTPRequest object
+
+    :return: site home page
+    :rtype: HTTPResponse
     """
     # Determine if the user has been logged in
     logged_in = logincheck(request)
@@ -201,15 +205,12 @@ def site_home(request):
 def determine_discount_percentage(labels):
     """Using QuerySet of associated Labels for a Product, determine highest
     assigned label percentage discount to apply a Product.
-    
-    Parameter:
-    ---------
-    labels: QuerySet of Assigned Labels
-        QuerySet containing Labels that have been assigned to a Product.
 
-    Return:
-    -------
-    Highest Percentage Discount applicable to Product Prices
+    :param labels: QuerySet containing Labels that have been assigned to a Product.
+    :type labels: QuerySet `Label`
+
+    :return: Highest Percentage Discount applicable to Product Prices
+    :rtype: int
     """
     # track highest percentage discount applied
     highest_discount = 0
@@ -227,21 +228,18 @@ def product_view(request, product_id, error):
     showing Product Details, Pricing and validation of customer login for addition of Product
     to an Order.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        required for user authentication, status check and html page render
-    product_id: Integer
-        unique Primary Key value for selected Product
-    error: str
-        description of error to display to user on page - current implementation
+    :param request: required for user authentication, status check and html page render
+    :type request: HTTPRequest object
+    :param product_id: unique Primary Key value for selected Product
+    :type product_id: int
+    :param error: description of error to display to user on page - current implementation
         accounts for addition of Product to Order without selection of Size and
         Associated Price
+    :type error: str
 
-    Return:
-    -------
-    webpage displaying selected Product Attributes for addition to an order or view
-    of Product details by user
+    :return: page displaying selected Product Attributes for addition to an order or view
+            of Product details by user
+    :rtype: HTTPResponse
     """
     # Determine if the user has been logged in
     logged_in = logincheck(request)
@@ -297,14 +295,11 @@ def create_retrieve_order(request):
     """Determine Order for currently logged in user to add selected Product_Item.
         If no open order is present, create a new open order for user.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        determine current logged-in user
+    :param request: needed to determine current logged-in user
+    :type request: HTTPRequest object
 
-    Return:
-    -------
-    open order to add a Product Item to or new open Order
+    :return: open order to add a Product Item to or new open Order
+    :rtype: Class `Order` instance    
     """
     # retrieve current user (customer)
     customer = request.user
@@ -339,12 +334,13 @@ def create_order_item(request, product_id):
         Validate against chosen price(s) and size(s) and add Product to open Order
         for User.
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        ussed to retrieve Product and Selected Attributes from Product_Page
-    product_id: Integer
-        unique Primary Key value for selected Product
+    :param request: used to retrieve Product and Selected Attributes from Product_Page
+    :type request: HTTPRequest object
+    :param product_id: unique Primary Key value for selected Product
+    :type product_id: int
+
+    :return: user to site home page
+    :rtype: HTTPResponse
     """
     # list of tuples holding a size, price and quantity
     pricing_list = []
@@ -408,16 +404,13 @@ def create_order_item(request, product_id):
 
 # Helper Function - Construct list of all product main images
 def main_image_control(order_items):
-    """Retrieve main image and matching id for products and return as list
+    """Retrieve main image and matching id for products and return as list.
 
-    Parameters:
-    -----------
-    order_items: list of Order_Items
-        list containg selected Order_Items  to retrieve product id and main image from
+    :param order_items: list containg selected Order_Items to retrieve product id and main image from
+    :type order_items: list
 
-    Return:
-    -------
-    list containing product id's and matching main images
+    :return: list containing product id's and matching main images
+    :rtype: list
     """
     # list to hold product_id and its matching image
     product_image_list = []
@@ -437,13 +430,13 @@ def customer_orders(request, message):
     """Retrieve current logged in customer info and matching Orders information
         for display to client
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        Retrieved current logged-in customer and render html page showing order info
+    :param request: Retrieved current logged-in customer and render html page showing order info
+    :type request: HTTPRequest object
+    :param message: Message to display to user for successful submission of an order for processing
+    :type message: str
 
-    message: str
-        Message to display to user for successful submission of an order for processing
+    :return: user to view customer orders page
+    :rtype: HTTPResponse
     """
     # retrieve current logged in customer (user)
     customer = request.user
@@ -504,14 +497,15 @@ def customer_orders(request, message):
 def remove_item(request, item_id, order_id):
     """Delete an Order_Item from an order. Delete order if all Order Items have been removed.
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        render Orders Display page
-    item_id: int
-        primary key field for Order_Time to be deleted
-    order_id: int
-        primary key field for Order holding selecting Order Item 
+    :param request: render Orders Display page
+    :type request: HTTPRequest object
+    :param item_id: primary key field for Order_Time to be deleted
+    :type item_id: int
+    :param order_id: primary key field for Order holding selecting Order Item
+    :type order_id: int
+
+    :return: customer to view orders page
+    :rtype: HTTPResponse
     """
     # Retrieve Order_Item for deletion and assigned Order
     order_item = get_object_or_404(Order_Item, pk=item_id)
@@ -533,14 +527,15 @@ def view_order(request, order_id, message):
     """Retrieve current order (processing or completed status) details for
         display to customer.
 
-    Parameter:
-    ----------
-    request: HTTPRequest object
-        render html page displaying order info
-    order_id: int
-        primary key for order details being requested
-    message: str
-        informative message to display to customer
+    :param request: render html page displaying order info
+    :type request: HTTPRequest object
+    :param order_id: primary key for order details being requested
+    :type order_id: int
+    :param message: informative message to display to customer
+    :type message: str
+
+    :return: user to view order page
+    :rtype: HTTPResponse
     """
     # retrieve order, status and order_items
     order = get_object_or_404(Order, pk=order_id)
@@ -581,12 +576,13 @@ def submit_order(request, order_id):
     """Retrieve an order submitted for processing and change order status
         to received.
 
-    Parameters:
-    ----------
-    request: HTTPRequest object
-        Used to return customer to view orders page
-    order_id: int
-        primary key of order being submitted for processing
+    :param request: Used to return customer to view orders page
+    :type request: HTTPRequest object
+    :param order_id: primary key of order being submitted for processing
+    :type order_id: int
+
+    :return: user to view orders page
+    :rtype: HTTPResponse
     """
     # retrieve current order
     order = get_object_or_404(Order, pk = order_id)
@@ -614,15 +610,16 @@ def product_review(request, order_item_id, order_id):
     """Allow logged-in user to submit a review for a product that has been paid for
         and delivered.
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        used to render product review page
-    order_item_id: int
-        primary key for product item to be reviewed
-    order_id: int
-        primary key of current order needed to return user to order view after
-        review of product is submitted
+        :param request: used to render product review page
+        :type request: HTTPRequest object
+        :param order_item_id: primary key for product item to be reviewed
+        :type order_item_id: int
+        :param order_id: primary key of current order needed to return user to order view after
+            review of product is submitted
+        :type order_id: int
+
+        :return: user to product review page
+        :rtype: HTTPResponse
     """
     # retrieve order_item for review
     order_item = get_object_or_404(Order_Item, pk = order_item_id)
@@ -643,12 +640,12 @@ def review_rating_update(applied_rating, product):
     """Calculate New Average Review rating for a product after a new review
         has been added for the product
 
-    Parameters:
-    ----------
-    applied_rating: int
-        value of review_rating added to a product
-    product: Product
-        product whose review rating needs to be re-calculated
+    :param applied_rating: value of review_rating added to a product
+    :type applied_rating: int
+    :param product: product whose review rating needs to be re-calculated
+    :type product: class `Product` instance
+
+    :return: no return        
     """
     # track number of reviews for a product and sum of all ratings
     count = 0
@@ -666,15 +663,16 @@ def review_rating_update(applied_rating, product):
 def save_review(request, product_id, order_id):
     """Retrieve customer review attributes and preferences to create new product
         review and assign to the Product.
+    
+    :param request: used to render product review page
+    :type request: HTTPRequest object
+    :param product_id: primary key of product to which review is to be added
+    :type product_id: int
+    :param order_id: primary key of current order with product being reviewed
+    :type order_id: int
 
-    Parameters:
-    -----------
-    request: HTTPRequest object
-        used to render product review page
-    product_id: int
-        primary key of product to which review is to be added
-    order_id: int
-        primary key of current order with product being reviewed
+    :return: user to view order page
+    :rtype: HTTPResponse
     """
     # determine if customer wants anonymous review
     anonymous = request.POST.get('anonymous_review', 'Anonymous')
