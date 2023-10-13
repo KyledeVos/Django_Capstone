@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-gdn7_9q-elg=qmey@@r)#277_bu!h!u0zm2@d1+eznd#7@sp!p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# allow Docker Playground to render pages of project
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
