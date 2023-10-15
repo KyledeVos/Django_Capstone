@@ -51,25 +51,112 @@ This project was developed, tested and tracked using:
 
 # Opening and Running of Project
 
+## Using a Virtual Environment
+
 Successful run of Project requires 'Pillow' and 'Popper' Libraries seen in 'requirements.txt'<br>
 Project does not include virtual environment and will need to be loaded within one. Commands below<br>
 are needed to start project
 
+1. To create a virtual Environment, run the command below in a terminal window within the current directory
+```
+python -m venv [name]
+```
 
-1. Once Virtual Environment has been activated, move into django project:
+2. Move into the virtual environment and activate
+```
+cd [name]
+Scripts\activate
+```
+
+3. Install Django and Pillow Libraries (will require 'pip' to be installed first)
+```
+pip install django
+pip install pillow
+```
+
+4. Clone project repo within virtual enviroment using 'git clone'
+
+
+5. Move into django project:
 
 ```
 cd django_capstone
 ```
 
-2. Start Server:
+6. Start Server:
 ```
 python manage.py runserver
 ```
 
-3. Default port to view website would be given as: http://127.0.0.1:8000/
+7. Default port to view website would be given as: http://127.0.0.1:8000/
 
-4. If successful, project Main Product Site Home Page will open (See Fig 1. Below)
+8. If successful, project Main Product Site Home Page will open (See Fig 1. Below)
+
+## Using Dockerfile and viewing on Docker Playground
+
+A docker file has been included for dependency installion using the requirements.txt file.<br>
+'Docker Desktop' will need to be downloaded on the PC. Project will need to be pushed<br>
+to 'DockerHub' requiring an account to be created. Project will finally be run on<br>
+'Docker Playground'. 'DockerHub' and 'Docker Playground' need to be accessed with a<br>
+web browser.
+
+Ensuring you are in the same directory as the 'Dockerfile' and that Docker Desktop<br>
+is running, run the following commands:
+
+1. Build the Docker Image using:
+```
+docker build -t [name of project] ./
+```
+
+If successful, the image can be seen on 'Docker Desktop' under the 'Images' Tag
+
+2. Run the image locally using:
+```
+docker run -d -p 80:80 [name of project]
+```
+
+To push the project to Docker Hub and run on Docker Playground:
+
+3. Tag the project:
+```
+docker tag [name of project] [docker username]/[name of project]
+```
+
+4. Perform login
+```
+docker login
+```
+
+5. Push the Image to Docker Hub:
+```
+docker push [docker username]/[name of project]
+```
+
+Once completed, check the image is on your Docker Hub under 'Repositories'
+
+6. Open Docker Playground and select 'Start'. Select 'Add New Instance'.<br>
+
+In the terminal window that opens, enter the following command:
+```
+docker run -p 80:8000 [docker username]/[name of project]
+```
+
+7. Once running, check if an '80' button has been created next to 'Open Port'.<br>
+If so, click this button to be taken to the app home page.<br>
+If not, click the 'Open Port' button and enter '80'
+
+NOTE: After completion, remember to stop running your docker container if you were running it locally.<br>
+In a command terminal on your PC, in the same directory as the 'DockerFile' run:
+```
+docker ps
+```
+
+Note the 'Container ID'. Take note of the first three characters and then enter:
+```
+docker stop [first three characters]
+```
+
+to stop the container running
 
 # Visuals
 
